@@ -56,6 +56,15 @@
     Usuarios usuarios = new Usuarios();
     public string Mensaje;
 
+    protected override void OnInitialized()
+    {
+        if (UsuarioId > 0)
+        {
+            usuarios.UsuarioId = UsuarioId;
+            Buscar();
+        }
+    }
+
     private void Guardar()
     {
         if (usuarios.UsuarioId == 0)
