@@ -1,0 +1,129 @@
+﻿@page "/RUsuarios/{UsuarioId:int}"
+
+
+<h1>Registro Usuario</h1>
+
+<EditForm Model="@usuarios" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="UsuarioId">Id</label>
+        <div class="input-group col-md-2">
+            <InputNumber @bind-Value="usuarios.UsuarioId" class="form-control" />
+            
+            <button type="button" class="btn btn-outline-primary" @onclick="Buscar">Buscar</button>
+        </div>
+    </div>
+
+        
+        <div class="form-group">
+            <label for="Usuario"> Usuario</label>
+            <InputText @bind-Value="usuarios.Usuario" class="form-control col-md-2" />
+        </div>
+        <div class="form-group">
+            <label for="Nombre" >Nombres</label>
+            <InputText @bind-Value="usuarios.Nombres" class="form-control col-md-2" />
+        </div>
+        <div class="form-group">
+            <label for="Clave" >Clave</label>
+            <InputText @bind-Value="usuarios.Clave" class="form-control col-md-2" />
+        </div>
+        <div class="form-group">
+            <label for="FechaCreacion" > Fecha</label>
+            <InputDate @bind-Value="usuarios.FechaCreacion" class="form-control col-md-2" />
+        </div>
+        <div class="form-group">
+            <label for="Email" > Email</label>
+            <InputText @bind-Value="usuarios.Email" class="form-control col-md-2 " />
+        </div>
+        <br />
+
+        <div class="form-group">
+            <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
+            <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
+            <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
+        </div>
+
+        <h3>@Mensaje</h3>
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public int UsuarioId { get; set; }
+    ControllersUsuario controllers = new ControllersUsuario();
+    Usuarios usuarios = new Usuarios();
+    public string Mensaje;
+
+    private void Guardar()
+    {
+        if (usuarios.UsuarioId == 0)
+        {
+            controllers.Guardar(usuarios);
+            Mensaje = "Guardo";
+            Limpiar();
+        }
+        else
+        {
+            if (controllers.Buscar(usuarios.UsuarioId) != null)
+            {
+                controllers.Modificar(usuarios);
+                Mensaje = "Modifico";
+                Limpiar();
+            }
+
+        }
+    }
+    private void Limpiar()
+    {
+        usuarios = new Usuarios();
+    }
+    private void Eliminar()
+    {
+        if (usuarios.UsuarioId != 0)
+        {
+            if (controllers.Buscar(usuarios.UsuarioId) != null)
+            {
+
+                controllers.Eliminar(usuarios.UsuarioId);
+                Mensaje = "Eliminado";
+                Limpiar();
+
+            }
+            else
+            {
+                Mensaje = "Id no existe";
+            }
+
+        }
+        else
+        {
+            Mensaje = "Selecione un ID";
+        }
+
+    }
+    private void Buscar()
+    {
+        if (usuarios.UsuarioId != 0)
+        {
+            if (controllers.Buscar(usuarios.UsuarioId) != null)
+            {
+
+                usuarios = controllers.Buscar(usuarios.UsuarioId);
+
+            }
+            else
+            {
+                Mensaje = "Id no existe";
+            }
+
+        }
+        else
+        {
+            Mensaje = "Selecione un ID";
+        }
+
+
+    }
+}
