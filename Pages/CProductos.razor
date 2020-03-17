@@ -1,5 +1,5 @@
-﻿@page "/cusuario"
-<h3>Consulta de Pedidos</h3>
+﻿@page "/cproductos"
+<h3>Consulta de Productos</h3>
 
 <div class="form-group row">
     <label for="filtro">Filtro</label>
@@ -8,9 +8,14 @@
             <option value="" disabled selected>Seleccione un Criterio</option>
             <option value="Todo">Todo</option>
             <option value="Id">Id</option>
-            <option value="Cliente">Cliente</option>
-            <option value="FormaPedido">FormaPedido</option>
-            <option value="Total">Total</option>
+            <option value="Descripcion">Descripcion</option>
+            <option value="Precio">Precio</option>
+            <option value="Costo">Costo</option>
+            <option value="Ganancia">Ganancia</option>
+            <option value="ITBIS">ITBIS</option>
+            <option value="NombreProveedor">NombreProveedor</option>
+            
+
         </select>
 
         <div align="right" class="input-group col-md-8">
@@ -37,13 +42,13 @@
 <table class="table">
     <thead class="thead-light">
         <tr>
-            <th>PedidosId</th>
-            <th>Cliente</th>
-            <th>Forma Pedido</th>
-            <th>SubTotal</th>
+            <th>ProductoId</th>
+            <th>Descripcion</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
             <th>ITBIS</th>
-            <th>Total</th>
-            <th>Fecha Ingreso</th>
+            <th>Ganancia</th>
+            <th>NombreProveedor</th>
             <th></th>
         </tr>
     </thead>
@@ -51,14 +56,15 @@
         @foreach (var item in lista)
         {
         <tr>
-            <th>@item.PedidosId</th>
-            <th>@item.Cliente</th>
-            <th>@item.FormaPedido</th>
-            <th>@item.SubTotal</th>
+            <th>@item.ProductoId</th>
+            <th>@item.Descripcion</th>
+            <th>@item.Precio</th>
+            <th>@item.Cantidad</th>
             <th>@item.ITBIS</th>
-            <th>@item.Total</th>
-            <th>@item.FechaPedido.ToString("dd/MM/yyyy")</th>
-            <td><a class="btn btn-sm btn-outline-primary" href="estudiante/@item.PedidosId">Ver</a></td>
+            <th>@item.Ganancia</th>
+            <th>@item.NombreProveedor</th>
+            <th>@item.FechaIngreso.ToString("dd/MM/yyyy")</th>
+            <td><a class="btn btn-sm btn-outline-primary" href="estudiante/@item.ProductoId">Ver</a></td>
         </tr>
         }
     </tbody>
@@ -69,7 +75,7 @@
 
 @code {
 
-    private List<Pedidos> lista { get; set; }
+    private List<Productos> lista { get; set; }
 
     private string Filtro { get; set; }
     private string Criterio { get; set; }
@@ -82,14 +88,14 @@
 
     protected override void OnInitialized()
     {
-        lista = new List<Pedidos>();
+        lista = new List<Productos>();
         DesdeFecha = DateTime.Now;
         HastaFecha = DateTime.Now;
     }
 
     private void Buscar()
     {
-        ControllersPedido controller = new ControllersPedido();
+        ControllersProducto controller = new ControllersProducto();
 
         try
         {
@@ -103,7 +109,7 @@
 
                 if (lista.Count == 0)
                 {
-                    mensaje = "No hay Pedidos Registrado";
+                    mensaje = "No hay Productos Registrado";
                 }
                 else
                 {
@@ -114,21 +120,30 @@
                             lista = controller.GetList(e => true);
                             break;
                         case "Id":
-                            lista = controller.GetList(e => e.PedidosId == Convert.ToInt32(Criterio));
+                            lista = controller.GetList(e => e.ProductoId == Convert.ToInt32(Criterio));
                             break;
-                        case "Cliente":
-                            lista = controller.GetList(e => e.Cliente == Criterio);
+                        case "Descripcion":
+                            lista = controller.GetList(e => e.Descripcion == Criterio);
                             break;
-                        case "FormaPedido":
-                            lista = controller.GetList(e => e.FormaPedido == Criterio);
+                        case "Precio":
+                            lista = controller.GetList(e => e.Precio == Convert.ToDecimal(Criterio));
                             break;
-                        case "Total":
-                            lista = controller.GetList(e => e.Total == Convert.ToDecimal(Criterio));
+                        case "Costo":
+                            lista = controller.GetList(e => e.Costo == Convert.ToDecimal(Criterio));
+                            break;
+                        case "Ganancia":
+                            lista = controller.GetList(e => e.Ganancia == Convert.ToDecimal(Criterio));
+                            break;
+                       case "ITBIS":
+                            lista = controller.GetList(e => e.ITBIS == Convert.ToDecimal(Criterio));
+                            break;
+                      case "NombreProveedor":
+                            lista = controller.GetList(e => e.NombreProveedor == Criterio);
                             break;
                     }
                     if (BuscarFecha == true)
                     {
-                        lista = controller.GetList(p => p.FechaPedido >= DesdeFecha.Date && p.FechaPedido <= HastaFecha.Date);
+                        lista = controller.GetList(p => p.FechaIngreso >= DesdeFecha.Date && p.FechaIngreso <= HastaFecha.Date);
                     }
                 }
             }
