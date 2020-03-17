@@ -26,7 +26,7 @@ namespace ProyectoFinalPA2.Controllers
                     producto.Cantidad -= item.Cantidad;
                     Controproductos.Modificar(producto);
                 }
-
+                db.Pedidos.Add(pedidos);
                 paso = db.SaveChanges() > 0;
 
 
