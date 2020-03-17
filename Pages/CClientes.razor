@@ -1,0 +1,47 @@
+﻿@page "/cclientes"
+
+
+<h1>Consulta Clientes</h1>
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ClienteId</th>
+            <th>Nombre</th>
+            <th>Telefono</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in lista)
+        {
+            <tr>
+                <th>@item.ClienteId</th>
+                <th>@item.Nombre</th>
+                <th>@item.Telefono</th>
+                <th>@item.Email</th>
+
+
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+
+
+@code {
+
+    public List<Clientes> lista { get; set; }
+    public ControllersCliente controllers = new ControllersCliente();
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        lista = controllers.GetList(P => true);
+    }
+
+}

@@ -13,6 +13,7 @@ namespace ProyectoFinalPA2.Models
         public string Usuario { get; set; }
 
         public string Clave { get; set; }
+        public string NivelUsuario { get; set; }
         public string Nombres { get; set; }
         public string Email { get; set; }
         public DateTime FechaCreacion { get; set; }
@@ -22,6 +23,7 @@ namespace ProyectoFinalPA2.Models
             UsuarioId = 0;
             Usuario = string.Empty;
             Clave = string.Empty;
+            NivelUsuario = string.Empty;
             Nombres = string.Empty;
             Email = string.Empty;
             FechaCreacion = DateTime.Now;
