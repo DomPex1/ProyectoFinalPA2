@@ -3,7 +3,7 @@
 
 <div class="form-group row">
     <label for="filtro">Filtro</label>
-    <div class="input-group  col-sm-10">
+    <div class="input-group  col-md-8">
         <select class="form-control" @bind="Filtro">
             <option value="" disabled selected>Seleccione un Criterio</option>
             <option value="Todo">Todo</option>
@@ -13,7 +13,7 @@
             <option value="Email">Email</option>
         </select>
 
-        <div align="right" class="input-group col-md-8">
+        <div align="right" class="input-group col-md-6">
             <label for="criterio"> Criterio&nbsp;&nbsp; </label>
             <input type="search" class="form-control" @bind-value="Criterio" />
         </div>
@@ -21,14 +21,15 @@
     </div>
 </div>
 
+
 <div class="form-group row">
     <input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
     <div class="input-group  col-sm-6">
         <!--Desde-->
-        <label for="DesdeFecha" class="col-auto">Desde</label>
+        <label for="DesdeFecha" class="col-md-2">Desde</label>
         <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
         <!--Hasta-->
-        <label for="HastaFechaInput" class="col-auto">&nbsp;&nbsp;Hasta</label>
+        <label for="HastaFechaInput" class="col-md-2">&nbsp;&nbsp;Hasta</label>
         <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
     </div>
 </div>
@@ -46,6 +47,7 @@
             <th></th>
         </tr>
     </thead>
+
     <tbody>
         @foreach (var item in lista)
         {
@@ -56,7 +58,7 @@
             <th>@item.Usuario</th>
             <th>@item.Email</th>
             <th>@item.FechaCreacion.ToString("dd/MM/yyyy")</th>
-            <td><a class="btn btn-sm btn-outline-primary" href="estudiante/@item.UsuarioId">Ver</a></td>
+            <td><a class="btn btn-sm btn bth-primary" href="estudiante/@item.UsuarioId">Ver</a></td>
         </tr>
         }
     </tbody>

@@ -13,11 +13,15 @@ namespace ProyectoFinalPA2.Models
         public int PedidosId { get; set; }
         public DateTime FechaPedido { get; set; }
 
+        [Required(ErrorMessage = "No puede estar vacio")]
         public string Cliente { get; set; }
-
+        [Required(ErrorMessage = "No puede estar vacio")]
         public string FormaPedido { get; set; }
+
         public int ProductoId { get; set; }
 
+        [Required(ErrorMessage = "No puede estar vacio")]
+        [Range(minimum:1,maximum:1000000,ErrorMessage ="No puede pasar el limite")]
         public int Cantidad { get; set; }
         public decimal Total { get; set; }
         public decimal SubTotal { get; set; }
