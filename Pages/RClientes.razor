@@ -50,7 +50,7 @@
 
     protected override void OnInitialized()
     {
-        if (ClienteId > 0)
+        if (ClienteId != 0)
         {
             clientes.ClienteId = ClienteId;
             Buscar();

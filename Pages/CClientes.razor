@@ -17,14 +17,14 @@
 
         @foreach (var item in lista)
         {
-            <tr>
-                <th>@item.ClienteId</th>
-                <th>@item.Nombre</th>
-                <th>@item.Telefono</th>
-                <th>@item.Email</th>
+        <tr>
+            <th>@item.ClienteId</th>
+            <th>@item.Nombre</th>
+            <th>@item.Telefono</th>
+            <th>@item.Email</th>
+            <td><a class="btn btn-info" href="rclientes/@item.ClienteId">Ver</a></td>
 
-
-            </tr>
+        </tr>
         }
 
     </tbody>

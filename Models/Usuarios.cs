@@ -10,6 +10,8 @@ namespace ProyectoFinalPA2.Models
     {
         [Key]
         public int UsuarioId { get; set; }
+
+
         [Required(ErrorMessage = "No puede estar vacio")]
         public string Usuario { get; set; }
         [Required(ErrorMessage = "No puede estar vacio")]
@@ -19,6 +21,7 @@ namespace ProyectoFinalPA2.Models
         public string NivelUsuario { get; set; }
         [Required(ErrorMessage = "No puede estar vacio")]
         public string Nombres { get; set; }
+
         [Required(ErrorMessage = "No puede estar vacio")]
         public string Email { get; set; }
         public DateTime FechaCreacion { get; set; }
