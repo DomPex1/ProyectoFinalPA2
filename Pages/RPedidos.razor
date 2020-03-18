@@ -1,4 +1,5 @@
-﻿@page "/RPedidos/{PedidosId:int}"
+﻿@page "/RPedidos"
+@page "/RPedidos/{PedidosId:int}"
 
 
 <h1>Registro Usuario</h1>
@@ -16,8 +17,16 @@
 
     </div>
     <div class="container">
-        <label for="Cliente" class="col-md-2 col-form-label">Cliente</label>
-        <input type="text" class="form-check col-md-2" @bind="pedidos.Cliente" />
+        <label for="Cliente">Cliente</label>
+        <div class="col-md-2">
+            <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onchange="CargarCliente" @onclick="CargarCliente">
+                <option value="" disabled selected>Seleccione un Cliente</option>
+                @foreach (var item in listaClientes)
+                {
+                    <option value="@item.ClienteId">@item.Nombre</option>
+                }
+            </InputSelect>
+        </div>
     </div>
     <div class="container">
         <label for="FormaPedido" class="col-md-2 col-form-label">FormaPedido</label>
@@ -77,7 +86,7 @@
                             <th>@item.ProductoId</th>
                             <th>@item.Cantidad</th>
                             <th>@item.Precio</th>
-
+                            <th><button type="button" class="btn btn-danger col-sm-2" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
 
                         </tr>
                     }
@@ -112,12 +121,15 @@
 
 
 @code {
+
     [Parameter]
     public int PedidosId { get; set; }
 
     protected override void OnInitialized()
     {
         listaProductos = controllersProductos.GetList(e => true);
+        listaClientes = controllersCliente.GetList(e => true);
+
         if (PedidosId > 0)
         {
             productos.ProductoId = PedidosId;
@@ -127,13 +139,18 @@
 
     ControllersPedido controllers = new ControllersPedido();
     ControllersProducto controllersProductos = new ControllersProducto();
+    ControllersCliente controllersCliente = new ControllersCliente();
 
     private List<Productos> listaProductos = new List<Productos>();
+    private List<Clientes> listaClientes = new List<Clientes>();
 
     private string ProductoSeleccionado { get; set; }
+    private string ClienteSeleccionado { get; set; }
     public int disponible = 0;
 
     private Productos productos;
+    private Clientes Clientes;
+
     Pedidos pedidos = new Pedidos();
     public string Mensaje;
     Contexto db = new Contexto();
@@ -143,6 +160,7 @@
     private void Guardar()
     {
         pedidos.ProductoId = Convert.ToInt32(ProductoSeleccionado);
+        pedidos.Cliente = ClienteSeleccionado;
         if (pedidos.PedidosId == 0)
         {
             controllers.Guardar(pedidos);
@@ -174,11 +192,27 @@
             throw;
         }
     }
+    public void CargarCliente()
+       {
+           try
+                  {
+                   Clientes = controllersCliente.Buscar(Convert.ToInt32(ClienteSeleccionado));
+
+                  }
+               catch (Exception)
+                {
+
+                   throw;
+      }
+    }
     public void CargarCantidad()
     {
         try
         {
-            disponible = productos.Cantidad;
+            if (productos != null)
+            {
+                disponible = productos.Cantidad;
+            }
 
         }
         catch (Exception)
@@ -224,6 +258,7 @@
             {
 
                 pedidos = controllers.Buscar(pedidos.PedidosId);
+
 
             }
             else
@@ -273,5 +308,18 @@
                 pedidos.Total = pedidos.ITBIS + pedidos.SubTotal;
             }
         }
+    }
+    private void EliminarProducto(PedidosDetalle detalle)
+    {
+        foreach (var item in pedidos.Detalles)
+        {
+            pedidos.SubTotal -= item.Cantidad * item.Precio;
+        }
+        pedidos.ITBIS = 100;
+        pedidos.Total = pedidos.ITBIS + pedidos.SubTotal;
+        pedidos.Detalles.Remove(detalle);
+
+
+
     }
 }

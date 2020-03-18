@@ -13,7 +13,7 @@ namespace ProyectoFinalPA2.Models
         public int PedidosId { get; set; }
         public DateTime FechaPedido { get; set; }
 
-        [Required(ErrorMessage = "No puede estar vacio")]
+        
         public string Cliente { get; set; }
         [Required(ErrorMessage = "No puede estar vacio")]
         public string FormaPedido { get; set; }

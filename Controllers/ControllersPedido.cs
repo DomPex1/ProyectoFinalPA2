@@ -70,7 +70,10 @@ namespace ProyectoFinalPA2.Controllers
 
             try
             {
-                pedidos = db.Pedidos.Find(id);
+                pedidos = db.Pedidos.Where(p => p.PedidosId == id)
+                    .Include(p => p.Detalles)
+                    .FirstOrDefault();
+
             }
             catch (Exception)
             {
