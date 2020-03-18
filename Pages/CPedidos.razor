@@ -23,12 +23,10 @@
 
 <div class="form-group row">
     <input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
-    <div class="input-group  col-sm-6">
-        <!--Desde-->
+    <div class="input-group  col-sm-6">        
         <label for="DesdeFecha" class="col-md-2">Desde</label>
         <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
-        <!--Hasta-->
-        <label for="HastaFechaInput" class="col-md-2">&nbsp;&nbsp;Hasta</label>
+        <label for="HastaFechaInput" class="col-md-2">Hasta</label>
         <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
     </div>
 </div>
@@ -70,6 +68,8 @@
 @code {
 
     private List<Pedidos> lista { get; set; }
+    public ControllersPedido controller = new ControllersPedido();
+
 
     private string Filtro { get; set; }
     private string Criterio { get; set; }
@@ -89,7 +89,6 @@
 
     private void Buscar()
     {
-        ControllersPedido controller = new ControllersPedido();
 
         try
         {

@@ -19,7 +19,7 @@
         </select>
 
         <div align="right" class="input-group col-md-6">
-            <label for="criterio"> Criterio&nbsp;&nbsp; </label>
+            <label for="criterio"> Criterio </label>
             <input type="search" class="form-control" @bind-value="Criterio" />
         </div>
         <button type="button" class="btn btn-success" @onclick="Buscar">Buscar</button>
@@ -29,11 +29,9 @@
 <div class="form-group row">
     <input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
     <div class="input-group  col-sm-6">
-        <!--Desde-->
         <label for="DesdeFecha" class="col-md-2">Desde</label>
         <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
-        <!--Hasta-->
-        <label for="HastaFechaInput" class="col-md-2">&nbsp;&nbsp;Hasta</label>
+        <label for="HastaFechaInput" class="col-md-2">Hasta</label>
         <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
     </div>
 </div>
@@ -76,6 +74,7 @@
 @code {
 
     private List<Productos> lista { get; set; }
+    public ControllersProducto controller = new ControllersProducto();
 
     private string Filtro { get; set; }
     private string Criterio { get; set; }
@@ -95,7 +94,7 @@
 
     private void Buscar()
     {
-        ControllersProducto controller = new ControllersProducto();
+
 
         try
         {
