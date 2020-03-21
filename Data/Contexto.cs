@@ -13,7 +13,11 @@ namespace ProyectoFinalPA2.Data
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<Pedidos> Pedidos { get; set; }
         public DbSet<Clientes> Clientes { get; set; }
+
+        public DbSet<Quejas> Quejas { get; set; }
+        public DbSet<Proveedores> Proveedores { get; set; }
         public DbSet<PedidosDetalle> PedidosDetalles { get; set; }
+        public DbSet<QuejasDetalle> QuejasDetalles { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

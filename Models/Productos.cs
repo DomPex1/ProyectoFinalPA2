@@ -28,8 +28,9 @@ namespace ProyectoFinalPA2.Models
         [Required(ErrorMessage = "No puede estar vacio")]
         [Range(minimum: 1, maximum: 10000000, ErrorMessage = "No puede pasar el limite")]
         public decimal ITBIS { get; set; }
-        [Required(ErrorMessage = "No puede estar vacio")]
-        public string NombreProveedor { get; set; }
+
+
+        public int ProveedoresId { get; set; }
 
         public Productos()
         {
@@ -41,7 +42,7 @@ namespace ProyectoFinalPA2.Models
             Costo = 0;
             Ganancia = 0;
             ITBIS = 0;
-            NombreProveedor = string.Empty;
+            ProveedoresId = 0;
 
         }
     }

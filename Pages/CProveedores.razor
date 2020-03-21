@@ -1,0 +1,48 @@
+﻿@page "/CProveedores"
+
+
+<h1>Consulta Proveedores</h1>
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ProveedoresId</th>
+            <th>Nombres</th>
+            <th>Telefono</th>
+            <th>Dirrecion</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in lista)
+        {
+            <tr>
+                <th>@item.ProveedorId</th>
+                <th>@item.Nombres</th>
+                <th>@item.Telefono</th>
+                <th>@item.Direccion</th>
+                <td><a class="btn btn-info" href="RProveedores/@item.ProveedorId">Ver</a></td>
+
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+
+
+@code {
+
+    public List<Proveedores> lista { get; set; }
+    public ControllersProveedores controllers = new ControllersProveedores();
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        lista = controllers.GetList(P => true);
+    }
+
+}
+

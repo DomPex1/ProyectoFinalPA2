@@ -1,5 +1,5 @@
-﻿@page "/CPedidos"
-<h3>Consulta de Pedidos</h3>
+﻿@page "/CQuejas"
+<h3>Consulta de Quejas</h3>
 
 <div class="form-group row">
     <label for="filtro">Filtro</label>
@@ -8,9 +8,8 @@
             <option value="" disabled selected>Seleccione un Criterio</option>
             <option value="Todo">Todo</option>
             <option value="Id">Id</option>
-            <option value="ClienteId">ClienteId</option>
-            <option value="FormaPedido">FormaPedido</option>
-            <option value="Total">Total</option>
+            <option value="Cliente">Cliente</option>
+            <option value="Descripcion">Descripcion</option>
         </select>
 
         <div align="right" class="input-group col-md-6">
@@ -23,7 +22,7 @@
 
 <div class="form-group row">
     <input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
-    <div class="input-group  col-sm-6">        
+    <div class="input-group  col-sm-6">
         <label for="DesdeFecha" class="col-md-2">Desde</label>
         <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
         <label for="HastaFechaInput" class="col-md-2">Hasta</label>
@@ -35,29 +34,21 @@
 <table class="table">
     <thead class="thead-light">
         <tr>
-            <th>PedidosId</th>
-            <th>ClienteId</th>
-            <th>Forma Pedido</th>
-            <th>SubTotal</th>
-            <th>ITBIS</th>
-            <th>Total</th>
-            <th>Fecha Ingreso</th>
-            <th></th>
+            <th>QuejasId</th>
+            <th>Cliente</th>
+            <th>Descripcion</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in lista)
         {
-        <tr>
-            <th>@item.PedidosId</th>
-            <th>@item.ClienteId</th>
-            <th>@item.FormaPedido</th>
-            <th>@item.SubTotal</th>
-            <th>@item.ITBIS</th>
-            <th>@item.Total</th>
-            <th>@item.FechaPedido.ToString("dd/MM/yyyy")</th>
-            <td><a class="btn btn-sm btn-outline-primary" href="RPedidos/@item.PedidosId">Ver</a></td>
-        </tr>
+            <tr>
+                <th>@item.QuejasId</th>
+                <th>@item.ClienteId</th>
+                <th>@item.Descripcion</th>
+                <th>@item.Fecha.ToString("dd/MM/yyyy")</th>
+                <td><a class="btn btn-sm btn-outline-primary" href="RQuejas/@item.QuejasId">Ver</a></td>
+            </tr>
         }
     </tbody>
 </table>
@@ -67,8 +58,8 @@
 
 @code {
 
-    private List<Pedidos> lista { get; set; }
-    public ControllersPedido controller = new ControllersPedido();
+    private List<Quejas> lista { get; set; }
+    public ControllersQuejas controller = new ControllersQuejas();
 
 
     private string Filtro { get; set; }
@@ -82,7 +73,7 @@
 
     protected override void OnInitialized()
     {
-        lista = new List<Pedidos>();
+        lista = new List<Quejas>();
         DesdeFecha = DateTime.Now;
         HastaFecha = DateTime.Now;
     }
@@ -102,7 +93,7 @@
 
                 if (lista.Count == 0)
                 {
-                    mensaje = "No hay Pedidos Registrado";
+                    mensaje = "No hay Quejass";
                 }
                 else
                 {
@@ -113,21 +104,19 @@
                             lista = controller.GetList(e => true);
                             break;
                         case "Id":
-                            lista = controller.GetList(e => e.PedidosId == Convert.ToInt32(Criterio));
+                            lista = controller.GetList(e => e.QuejasId == Convert.ToInt32(Criterio));
                             break;
                         case "Cliente":
                             lista = controller.GetList(e => e.ClienteId == Convert.ToInt32(Criterio));
                             break;
                         case "FormaPedido":
-                            lista = controller.GetList(e => e.FormaPedido == Criterio);
+                            lista = controller.GetList(e => e.Descripcion == Criterio);
                             break;
-                        case "Total":
-                            lista = controller.GetList(e => e.Total == Convert.ToDecimal(Criterio));
-                            break;
+                  
                     }
                     if (BuscarFecha == true)
                     {
-                        lista = controller.GetList(p => p.FechaPedido >= DesdeFecha.Date && p.FechaPedido <= HastaFecha.Date);
+                        lista = controller.GetList(p => p.Fecha >= DesdeFecha.Date && p.Fecha <= HastaFecha.Date);
                     }
                 }
             }

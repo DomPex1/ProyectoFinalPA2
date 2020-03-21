@@ -1,0 +1,241 @@
+﻿@page "/RQuejas"
+@page "/RQuejas/{QuejasId:int}"
+
+
+<h1>Registro Quejas</h1>
+
+<EditForm Model="@quejas" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="container">
+        <label for="QuejasId" class="col-md-2 col-form-label"> Quejas</label>
+        <input type="number" class="col-md-2 form-check" @bind="quejas.QuejasId" />
+        <br />
+
+        <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
+
+    </div>
+    <div class="container">
+        <label for="Cliente">Cliente</label>
+        <div class="col-md-2">
+            <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onchange="CargarCliente" @onclick="CargarCliente">
+                <option value="" disabled selected>Seleccione un Cliente</option>
+                @foreach (var item in listaClientes)
+                {
+                    <option value="@item.ClienteId">@item.Nombre</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <div class="container">
+        <label for="Fecha" class="col-md-2col-form-label">Fecha</label>
+        <input type="datetime" class="col-md-2 form-check" @bind="quejas.Fecha" />
+    </div>
+    <div class="container">
+        <label for="Descripcion" class="col-md-2 col-form-label">Descripcion</label>
+        <input type="text" class="form-check col-md-2" @bind="quejas.Descripcion" />
+    </div>
+
+
+    <div class="container">
+        <label for="Problema" class="col-md-2col-form-label">Problema</label>
+        <input type="text" class="col-md-2 form-check" @bind="Problemas" />
+    </div>
+    <div class="container">
+        <label for="Solucion" class="col-md-2col-form-label">Solucion</label>
+        <input type="text" class="col-md-2 form-check" @bind="Soluciones" />
+    </div>
+
+  
+
+    <div class=" container">
+        <button type="button" class="btn btn-primary" @onclick="Agregar">Agregar</button>
+    </div>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Problema</th>
+                    <th>Solucion</th>
+                </tr>
+            </thead>
+            <tbody>
+             
+                    @foreach (var item in quejas.Detalles)
+                    {
+                        <tr>
+                            <th>@item.QuejasDetalleId</th>
+                            <th>@item.Problema</th>
+                            <th>@item.Solucion</th>
+                       
+                            <th><button type="button" class="btn btn-danger col-sm-2" @onclick="(()=> EliminarGrid(item))">Eliminar</button></th>
+
+                        </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+
+    <br />
+
+    <div class="form-group">
+        <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
+        <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
+        <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
+    </div>
+
+    <h3>@Mensaje</h3>
+</EditForm>
+
+
+@code {
+
+     [Parameter]
+    public int QuejasId { get; set; }
+
+    protected override void OnInitialized()
+    {
+
+        listaClientes = controllersCliente.GetList(e => true);
+
+        if (QuejasId > 0)
+        {
+            quejas.QuejasId = QuejasId;
+            Buscar();
+        }
+    }
+
+    ControllersQuejas controllers = new ControllersQuejas();
+
+    ControllersCliente controllersCliente = new ControllersCliente();
+
+
+    private List<Clientes> listaClientes = new List<Clientes>();
+
+
+    private string ClienteSeleccionado { get; set; }
+
+
+    private Clientes Clientes;
+
+    Quejas quejas = new Quejas();
+
+    public string Problemas;
+    public string Soluciones;
+    public string Mensaje;
+    Contexto db = new Contexto();
+
+
+
+    private void Guardar()
+    {
+        quejas.ClienteId = Convert.ToInt32(ClienteSeleccionado);
+    
+        if (quejas.QuejasId == 0)
+        {
+            controllers.Guardar(quejas);
+            Mensaje = "Guardo";
+            Limpiar();
+        }
+        else
+        {
+            if (controllers.Buscar(quejas.QuejasId) != null)
+            {
+                controllers.Modificar(quejas);
+                Mensaje = "Modifico";
+                Limpiar();
+            }
+
+        }
+    }
+
+    public void CargarCliente()
+       {
+           try
+                  {
+                   Clientes = controllersCliente.Buscar(Convert.ToInt32(ClienteSeleccionado));
+
+                  }
+               catch (Exception)
+                {
+
+                   throw;
+      }
+    }
+
+    private void Limpiar()
+    {
+        quejas = new Quejas();
+
+    }
+    private void Eliminar()
+    {
+        if (quejas.QuejasId != 0)
+        {
+            if (controllers.Buscar(quejas.QuejasId) != null)
+            {
+
+                controllers.Eliminar(quejas.QuejasId);
+                Mensaje = "Eliminado";
+                Limpiar();
+
+            }
+            else
+            {
+                Mensaje = "Id no existe";
+            }
+
+        }
+        else
+        {
+            Mensaje = "Selecione un ID";
+        }
+
+    }
+    private void Buscar()
+    {
+        if (quejas.QuejasId != 0)
+        {
+            if (controllers.Buscar(quejas.QuejasId) != null)
+            {
+
+                quejas = controllers.Buscar(quejas.QuejasId);
+
+
+            }
+            else
+            {
+                Mensaje = "Id no existe";
+            }
+
+        }
+        else
+        {
+            Mensaje = "Selecione un ID";
+        }
+
+
+    }
+    private void Agregar()
+    {
+
+                quejas.Detalles.Add(new QuejasDetalle()
+                {
+                   Problema = Problemas,
+                   Solucion = Soluciones
+                   
+                });
+                quejas = new Quejas();
+
+    }
+
+      private void EliminarGrid(QuejasDetalle detalle)
+    {
+        quejas.Detalles.Remove(detalle);
+
+
+
+    }
+}

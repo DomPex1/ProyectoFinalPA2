@@ -160,7 +160,7 @@
     private void Guardar()
     {
         pedidos.ProductoId = Convert.ToInt32(ProductoSeleccionado);
-        pedidos.Cliente = ClienteSeleccionado;
+        pedidos.ClienteId = Convert.ToInt32(ClienteSeleccionado);
         if (pedidos.PedidosId == 0)
         {
             controllers.Guardar(pedidos);

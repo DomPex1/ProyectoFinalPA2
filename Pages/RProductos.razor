@@ -20,9 +20,18 @@
         <input type="text" class="form-check col-md-2" @bind="productos.Descripcion" />
     </div>
     <div class="container">
-        <label for="NombreProveedor" class="col-md-2 col-form-label">Nombre Proveedor</label>
-        <input type="text" class="form-check col-md-2" @bind="productos.NombreProveedor" />
+        <label for="Proveedor">Proveedor</label>
+        <div class="col-md-2">
+            <InputSelect @bind-Value="@ProveedorSeleccionado" class="form-control" @onchange="CargarProveedores" @onclick="CargarProveedores">
+                <option value="" disabled selected>Seleccione un Cliente</option>
+                @foreach (var item in listaProveedores)
+                {
+                    <option value="@item.ProveedorId">@item.Nombres</option>
+                }
+            </InputSelect>
+        </div>
     </div>
+
     <div class="container">
         <label for="Cantidad" class="col-md-2col-form-label">Cantidad</label>
         <input type="number" class="col-md-2 form-check" @bind="productos.Cantidad" />
@@ -65,19 +74,41 @@
     ControllersProducto controllers = new ControllersProducto();
     Productos productos = new Productos();
 
+    private List<Proveedores> listaProveedores = new List<Proveedores>();
+    ControllersProveedores controllersProveedores = new ControllersProveedores();
+
+    private string ProveedorSeleccionado;
+
+    private Proveedores proveedores;
+
     public string Mensaje;
 
     protected override void OnInitialized()
     {
+        listaProveedores = controllersProveedores.GetList(e => true);
         if (ProductoId > 0)
         {
             productos.ProductoId = ProductoId;
             Buscar();
         }
     }
+     public void CargarProveedores()
+       {
+           try
+           {
+                   proveedores = controllersProveedores.Buscar(Convert.ToInt32(ProveedorSeleccionado));
 
+            }
+            catch (Exception)
+            {
+
+            throw;
+            }
+    }
     private void Guardar()
     {
+        productos.ProveedoresId = Convert.ToInt32(ProveedorSeleccionado);
+
         if (productos.ProductoId == 0)
         {
             controllers.Guardar(productos);

@@ -1,34 +1,32 @@
-﻿@page "/RClientes/{ClienteId:int}"
+﻿@page "/RProveedores/{ProveedoresId:int}"
 
 
-<h1>Registro Clientes</h1>
+<h1>Registro Proveedores</h1>
 
-<EditForm Model="@clientes" OnValidSubmit="Guardar">
+<EditForm Model="@proveedores" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div class="container">
-        <label for="ClienteId" class="col-md-2 col-form-label"> ClienteId</label>
-        <input type="number" class="col-md-2 form-check" @bind="clientes.ClienteId" />
+        <label for="ProveedorId" class="col-md-2 col-form-label"> ProveedorId</label>
+        <input type="number" class="col-md-2 form-check" @bind="proveedores.ProveedorId" />
         <br />
 
         <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
 
     </div>
     <div class="container">
-        <label for="Nombre" class="col-md-2 col-form-label">Nombre</label>
-        <input type="text" class="form-check col-md-2" @bind="clientes.Nombre" />
+        <label for="Nombres" class="col-md-2 col-form-label">Nombres</label>
+        <input type="text" class="form-check col-md-2" @bind="proveedores.Nombres" />
     </div>
     <div class="container">
-        <label for="Email" class="col-md-2 col-form-label">Email</label>
-        <input type="text" class="form-check col-md-2" @bind="clientes.Email" />
+        <label for="Direccion" class="col-md-2 col-form-label">Direccion</label>
+        <input type="text" class="form-check col-md-2" @bind="proveedores.Direccion" />
     </div>
     <div class="container">
         <label for="Telefono" class="col-md-2col-form-label">Telefono</label>
-        <input type="text" class="col-md-2 form-check" @bind="clientes.Telefono" />
+        <input type="number" class="col-md-2 form-check" @bind="proveedores.Telefono" />
     </div>
-
-    <br />
 
     <div class="form-group">
         <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
@@ -42,33 +40,34 @@
 
 @code {
     [Parameter]
-    public int ClienteId { get; set; }
-    ControllersCliente controllers = new ControllersCliente();
+    public int ProveedoresId { get; set; }
+    ControllersProveedores controllers = new ControllersProveedores();
+    Proveedores proveedores = new Proveedores();
 
-    Clientes clientes = new Clientes();
     public string Mensaje;
 
     protected override void OnInitialized()
     {
-        if (ClienteId != 0)
+        if (ProveedoresId > 0)
         {
-            clientes.ClienteId = ClienteId;
+            proveedores.ProveedorId = ProveedoresId;
             Buscar();
         }
     }
+
     private void Guardar()
     {
-        if (clientes.ClienteId == 0)
+        if (proveedores.ProveedorId == 0)
         {
-            controllers.Guardar(clientes);
+            controllers.Guardar(proveedores);
             Mensaje = "Guardo";
             Limpiar();
         }
         else
         {
-            if (controllers.Buscar(clientes.ClienteId) != null)
+            if (controllers.Buscar(proveedores.ProveedorId) != null)
             {
-                controllers.Modificar(clientes);
+                controllers.Modificar(proveedores);
                 Mensaje = "Modifico";
                 Limpiar();
             }
@@ -77,16 +76,16 @@
     }
     private void Limpiar()
     {
-        clientes = new Clientes();
+        proveedores = new Proveedores();
     }
     private void Eliminar()
     {
-        if (clientes.ClienteId != 0)
+        if (proveedores.ProveedorId != 0)
         {
-            if (controllers.Buscar(clientes.ClienteId) != null)
+            if (controllers.Buscar(proveedores.ProveedorId) != null)
             {
 
-                controllers.Eliminar(clientes.ClienteId);
+                controllers.Eliminar(proveedores.ProveedorId);
                 Mensaje = "Eliminado";
                 Limpiar();
 
@@ -105,12 +104,12 @@
     }
     private void Buscar()
     {
-        if (clientes.ClienteId != 0)
+        if (proveedores.ProveedorId != 0)
         {
-            if (controllers.Buscar(clientes.ClienteId) != null)
+            if (controllers.Buscar(proveedores.ProveedorId) != null)
             {
 
-                clientes = controllers.Buscar(clientes.ClienteId);
+                proveedores = controllers.Buscar(proveedores.ProveedorId);
 
             }
             else

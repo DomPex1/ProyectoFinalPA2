@@ -14,7 +14,8 @@ namespace ProyectoFinalPA2.Models
         public DateTime FechaPedido { get; set; }
 
         
-        public string Cliente { get; set; }
+        public int ClienteId { get; set; }
+
         [Required(ErrorMessage = "No puede estar vacio")]
         public string FormaPedido { get; set; }
 
@@ -34,7 +35,7 @@ namespace ProyectoFinalPA2.Models
         {
             PedidosId = 0;
             FechaPedido = DateTime.Now;
-            Cliente = string.Empty;
+            ClienteId = 0;
             FormaPedido = string.Empty;
             ProductoId = 0;
             Total = 0;

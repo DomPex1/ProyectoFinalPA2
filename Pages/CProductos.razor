@@ -13,7 +13,7 @@
             <option value="Costo">Costo</option>
             <option value="Ganancia">Ganancia</option>
             <option value="ITBIS">ITBIS</option>
-            <option value="NombreProveedor">NombreProveedor</option>
+            <option value="ProveedoresId">ProveedoresId</option>
             
 
         </select>
@@ -46,7 +46,7 @@
             <th>Cantidad</th>
             <th>ITBIS</th>
             <th>Ganancia</th>
-            <th>NombreProveedor</th>
+            <th>ProveedoresId</th>
             <th></th>
         </tr>
     </thead>
@@ -60,7 +60,7 @@
             <th>@item.Cantidad</th>
             <th>@item.ITBIS</th>
             <th>@item.Ganancia</th>
-            <th>@item.NombreProveedor</th>
+            <th>@item.ProveedoresId</th>
             <th>@item.FechaIngreso.ToString("dd/MM/yyyy")</th>
             <td><a class="btn btn-sm btn-outline-primary" href="RProductos/@item.ProductoId">Ver</a></td>
         </tr>
@@ -137,7 +137,7 @@
                             lista = controller.GetList(e => e.ITBIS == Convert.ToDecimal(Criterio));
                             break;
                       case "NombreProveedor":
-                            lista = controller.GetList(e => e.NombreProveedor == Criterio);
+                            lista = controller.GetList(e => e.ProveedoresId == Convert.ToInt32(Criterio));
                             break;
                     }
                     if (BuscarFecha == true)
