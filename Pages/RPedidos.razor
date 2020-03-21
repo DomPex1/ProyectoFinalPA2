@@ -300,6 +300,8 @@
                 });
                 productos = new Productos();
 
+                var cant = pedidos.Detalles.Count;
+
                 foreach (var item in pedidos.Detalles)
                 {
                     pedidos.SubTotal += item.Cantidad * item.Precio;

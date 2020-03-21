@@ -9,8 +9,8 @@ using ProyectoFinalPA2.Data;
 namespace ProyectoFinalPA2.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200318190257_Primero")]
-    partial class Primero
+    [Migration("20200321195708_Nuevo")]
+    partial class Nuevo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,9 +49,8 @@ namespace ProyectoFinalPA2.Migrations
                     b.Property<int>("Cantidad")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Cliente")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("FechaPedido")
                         .HasColumnType("TEXT");
@@ -127,16 +126,80 @@ namespace ProyectoFinalPA2.Migrations
                     b.Property<decimal>("ITBIS")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("NombreProveedor")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<decimal>("Precio")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("ProveedoresId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("ProductoId");
 
                     b.ToTable("Productos");
+                });
+
+            modelBuilder.Entity("ProyectoFinalPA2.Models.Proveedores", b =>
+                {
+                    b.Property<int>("ProveedorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Direccion")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nombres")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ProveedorId");
+
+                    b.ToTable("Proveedores");
+                });
+
+            modelBuilder.Entity("ProyectoFinalPA2.Models.Quejas", b =>
+                {
+                    b.Property<int>("QuejasId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("QuejasId");
+
+                    b.ToTable("Quejas");
+                });
+
+            modelBuilder.Entity("ProyectoFinalPA2.Models.QuejasDetalle", b =>
+                {
+                    b.Property<int>("QuejasDetalleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Problema")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("QuejasId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Solucion")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("QuejasDetalleId");
+
+                    b.HasIndex("QuejasId");
+
+                    b.ToTable("QuejasDetalles");
                 });
 
             modelBuilder.Entity("ProyectoFinalPA2.Models.Usuarios", b =>
@@ -178,6 +241,15 @@ namespace ProyectoFinalPA2.Migrations
                     b.HasOne("ProyectoFinalPA2.Models.Pedidos", null)
                         .WithMany("Detalles")
                         .HasForeignKey("PedidosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProyectoFinalPA2.Models.QuejasDetalle", b =>
+                {
+                    b.HasOne("ProyectoFinalPA2.Models.Quejas", null)
+                        .WithMany("Detalles")
+                        .HasForeignKey("QuejasId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
