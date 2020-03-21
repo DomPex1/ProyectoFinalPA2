@@ -1,4 +1,5 @@
 ﻿@page "/CUsuario"
+@page  "/CUsuario/{I:int}"
 <h3>Consulta de Usuarios</h3>
 
 <div class="form-group row">
@@ -49,19 +50,28 @@
     <tbody>
         @foreach (var item in lista)
         {
-        <tr>
-            <th>@item.UsuarioId</th>
-            <th>@item.Nombres</th>
-            <th>@item.NivelUsuario</th>
-            <th>@item.Usuario</th>
-            <th>@item.Email</th>
-            <th>@item.FechaCreacion.ToString("dd/MM/yyyy")</th>
-            <td><a class="btn btn-sm btn bth-primary" href="RUsuarios/@item.UsuarioId">Ver</a></td>
+            <tr>
+                <th>@item.UsuarioId</th>
+                <th>@item.Nombres</th>
+                <th>@item.NivelUsuario</th>
+                <th>@item.Usuario</th>
+                <th>@item.Email</th>
+                <th>@item.FechaCreacion.ToString("dd/MM/yyyy")</th>
+                <td><a class="btn-sm btn-primary" href="RUsuarios/@item.UsuarioId">Ver</a></td>
 
-        </tr>
+            </tr>
         }
     </tbody>
 </table>
+<nav aria-label="...">
+    <ul class="pagination pagination-lg">
+        @for (int i = 1; i <= totaldepaginas; i++)
+        {
+            <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CUsuario/@i">@i</a></li>
+        }
+
+    </ul>
+</nav>
 
 <h5 class="text-success">@mensaje</h5>
 
@@ -69,22 +79,59 @@
 @code {
 
     private List<Usuarios> lista { get; set; }
-    public  ControllersUsuario controller = new ControllersUsuario();
+    public ControllersUsuario controller = new ControllersUsuario();
 
+
+    [Parameter]
+    public int I { get; set; }
+    private int Contador { get; set; }
+    private int contCiclo { get; set; }
+
+    Paginacion paginacion = new Paginacion();
+    public double totaldepaginas { get; set; }
+
+    Contexto Contexto = new Contexto();
+    double conteo = 0;
+
+   
     private string Filtro { get; set; }
     private string Criterio { get; set; }
     private string mensaje;
+    
 
     public bool BuscarFecha { get; set; }
     public DateTime DesdeFecha { get; set; }
     public DateTime HastaFecha { get; set; }
 
+    private void NumSaltar()
+    {
+        Contador = I - 1;
+        Saltar();
+    }
+
+    private void Saltar()
+    {
+        Contador += paginacion.Pagina;
+        if(Contador >= totaldepaginas)
+        {
+            Contador = 0;
+        }
+        lista = Contexto.Usuarios
+            .Skip(Contador * paginacion.CantidadMostrar)
+            .Take(paginacion.CantidadMostrar)
+            .ToList();
+    }
 
     protected override void OnInitialized()
     {
+        conteo = Contexto.Usuarios.Count();
+        totaldepaginas = Math.Ceiling(conteo/paginacion.CantidadMostrar);
         lista = new List<Usuarios>();
+        this.lista = Contexto.Usuarios.Take(paginacion.CantidadMostrar).ToList();
         DesdeFecha = DateTime.Now;
         HastaFecha = DateTime.Now;
+
+        NumSaltar();
     }
 
     private void Buscar()
