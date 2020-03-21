@@ -25,8 +25,7 @@ namespace ProyectoFinalPA2.Models
         [Range(minimum:1,maximum:1000000,ErrorMessage ="No puede pasar el limite")]
         public int Cantidad { get; set; }
         public decimal Total { get; set; }
-        public decimal SubTotal { get; set; }
-        public decimal ITBIS { get; set; }
+
 
         [ForeignKey("PedidosId")]
         public List<PedidosDetalle> Detalles { get; set; }
@@ -39,8 +38,6 @@ namespace ProyectoFinalPA2.Models
             FormaPedido = string.Empty;
             ProductoId = 0;
             Total = 0;
-            SubTotal = 0;
-            ITBIS = 0;
             Detalles = new List<PedidosDetalle>();
         }
     }

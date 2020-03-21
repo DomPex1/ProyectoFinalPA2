@@ -17,6 +17,8 @@ namespace ProyectoFinalPA2.Models
 
         public decimal Precio { get; set; }
 
+        public decimal SubTotal { get; set; }
+
 
 
         public PedidosDetalle()
@@ -26,7 +28,7 @@ namespace ProyectoFinalPA2.Models
             ProductoId = 0;
             Cantidad = 0;
             Precio = 0;
-
+            SubTotal = 0;
         }
     }
 }

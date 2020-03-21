@@ -95,14 +95,7 @@
             </tbody>
         </table>
     </div>
-    <div class="container">
-        <label for="ITBIS" class="col-md-2col-form-label">ITBIS</label>
-        <input type="number" class="col-md-2 form-check" @bind="pedidos.ITBIS" />
-    </div>
-    <div class="container">
-        <label for="SubTotal" class="col-md-2col-form-label">SubTotal</label>
-        <input type="number" class="col-md-2 form-check" @bind="pedidos.SubTotal" />
-    </div>
+
     <div class="container">
         <label for="Total" class="col-md-2col-form-label">Total</label>
         <input type="number" class="col-md-2 form-check" @bind="pedidos.Total" />
@@ -193,17 +186,17 @@
         }
     }
     public void CargarCliente()
-       {
-           try
-                  {
-                   Clientes = controllersCliente.Buscar(Convert.ToInt32(ClienteSeleccionado));
+    {
+        try
+        {
+            Clientes = controllersCliente.Buscar(Convert.ToInt32(ClienteSeleccionado));
 
-                  }
-               catch (Exception)
-                {
+        }
+        catch (Exception)
+        {
 
-                   throw;
-      }
+            throw;
+        }
     }
     public void CargarCantidad()
     {
@@ -295,32 +288,32 @@
                     PedidosId = pedidos.PedidosId,
                     ProductoId = Convert.ToInt32(ProductoSeleccionado),
                     Cantidad = pedidos.Cantidad,
-                    Precio = prod.Precio
+                    Precio = prod.Precio,
+                    SubTotal = pedidos.Cantidad * prod.Precio
 
                 });
                 productos = new Productos();
 
-                var cant = pedidos.Detalles.Count;
-
-                foreach (var item in pedidos.Detalles)
-                {
-                    pedidos.SubTotal += item.Cantidad * item.Precio;
-                }
-                pedidos.ITBIS = 100;
-                pedidos.Total = pedidos.ITBIS + pedidos.SubTotal;
+                Calcular();
             }
         }
     }
     private void EliminarProducto(PedidosDetalle detalle)
     {
-        foreach (var item in pedidos.Detalles)
-        {
-            pedidos.SubTotal -= item.Cantidad * item.Precio;
-        }
-        pedidos.ITBIS = 100;
-        pedidos.Total = pedidos.ITBIS + pedidos.SubTotal;
+
         pedidos.Detalles.Remove(detalle);
 
+    }
+    private void Calcular()
+    {
+        decimal total = 0;
+
+        foreach (var item in pedidos.Detalles)
+        {
+            total += item.SubTotal;
+        }
+
+        pedidos.Total = total;
 
 
     }

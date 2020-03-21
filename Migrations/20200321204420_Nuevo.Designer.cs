@@ -9,7 +9,7 @@ using ProyectoFinalPA2.Data;
 namespace ProyectoFinalPA2.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200321195708_Nuevo")]
+    [Migration("20200321204420_Nuevo")]
     partial class Nuevo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,14 +59,8 @@ namespace ProyectoFinalPA2.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("ITBIS")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("ProductoId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("SubTotal")
-                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Total")
                         .HasColumnType("TEXT");
@@ -93,6 +87,9 @@ namespace ProyectoFinalPA2.Migrations
 
                     b.Property<int>("ProductoId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("PedidosDetalleId");
 
@@ -121,9 +118,6 @@ namespace ProyectoFinalPA2.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Ganancia")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("ITBIS")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Precio")

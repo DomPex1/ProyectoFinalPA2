@@ -27,7 +27,7 @@ namespace ProyectoFinalPA2.Models
         public decimal Ganancia { get; set; }
         [Required(ErrorMessage = "No puede estar vacio")]
         [Range(minimum: 1, maximum: 10000000, ErrorMessage = "No puede pasar el limite")]
-        public decimal ITBIS { get; set; }
+
 
 
         public int ProveedoresId { get; set; }
@@ -41,7 +41,6 @@ namespace ProyectoFinalPA2.Models
             Cantidad = 0;
             Costo = 0;
             Ganancia = 0;
-            ITBIS = 0;
             ProveedoresId = 0;
 
         }

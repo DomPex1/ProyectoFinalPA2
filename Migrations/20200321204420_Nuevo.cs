@@ -33,9 +33,7 @@ namespace ProyectoFinalPA2.Migrations
                     FormaPedido = table.Column<string>(nullable: false),
                     ProductoId = table.Column<int>(nullable: false),
                     Cantidad = table.Column<int>(nullable: false),
-                    Total = table.Column<decimal>(nullable: false),
-                    SubTotal = table.Column<decimal>(nullable: false),
-                    ITBIS = table.Column<decimal>(nullable: false)
+                    Total = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,7 +52,6 @@ namespace ProyectoFinalPA2.Migrations
                     Cantidad = table.Column<int>(nullable: false),
                     Costo = table.Column<decimal>(nullable: false),
                     Ganancia = table.Column<decimal>(nullable: false),
-                    ITBIS = table.Column<decimal>(nullable: false),
                     ProveedoresId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -119,7 +116,8 @@ namespace ProyectoFinalPA2.Migrations
                     PedidosId = table.Column<int>(nullable: false),
                     ProductoId = table.Column<int>(nullable: false),
                     Cantidad = table.Column<int>(nullable: false),
-                    Precio = table.Column<decimal>(nullable: false)
+                    Precio = table.Column<decimal>(nullable: false),
+                    SubTotal = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
