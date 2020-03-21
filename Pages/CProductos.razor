@@ -1,4 +1,5 @@
 ﻿@page "/CProductos"
+@page  "/CProductos/{I:int}"
 <h3>Consulta de Productos</h3>
 
 <div class="form-group row">
@@ -13,8 +14,8 @@
             <option value="Costo">Costo</option>
             <option value="Ganancia">Ganancia</option>
             <option value="ITBIS">ITBIS</option>
-            <option value="ProveedoresId">ProveedoresId</option>
-            
+            <option value="NombreProveedor">NombreProveedor</option>
+
 
         </select>
 
@@ -46,27 +47,36 @@
             <th>Cantidad</th>
             <th>ITBIS</th>
             <th>Ganancia</th>
-            <th>ProveedoresId</th>
+            <th>NombreProveedor</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in lista)
         {
-        <tr>
-            <th>@item.ProductoId</th>
-            <th>@item.Descripcion</th>
-            <th>@item.Precio</th>
-            <th>@item.Cantidad</th>
-            <th>@item.ITBIS</th>
-            <th>@item.Ganancia</th>
-            <th>@item.ProveedoresId</th>
-            <th>@item.FechaIngreso.ToString("dd/MM/yyyy")</th>
-            <td><a class="btn btn-sm btn-outline-primary" href="RProductos/@item.ProductoId">Ver</a></td>
-        </tr>
+            <tr>
+                <th>@item.ProductoId</th>
+                <th>@item.Descripcion</th>
+                <th>@item.Precio</th>
+                <th>@item.Cantidad</th>
+                <th>@item.ITBIS</th>
+                <th>@item.Ganancia</th>
+                <th>@item.NombreProveedor</th>
+                <th>@item.FechaIngreso.ToString("dd/MM/yyyy")</th>
+                <td><a class="btn btn-sm btn-outline-primary" href="RProductos/@item.ProductoId">Ver</a></td>
+            </tr>
         }
     </tbody>
 </table>
+<nav aria-label="...">
+    <ul class="pagination pagination-lg">
+        @for (int i = 1; i <= totaldepaginas; i++)
+        {
+            <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CProductos/@i">@i</a></li>
+        }
+
+    </ul>
+</nav>
 
 <h5 class="text-success">@mensaje</h5>
 
@@ -76,6 +86,17 @@
     private List<Productos> lista { get; set; }
     public ControllersProducto controller = new ControllersProducto();
 
+    [Parameter]
+    public int I { get; set; }
+    private int Contador { get; set; }
+    private int contCiclo { get; set; }
+
+    Paginacion paginacion = new Paginacion();
+    public double totaldepaginas { get; set; }
+
+    Contexto Contexto = new Contexto();
+    double conteo = 0;
+
     private string Filtro { get; set; }
     private string Criterio { get; set; }
     private string mensaje;
@@ -84,10 +105,31 @@
     public DateTime DesdeFecha { get; set; }
     public DateTime HastaFecha { get; set; }
 
+    private void NumSaltar()
+    {
+        Contador = I - 1;
+        Saltar();
+    }
+
+    private void Saltar()
+    {
+        Contador += paginacion.Pagina;
+        if(Contador >= totaldepaginas)
+        {
+            Contador = 0;
+        }
+        lista = Contexto.Productos
+            .Skip(Contador * paginacion.CantidadMostrar)
+            .Take(paginacion.CantidadMostrar)
+            .ToList();
+    }
 
     protected override void OnInitialized()
     {
+        conteo = Contexto.Productos.Count();
+        totaldepaginas = Math.Ceiling(conteo/paginacion.CantidadMostrar);
         lista = new List<Productos>();
+        this.lista = Contexto.Productos.Take(paginacion.CantidadMostrar).ToList();
         DesdeFecha = DateTime.Now;
         HastaFecha = DateTime.Now;
     }
@@ -133,11 +175,11 @@
                         case "Ganancia":
                             lista = controller.GetList(e => e.Ganancia == Convert.ToDecimal(Criterio));
                             break;
-                       case "ITBIS":
+                        case "ITBIS":
                             lista = controller.GetList(e => e.ITBIS == Convert.ToDecimal(Criterio));
                             break;
-                      case "NombreProveedor":
-                            lista = controller.GetList(e => e.ProveedoresId == Convert.ToInt32(Criterio));
+                        case "NombreProveedor":
+                            lista = controller.GetList(e => e.NombreProveedor == Criterio);
                             break;
                     }
                     if (BuscarFecha == true)
