@@ -11,10 +11,13 @@ namespace ProyectoFinalPA2.Models
         [Key]
         public int ProveedorId { get; set; }
         [Required(ErrorMessage = "No puede estar vacio")]
+        [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public string Nombres { get; set; }
         [Required(ErrorMessage = "No puede estar vacio")]
+        [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public string Direccion { get; set; }
         [Required(ErrorMessage = "No puede estar vacio")]
+        [StringLength(maximumLength: 15, ErrorMessage = "Esta fuera de rango")]
         public string Telefono { get; set; }
 
         public Proveedores()
