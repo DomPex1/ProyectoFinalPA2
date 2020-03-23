@@ -1,5 +1,5 @@
 ﻿@page "/CClientes"
-
+@page  "/CClientes/{I:int}"
 <div class="card bg-dark text-light">
     <div class="card-body ">
         <div class="card bg-dark text-light">
@@ -32,6 +32,18 @@
 
                     </tbody>
                 </table>
+
+                <nav aria-label="...">
+                    <ul class="pagination pagination-lg">
+                        @for (int i = 1; i <= totaldepaginas; i++)
+                        {
+                            <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CUsuario/@i">@i</a></li>
+                        }
+
+                    </ul>
+                </nav>
+
+                <h5 class="text-success">@mensaje</h5>
             </div>
         </div>
     </div>
@@ -43,11 +55,25 @@
     public List<Clientes> lista { get; set; }
     public ControllersCliente controllers = new ControllersCliente();
 
+    [Parameter]
+    public int I { get; set; }
+    private int Contador { get; set; }
+    private int contCiclo { get; set; }
 
+    Paginacion paginacion = new Paginacion();
+    public double totaldepaginas { get; set; }
+
+    Contexto Contexto = new Contexto();
+    double conteo = 0;
+
+    private string mensaje;
 
     protected override async Task OnInitializedAsync()
     {
+        conteo = Contexto.Clientes.Count();
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
         lista = controllers.GetList(P => true);
+        this.lista = Contexto.Clientes.Take(paginacion.CantidadMostrar).ToList();
     }
 
 }

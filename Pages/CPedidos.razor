@@ -1,5 +1,5 @@
 ﻿@page "/CPedidos"
-
+@page  "/CPedidos/{I:int}"
 <div class="card bg-dark text-light">
     <div class="card-body ">
         <h3>Consulta de Pedidos</h3>
@@ -60,6 +60,15 @@
                 }
             </tbody>
         </table>
+        <nav aria-label="...">
+            <ul class="pagination pagination-lg">
+                @for (int i = 1; i <= totaldepaginas; i++)
+                {
+                    <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CUsuario/@i">@i</a></li>
+                }
+
+            </ul>
+        </nav>
 
         <h5 class="text-success">@mensaje</h5>
     </div>
@@ -70,6 +79,16 @@
     private List<Pedidos> lista { get; set; }
     public ControllersPedido controller = new ControllersPedido();
 
+    [Parameter]
+    public int I { get; set; }
+    private int Contador { get; set; }
+    private int contCiclo { get; set; }
+
+    Paginacion paginacion = new Paginacion();
+    public double totaldepaginas { get; set; }
+
+    Contexto Contexto = new Contexto();
+    double conteo = 0;
 
     private string Filtro { get; set; }
     private string Criterio { get; set; }
@@ -82,7 +101,12 @@
 
     protected override void OnInitialized()
     {
+
+        conteo = Contexto.Pedidos.Count();
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+        
         lista = new List<Pedidos>();
+        this.lista = Contexto.Pedidos.Take(paginacion.CantidadMostrar).ToList();
         DesdeFecha = DateTime.Now;
         HastaFecha = DateTime.Now;
     }

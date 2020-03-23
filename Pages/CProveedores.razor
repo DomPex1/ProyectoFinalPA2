@@ -1,49 +1,73 @@
 ﻿@page "/CProveedores"
+@page  "/CProveedores/{I:int}"
+<div class="card bg-dark text-light">
+    <div class="card-body ">
+        <h1>Consulta Proveedores</h1>
+        <br />
 
-    <div class="card bg-dark text-light">
-        <div class="card-body ">
-            <h1>Consulta Proveedores</h1>
-            <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ProveedoresId</th>
+                    <th>Nombres</th>
+                    <th>Telefono</th>
+                    <th>Direccion</th>
+                </tr>
+            </thead>
+            <tbody>
 
-            <table class="table">
-                <thead>
+                @foreach (var item in lista)
+                {
                     <tr>
-                        <th>ProveedoresId</th>
-                        <th>Nombres</th>
-                        <th>Telefono</th>
-                        <th>Dirrecion</th>
+                        <th>@item.ProveedorId</th>
+                        <th>@item.Nombres</th>
+                        <th>@item.Telefono</th>
+                        <th>@item.Direccion</th>
+                        <td><a class="btn btn-info" href="RProveedores/@item.ProveedorId">Ver</a></td>
+
                     </tr>
-                </thead>
-                <tbody>
+                }
 
-                    @foreach (var item in lista)
-                    {
-                        <tr>
-                            <th>@item.ProveedorId</th>
-                            <th>@item.Nombres</th>
-                            <th>@item.Telefono</th>
-                            <th>@item.Direccion</th>
-                            <td><a class="btn btn-info" href="RProveedores/@item.ProveedorId">Ver</a></td>
+            </tbody>
+        </table>
+        <nav aria-label="...">
+            <ul class="pagination pagination-lg">
+                @for (int i = 1; i <= totaldepaginas; i++)
+                {
+                    <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CUsuario/@i">@i</a></li>
+                }
 
-                        </tr>
-                    }
+            </ul>
+        </nav>
 
-                </tbody>
-            </table>
+        <h5 class="text-success">@mensaje</h5>
 
-        </div>
     </div>
+</div>
 
 @code {
 
     public List<Proveedores> lista { get; set; }
     public ControllersProveedores controllers = new ControllersProveedores();
+    [Parameter]
+    public int I { get; set; }
+    private int Contador { get; set; }
+    private int contCiclo { get; set; }
 
+    Paginacion paginacion = new Paginacion();
+    public double totaldepaginas { get; set; }
 
+    Contexto Contexto = new Contexto();
+    double conteo = 0;
+
+    private string mensaje; 
 
     protected override async Task OnInitializedAsync()
     {
+        conteo = Contexto.Proveedores.Count();
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
         lista = controllers.GetList(P => true);
+        this.lista = Contexto.Proveedores.Take(paginacion.CantidadMostrar).ToList();
     }
 
 }
