@@ -26,8 +26,7 @@ namespace ProyectoFinalPA2.Models
         [Required(ErrorMessage = "No puede estar vacio")]
         [Range(minimum: 1, maximum: 1000000, ErrorMessage = "No puede pasar el limite")]
         public decimal Ganancia { get; set; }
-        [Required(ErrorMessage = "No puede estar vacio")]
-        [Range(minimum: 1, maximum: 10000000, ErrorMessage = "No puede pasar el limite")]
+        
 
 
 
