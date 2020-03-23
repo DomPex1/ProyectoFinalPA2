@@ -39,7 +39,7 @@
                 </div>
                 <div class="container">
                     <label for="Precio" class="col-md-2col-form-label">Precio</label>
-                    <input type="number" class="col-md-2 form-check" @bind="productos.Precio" />
+                    <input type="number" class="col-md-2 form-check" @bind="productos.Precio" @onfocus="CargarGanancia" @onfocusin="CargarGanancia" @onfocusout="CargarGanancia" />
                 </div>
                 <div class="container">
                     <label for="FechaIngreso" class="col-md-2 col-form-label"> Fecha</label>
@@ -47,11 +47,11 @@
                 </div>
                 <div class="container">
                     <label for="Costo" class="col-md-2 col-form-label"> Costo</label>
-                    <input type="number" class="col-md-2 form-check " @bind="productos.Costo" />
+                    <input type="number" class="col-md-2 form-check " @bind="productos.Costo" @onfocus="CargarGanancia" @onfocusin="CargarGanancia" @onfocusout="CargarGanancia"/>
                 </div>
                 <div class="container">
                     <label for="Ganancia" class="col-md-2 col-form-label">Ganancia</label>
-                    <input type="number" class="col-md-2 form-check " @bind="productos.Ganancia" />
+                    <input type="number" class="col-md-2 form-check" readonly="readonly" @bind="productos.Ganancia" />
                 </div>
 
                 <br />
@@ -175,5 +175,17 @@
         }
 
 
+    }
+    private void CargarGanancia()
+    {
+        try
+        {
+            productos.Ganancia = productos.Precio - productos.Costo;
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
     }
 }

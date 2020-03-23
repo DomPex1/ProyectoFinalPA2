@@ -40,7 +40,7 @@
                 <div class="container">
                     <label for="Producto">Producto</label>
                     <div class="col-md-2">
-                        <InputSelect @bind-Value="@ProductoSeleccionado" class="form-control" @onchange="CargarProducto" @onclick="CargarProducto" @onfocusout="CargarCantidad">
+                        <InputSelect @bind-Value="@ProductoSeleccionado" class="form-control" @onchange="CargarProducto" @onclick="CargarProducto" @onfocusout="CargarCantidad" @onfocusin="CargarCantidad" @onfocus="CargarCantidad">
                             <option value="" disabled selected>Seleccione un Producto</option>
                             @foreach (var item in listaProductos)
                             {
@@ -72,6 +72,8 @@
                                 <th>ProductoId</th>
                                 <th>Cantidad</th>
                                 <th>Precio</th>
+                                <th>SubTotal</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,7 +90,8 @@
                                         <th>@item.ProductoId</th>
                                         <th>@item.Cantidad</th>
                                         <th>@item.Precio</th>
-                                        <th><button type="button" class="btn btn-danger col-sm-2" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
+                                        <th>@item.SubTotal</th>
+                                        <th><button type="button" class="btn btn-danger" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
 
                                     </tr>
                                 }
@@ -99,8 +102,8 @@
                 </div>
 
                 <div class="container">
-                    <label for="Total" class="col-md-2col-form-label">Total</label>
-                    <input type="number" class="col-md-2 form-check" @bind="pedidos.Total" />
+                    <label for="Total" class="col-md-2col-form-label ">Total</label>
+                    <input type="number" class="col-md-2 form-check" readonly="readonly" @bind="pedidos.Total" />
                 </div>
 
                 <br />
@@ -220,6 +223,7 @@
     private void Limpiar()
     {
         pedidos = new Pedidos();
+        disponible = 0;
 
     }
     private void Eliminar()
@@ -272,32 +276,40 @@
     }
     private void AgregarProducto()
     {
+
         if (productos == null)
         {
             Mensaje = "debe seleccionar un producto";
         }
         else
         {
-            if (pedidos.Detalles.Any(i => i.ProductoId == productos.ProductoId))
+            if (disponible < pedidos.Cantidad)
             {
-                Mensaje = "Este producto ya esta seleccionado";
+                Mensaje = "Cantidad no puede pasar disponible";
             }
             else
             {
-                var prod = controllersProductos.Buscar(Convert.ToInt32(ProductoSeleccionado));
-
-                pedidos.Detalles.Add(new PedidosDetalle()
+                if (pedidos.Detalles.Any(i => i.ProductoId == productos.ProductoId))
                 {
-                    PedidosId = pedidos.PedidosId,
-                    ProductoId = Convert.ToInt32(ProductoSeleccionado),
-                    Cantidad = pedidos.Cantidad,
-                    Precio = prod.Precio,
-                    SubTotal = pedidos.Cantidad * prod.Precio
+                    Mensaje = "Este producto ya esta seleccionado";
+                }
+                else
+                {
+                    var prod = controllersProductos.Buscar(Convert.ToInt32(ProductoSeleccionado));
 
-                });
-                productos = new Productos();
+                    pedidos.Detalles.Add(new PedidosDetalle()
+                    {
+                        PedidosId = pedidos.PedidosId,
+                        ProductoId = Convert.ToInt32(ProductoSeleccionado),
+                        Cantidad = pedidos.Cantidad,
+                        Precio = prod.Precio,
+                        SubTotal = pedidos.Cantidad * prod.Precio
 
-                Calcular();
+                    });
+                    //productos = new Productos();
+
+                    Calcular();
+                }
             }
         }
     }
@@ -305,6 +317,7 @@
     {
 
         pedidos.Detalles.Remove(detalle);
+        Calcular();
 
     }
     private void Calcular()

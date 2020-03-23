@@ -17,9 +17,11 @@ namespace ProyectoFinalPA2.Models
         [Required(ErrorMessage = "No puede estar vacio")]
         [Range(minimum: 1, maximum: 10000000, ErrorMessage = "No puede pasar el limite")]
         public decimal Precio { get; set; }
+
         [Required(ErrorMessage = "No puede estar vacio")]
         [Range(minimum: 1, maximum: 1000000, ErrorMessage = "No puede pasar el limite")]
         public int Cantidad { get; set; }
+
         [Required(ErrorMessage = "No puede estar vacio")]
         [Range(minimum: 1, maximum: 1000000, ErrorMessage = "No puede pasar el limite")]
         public decimal Costo { get; set; }
