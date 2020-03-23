@@ -1,43 +1,48 @@
 ﻿@page "/RClientes/{ClienteId:int}"
 
 
-<h1>Registro Clientes</h1>
+<div class="card bg-dark text-light">
+    <div class="card-body ">
+        <h1>Registro Clientes</h1>
 
-<EditForm Model="@clientes" OnValidSubmit="Guardar">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+        <EditForm Model="@clientes" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
-    <div class="container">
-        <label for="ClienteId" class="col-md-2 col-form-label"> ClienteId</label>
-        <input type="number" class="col-md-2 form-check" @bind="clientes.ClienteId" />
-        <br />
+            <div class="container">
+                <label for="ClienteId" class="col-md-2 col-form-label"> ClienteId</label>
+                <input type="number" class="col-md-2 form-check" @bind="clientes.ClienteId" />
+                <br />
 
-        <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
+                <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
 
+            </div>
+            <div class="container">
+                <label for="Nombre" class="col-md-2 col-form-label">Nombre</label>
+                <input type="text" class="form-check col-md-2" @bind="clientes.Nombre" />
+            </div>
+            <div class="container">
+                <label for="Email" class="col-md-2 col-form-label">Email</label>
+                <input type="text" class="form-check col-md-2" @bind="clientes.Email" />
+            </div>
+            <div class="container">
+                <label for="Telefono" class="col-md-2col-form-label">Telefono</label>
+                <input type="text" class="col-md-2 form-check" @bind="clientes.Telefono" />
+            </div>
+
+            <br />
+
+            <div class="form-group">
+                <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
+                <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
+                <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
+            </div>
+
+            <h3>@Mensaje</h3>
+        </EditForm>
     </div>
-    <div class="container">
-        <label for="Nombre" class="col-md-2 col-form-label">Nombre</label>
-        <input type="text" class="form-check col-md-2" @bind="clientes.Nombre" />
-    </div>
-    <div class="container">
-        <label for="Email" class="col-md-2 col-form-label">Email</label>
-        <input type="text" class="form-check col-md-2" @bind="clientes.Email" />
-    </div>
-    <div class="container">
-        <label for="Telefono" class="col-md-2col-form-label">Telefono</label>
-        <input type="text" class="col-md-2 form-check" @bind="clientes.Telefono" />
-    </div>
+</div>
 
-    <br />
-
-    <div class="form-group">
-        <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
-        <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
-        <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
-    </div>
-
-    <h3>@Mensaje</h3>
-</EditForm>
 
 
 @code {
