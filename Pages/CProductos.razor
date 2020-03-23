@@ -1,42 +1,46 @@
 ﻿@page "/CProductos"
 @page  "/CProductos/{I:int}"
-<h3>Consulta de Productos</h3>
-<div class="card bg-dark text-light">
+
+<div class="card bg-info text-light">
     <div class="card-body ">
-        <div class="form-group row">
+        <h3>Consulta de Productos</h3>
+
+        <div class="form-inline">
+
             <label for="filtro">Filtro</label>
-            <div class="input-group col-md-8">
+            <div class="form-group mx-sm-3 mb-2">
                 <select class="form-control" @bind="Filtro">
                     <option value="" disabled selected>Seleccione un Criterio</option>
                     <option value="Todo">Todo</option>
                     <option value="Id">Id</option>
-                    <option value="Descripcion">Descripcion</option>
-                    <option value="Precio">Precio</option>
-                    <option value="Costo">Costo</option>
-                    <option value="Ganancia">Ganancia</option>
-                    <option value="ProveedoresId">ProveedoresId</option>
-
-
+                    <option value="Nombres">Nombres</option>
+                    <option value="Usuario">Usuario</option>
+                    <option value="Email">Email</option>
                 </select>
-
-                <div align="right" class="input-group col-md-6">
-                    <label for="criterio"> Criterio </label>
-                    <input type="search" class="form-control" @bind-value="Criterio" />
-                </div>
-                <button type="button" class="btn btn-success" @onclick="Buscar">Buscar</button>
             </div>
+            <label for="criterio"> Criterio</label>
+            <div class="form-group mx-sm-3 mb-2">
+
+                <input type="search" class="form-control" @bind-value="Criterio" />
+            </div>
+
+            <button type="button" class="btn btn-success mx-sm-3 mb-2" @onclick="Buscar">Buscar</button>
+
         </div>
 
-        <div class="form-group row">
-            <input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
-            <div class="input-group  col-sm-6">
-                <label for="DesdeFecha" class="col-md-2">Desde</label>
-                <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
-                <label for="HastaFechaInput" class="col-md-2">Hasta</label>
-                <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
+
+        <div class="form-inline">
+            <input class="mx-sm-3 mb-2" type="checkbox" @bind-value="BuscarFecha" id="BuscarFecha"> Filtrar por Fecha
+
+            <div class="form-group">
+                <label for="DesdeFecha">Desde</label>
+                <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control mx-sm-3 mb-2 " input />
+
+                <label for="HastaFechaInput">Hasta</label>
+                <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control mx-sm-3 mb-2" />
             </div>
         </div>
-
+        <br />
 
         <table class="table">
             <thead class="thead-light">
@@ -47,6 +51,7 @@
                     <th>Cantidad</th>
                     <th>Ganancia</th>
                     <th>ProveedoresId</th>
+                    <th>Fecha de ingreso</th>
                     <th></th>
                 </tr>
             </thead>
@@ -61,7 +66,7 @@
                         <th>@item.Ganancia</th>
                         <th>@item.ProveedoresId</th>
                         <th>@item.FechaIngreso.ToString("dd/MM/yyyy")</th>
-                        <td><a class="btn btn-sm btn-outline-primary" href="RProductos/@item.ProductoId">Ver</a></td>
+                        <td><a class="btn btn-primary" href="RProductos/@item.ProductoId">Ver</a></td>
                     </tr>
                 }
             </tbody>
@@ -76,7 +81,7 @@
             </ul>
         </nav>
 
-        <h5 class="text-success">@mensaje</h5>
+        <h5>@mensaje</h5>
     </div>
 </div>
 
