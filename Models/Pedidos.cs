@@ -17,6 +17,7 @@ namespace ProyectoFinalPA2.Models
         public int ClienteId { get; set; }
 
         [Required(ErrorMessage = "No puede estar vacio")]
+        [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public string FormaPedido { get; set; }
 
         public int ProductoId { get; set; }

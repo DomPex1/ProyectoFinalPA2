@@ -11,6 +11,7 @@ namespace ProyectoFinalPA2.Models
         [Key]
         public int ProductoId { get; set; }
         [Required(ErrorMessage = "No puede estar vacio")]
+        [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public string Descripcion { get; set; }
         public DateTime FechaIngreso { get; set; }
         [Required(ErrorMessage = "No puede estar vacio")]

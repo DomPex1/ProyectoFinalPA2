@@ -10,16 +10,20 @@ namespace ProyectoFinalPA2.Models
     {
         [Key]
         public int UsuarioId { get; set; }
-        [Required(ErrorMessage = "No puede estar vacio1")]
+        [Required(ErrorMessage = "No puede estar vacio")]
+        [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public string Usuario { get; set; }
-        [Required(ErrorMessage = "No puede estar vacio2")]
+        [Required(ErrorMessage = "No puede estar vacio")]
 
         public string Clave { get; set; }
-        [Required(ErrorMessage = "No puede estar vacio3")]
+        [Required(ErrorMessage = "No puede estar vacio")]
+        [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public string NivelUsuario { get; set; }
-        [Required(ErrorMessage = "No puede estar vacio4")]
+        [Required(ErrorMessage = "No puede estar vacio")]
+        [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public string Nombres { get; set; }
-        [Required(ErrorMessage = "No puede estar vacio5")]
+        [Required(ErrorMessage = "No puede estar vacio")]
+        [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public string Email { get; set; }
         public DateTime FechaCreacion { get; set; }
 
