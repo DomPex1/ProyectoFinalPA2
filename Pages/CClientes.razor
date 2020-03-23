@@ -1,35 +1,41 @@
 ﻿@page "/CClientes"
 
+<div class="card bg-dark text-light">
+    <div class="card-body ">
+        <div class="card bg-dark text-light">
+            <div class="card-body ">
+                <h1>Consulta Clientes</h1>
+                <br />
 
-<h1>Consulta Clientes</h1>
-<br />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ClienteId</th>
+                            <th>Nombre</th>
+                            <th>Telefono</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ClienteId</th>
-            <th>Nombre</th>
-            <th>Telefono</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
+                        @foreach (var item in lista)
+                        {
+                            <tr>
+                                <th>@item.ClienteId</th>
+                                <th>@item.Nombre</th>
+                                <th>@item.Telefono</th>
+                                <th>@item.Email</th>
+                                <td><a class="btn btn-info" href="RClientes/@item.ClienteId">Ver</a></td>
 
-        @foreach (var item in lista)
-        {
-        <tr>
-            <th>@item.ClienteId</th>
-            <th>@item.Nombre</th>
-            <th>@item.Telefono</th>
-            <th>@item.Email</th>
-            <td><a class="btn btn-info" href="RClientes/@item.ClienteId">Ver</a></td>
+                            </tr>
+                        }
 
-        </tr>
-        }
-
-    </tbody>
-</table>
-
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @code {

@@ -1,65 +1,69 @@
 ﻿@page "/CPedidos"
-<h3>Consulta de Pedidos</h3>
 
-<div class="form-group row">
-    <label for="filtro">Filtro</label>
-    <div class="input-group  col-md-8">
-        <select class="form-control" @bind="Filtro">
-            <option value="" disabled selected>Seleccione un Criterio</option>
-            <option value="Todo">Todo</option>
-            <option value="Id">Id</option>
-            <option value="ClienteId">ClienteId</option>
-            <option value="FormaPedido">FormaPedido</option>
-            <option value="Total">Total</option>
-        </select>
+<div class="card bg-dark text-light">
+    <div class="card-body ">
+        <h3>Consulta de Pedidos</h3>
 
-        <div align="right" class="input-group col-md-6">
-            <label for="criterio"> Criterio&nbsp;&nbsp; </label>
-            <input type="search" class="form-control" @bind-value="Criterio" />
+        <div class="form-group row">
+            <label for="filtro">Filtro</label>
+            <div class="input-group col-md-8">
+                <select class="form-control " @bind="Filtro">
+                    <option value="" disabled selected>Seleccione un Criterio</option>
+                    <option value="Todo">Todo</option>
+                    <option value="Id">Id</option>
+                    <option value="ClienteId">ClienteId</option>
+                    <option value="FormaPedido">FormaPedido</option>
+                    <option value="Total">Total</option>
+                </select>
+
+                <div align="right" class="input-group col-md-6">
+                    <label for="criterio"> Criterio&nbsp;&nbsp; </label>
+                    <input type="search" class="form-control" @bind-value="Criterio" />
+                </div>
+                <button type="button" class="btn btn-success" @onclick="Buscar">Buscar</button>
+            </div>
         </div>
-        <button type="button" class="btn btn-success" @onclick="Buscar">Buscar</button>
+
+        <div class="form-group row">
+            <input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
+            <div class="input-group  col-sm-6">
+                <label for="DesdeFecha" class="col-md-2">Desde</label>
+                <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
+                <label for="HastaFechaInput" class="col-md-2">Hasta</label>
+                <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
+            </div>
+        </div>
+
+
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>PedidosId</th>
+                    <th>ClienteId</th>
+                    <th>Forma Pedido</th>
+                    <th>Total</th>
+                    <th>Fecha Ingreso</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in lista)
+                {
+                    <tr>
+                        <th>@item.PedidosId</th>
+                        <th>@item.ClienteId</th>
+                        <th>@item.FormaPedido</th>
+                        <th>@item.Total</th>
+                        <th>@item.FechaPedido.ToString("dd/MM/yyyy")</th>
+                        <td><a class="btn btn-sm btn-outline-primary" href="RPedidos/@item.PedidosId">Ver</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <h5 class="text-success">@mensaje</h5>
     </div>
 </div>
-
-<div class="form-group row">
-    <input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
-    <div class="input-group  col-sm-6">        
-        <label for="DesdeFecha" class="col-md-2">Desde</label>
-        <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
-        <label for="HastaFechaInput" class="col-md-2">Hasta</label>
-        <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
-    </div>
-</div>
-
-
-<table class="table">
-    <thead class="thead-light">
-        <tr>
-            <th>PedidosId</th>
-            <th>ClienteId</th>
-            <th>Forma Pedido</th>
-            <th>Total</th>
-            <th>Fecha Ingreso</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in lista)
-        {
-        <tr>
-            <th>@item.PedidosId</th>
-            <th>@item.ClienteId</th>
-            <th>@item.FormaPedido</th>
-            <th>@item.Total</th>
-            <th>@item.FechaPedido.ToString("dd/MM/yyyy")</th>
-            <td><a class="btn btn-sm btn-outline-primary" href="RPedidos/@item.PedidosId">Ver</a></td>
-        </tr>
-        }
-    </tbody>
-</table>
-
-<h5 class="text-success">@mensaje</h5>
-
 
 @code {
 

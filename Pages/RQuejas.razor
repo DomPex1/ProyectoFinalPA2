@@ -1,98 +1,100 @@
 ﻿@page "/RQuejas"
 @page "/RQuejas/{QuejasId:int}"
 
+<div class="card bg-dark text-light">
+    <div class="card-body ">
+        <h1>Registro Quejas</h1>
 
-<h1>Registro Quejas</h1>
+        <EditForm Model="@quejas" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
-<EditForm Model="@quejas" OnValidSubmit="Guardar">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+            <div class="container">
+                <label for="QuejasId" class="col-md-2 col-form-label"> Quejas</label>
+                <input type="number" class="col-md-2 form-check" @bind="quejas.QuejasId" />
+                <br />
 
-    <div class="container">
-        <label for="QuejasId" class="col-md-2 col-form-label"> Quejas</label>
-        <input type="number" class="col-md-2 form-check" @bind="quejas.QuejasId" />
-        <br />
+                <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
 
-        <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
-
-    </div>
-    <div class="container">
-        <label for="Cliente">Cliente</label>
-        <div class="col-md-2">
-            <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onchange="CargarCliente" @onclick="CargarCliente">
-                <option value="" disabled selected>Seleccione un Cliente</option>
-                @foreach (var item in listaClientes)
-                {
-                    <option value="@item.ClienteId">@item.Nombre</option>
-                }
-            </InputSelect>
-        </div>
-    </div>
-    <div class="container">
-        <label for="Fecha" class="col-md-2col-form-label">Fecha</label>
-        <input type="datetime" class="col-md-2 form-check" @bind="quejas.Fecha" />
-    </div>
-    <div class="container">
-        <label for="Descripcion" class="col-md-2 col-form-label">Descripcion</label>
-        <input type="text" class="form-check col-md-2" @bind="quejas.Descripcion" />
-    </div>
+            </div>
+            <div class="container">
+                <label for="Cliente">Cliente</label>
+                <div class="col-md-2">
+                    <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onchange="CargarCliente" @onclick="CargarCliente">
+                        <option value="" disabled selected>Seleccione un Cliente</option>
+                        @foreach (var item in listaClientes)
+                        {
+                            <option value="@item.ClienteId">@item.Nombre</option>
+                        }
+                    </InputSelect>
+                </div>
+            </div>
+            <div class="container">
+                <label for="Fecha" class="col-md-2col-form-label">Fecha</label>
+                <input type="datetime" class="col-md-2 form-check" @bind="quejas.Fecha" />
+            </div>
+            <div class="container">
+                <label for="Descripcion" class="col-md-2 col-form-label">Descripcion</label>
+                <input type="text" class="form-check col-md-2" @bind="quejas.Descripcion" />
+            </div>
 
 
-    <div class="container">
-        <label for="Problema" class="col-md-2col-form-label">Problema</label>
-        <input type="text" class="col-md-2 form-check" @bind="Problemas" />
-    </div>
-    <div class="container">
-        <label for="Solucion" class="col-md-2col-form-label">Solucion</label>
-        <input type="text" class="col-md-2 form-check" @bind="Soluciones" />
-    </div>
+            <div class="container">
+                <label for="Problema" class="col-md-2col-form-label">Problema</label>
+                <input type="text" class="col-md-2 form-check" @bind="Problemas" />
+            </div>
+            <div class="container">
+                <label for="Solucion" class="col-md-2col-form-label">Solucion</label>
+                <input type="text" class="col-md-2 form-check" @bind="Soluciones" />
+            </div>
 
-  
 
-    <div class=" container">
-        <button type="button" class="btn btn-primary" @onclick="Agregar">Agregar</button>
-    </div>
-    <div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Problema</th>
-                    <th>Solucion</th>
-                </tr>
-            </thead>
-            <tbody>
-             
-                    @foreach (var item in quejas.Detalles)
-                    {
+
+            <div class=" container">
+                <button type="button" class="btn btn-primary" @onclick="Agregar">Agregar</button>
+            </div>
+            <div>
+                <table class="table">
+                    <thead>
                         <tr>
-                            <th>@item.QuejasDetalleId</th>
-                            <th>@item.Problema</th>
-                            <th>@item.Solucion</th>
-                       
-                            <th><button type="button" class="btn btn-danger col-sm-2" @onclick="(()=> EliminarGrid(item))">Eliminar</button></th>
-
+                            <th>Id</th>
+                            <th>Problema</th>
+                            <th>Solucion</th>
                         </tr>
-                    }
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in quejas.Detalles)
+                        {
+                            <tr>
+                                <th>@item.QuejasDetalleId</th>
+                                <th>@item.Problema</th>
+                                <th>@item.Solucion</th>
+
+                                <th><button type="button" class="btn btn-danger col-sm-2" @onclick="(()=> EliminarGrid(item))">Eliminar</button></th>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <br />
+
+            <div class="form-group">
+                <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
+                <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
+                <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
+            </div>
+
+            <h3>@Mensaje</h3>
+        </EditForm>
     </div>
-
-    <br />
-
-    <div class="form-group">
-        <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
-        <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
-        <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
-    </div>
-
-    <h3>@Mensaje</h3>
-</EditForm>
-
+</div>
 
 @code {
 
-     [Parameter]
+    [Parameter]
     public int QuejasId { get; set; }
 
     protected override void OnInitialized()
@@ -132,7 +134,7 @@
     private void Guardar()
     {
         quejas.ClienteId = Convert.ToInt32(ClienteSeleccionado);
-    
+
         if (quejas.QuejasId == 0)
         {
             controllers.Guardar(quejas);
@@ -152,17 +154,17 @@
     }
 
     public void CargarCliente()
-       {
-           try
-                  {
-                   Clientes = controllersCliente.Buscar(Convert.ToInt32(ClienteSeleccionado));
+    {
+        try
+        {
+            Clientes = controllersCliente.Buscar(Convert.ToInt32(ClienteSeleccionado));
 
-                  }
-               catch (Exception)
-                {
+        }
+        catch (Exception)
+        {
 
-                   throw;
-      }
+            throw;
+        }
     }
 
     private void Limpiar()
@@ -221,17 +223,17 @@
     private void Agregar()
     {
 
-                quejas.Detalles.Add(new QuejasDetalle()
-                {
-                   Problema = Problemas,
-                   Solucion = Soluciones
-                   
-                });
-                quejas = new Quejas();
+        quejas.Detalles.Add(new QuejasDetalle()
+        {
+            Problema = Problemas,
+            Solucion = Soluciones
+
+        });
+        quejas = new Quejas();
 
     }
 
-      private void EliminarGrid(QuejasDetalle detalle)
+    private void EliminarGrid(QuejasDetalle detalle)
     {
         quejas.Detalles.Remove(detalle);
 

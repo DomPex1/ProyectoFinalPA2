@@ -1,81 +1,86 @@
 ﻿@page "/CUsuario"
 @page  "/CUsuario/{I:int}"
-<h3>Consulta de Usuarios</h3>
 
-<div class="form-group row">
-    <label for="filtro">Filtro</label>
-    <div class="input-group  col-md-8">
-        <select class="form-control" @bind="Filtro">
-            <option value="" disabled selected>Seleccione un Criterio</option>
-            <option value="Todo">Todo</option>
-            <option value="Id">Id</option>
-            <option value="Nombres">Nombres</option>
-            <option value="Usuario">Usuario</option>
-            <option value="Email">Email</option>
-        </select>
 
-        <div align="right" class="input-group col-md-6">
-            <label for="criterio"> Criterio</label>
-            <input type="search" class="form-control" @bind-value="Criterio" />
+<div class="card bg-dark text-light">
+        <div class="card-body ">
+            <h3>Consulta de Usuarios</h3>
+
+            <div class="form-group row">
+                <label for="filtro">Filtro</label>
+                <div class="input-group  col-md-8">
+                    <select class="form-control" @bind="Filtro">
+                        <option value="" disabled selected>Seleccione un Criterio</option>
+                        <option value="Todo">Todo</option>
+                        <option value="Id">Id</option>
+                        <option value="Nombres">Nombres</option>
+                        <option value="Usuario">Usuario</option>
+                        <option value="Email">Email</option>
+                    </select>
+
+                    <div align="right" class="input-group col-md-6">
+                        <label for="criterio"> Criterio</label>
+                        <input type="search" class="form-control" @bind-value="Criterio" />
+                    </div>
+                    <button type="button" class="btn btn-outline-success" @onclick="Buscar">Buscar</button>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
+                <div class="input-group  col-sm-6">
+                    <label for="DesdeFecha" class="col-md-2">Desde</label>
+                    <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
+                    <label for="HastaFechaInput" class="col-md-2">Hasta</label>
+                    <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
+                </div>
+            </div>
+
+
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Usuario Id</th>
+                        <th>Nombres</th>
+                        <th>Nivel de Usuario</th>
+                        <th>Usuario</th>
+                        <th>Email</th>
+                        <th>Fecha Ingreso</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in lista)
+                    {
+                        <tr>
+                            <th>@item.UsuarioId</th>
+                            <th>@item.Nombres</th>
+                            <th>@item.NivelUsuario</th>
+                            <th>@item.Usuario</th>
+                            <th>@item.Email</th>
+                            <th>@item.FechaCreacion.ToString("dd/MM/yyyy")</th>
+                            <td><a class="btn-sm btn-primary" href="RUsuarios/@item.UsuarioId">Ver</a></td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <nav aria-label="...">
+                <ul class="pagination pagination-lg">
+                    @for (int i = 1; i <= totaldepaginas; i++)
+                    {
+                        <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CUsuario/@i">@i</a></li>
+                    }
+
+                </ul>
+            </nav>
+
+            <h5 class="text-success">@mensaje</h5>
+
         </div>
-        <button type="button" class="btn btn-outline-success" @onclick="Buscar">Buscar</button>
     </div>
-</div>
-
-
-<div class="form-group row">
-    <input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
-    <div class="input-group  col-sm-6">
-        <label for="DesdeFecha" class="col-md-2">Desde</label>
-        <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
-        <label for="HastaFechaInput" class="col-md-2">Hasta</label>
-        <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
-    </div>
-</div>
-
-
-<table class="table">
-    <thead class="thead-light">
-        <tr>
-            <th>Usuario Id</th>
-            <th>Nombres</th>
-            <th>Nivel de Usuario</th>
-            <th>Usuario</th>
-            <th>Email</th>
-            <th>Fecha Ingreso</th>
-            <th></th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var item in lista)
-        {
-            <tr>
-                <th>@item.UsuarioId</th>
-                <th>@item.Nombres</th>
-                <th>@item.NivelUsuario</th>
-                <th>@item.Usuario</th>
-                <th>@item.Email</th>
-                <th>@item.FechaCreacion.ToString("dd/MM/yyyy")</th>
-                <td><a class="btn-sm btn-primary" href="RUsuarios/@item.UsuarioId">Ver</a></td>
-
-            </tr>
-        }
-    </tbody>
-</table>
-<nav aria-label="...">
-    <ul class="pagination pagination-lg">
-        @for (int i = 1; i <= totaldepaginas; i++)
-        {
-            <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CUsuario/@i">@i</a></li>
-        }
-
-    </ul>
-</nav>
-
-<h5 class="text-success">@mensaje</h5>
-
-
 @code {
 
     private List<Usuarios> lista { get; set; }
@@ -93,11 +98,11 @@
     Contexto Contexto = new Contexto();
     double conteo = 0;
 
-   
+
     private string Filtro { get; set; }
     private string Criterio { get; set; }
     private string mensaje;
-    
+
 
     public bool BuscarFecha { get; set; }
     public DateTime DesdeFecha { get; set; }
@@ -112,7 +117,7 @@
     private void Saltar()
     {
         Contador += paginacion.Pagina;
-        if(Contador >= totaldepaginas)
+        if (Contador >= totaldepaginas)
         {
             Contador = 0;
         }
@@ -125,7 +130,7 @@
     protected override void OnInitialized()
     {
         conteo = Contexto.Usuarios.Count();
-        totaldepaginas = Math.Ceiling(conteo/paginacion.CantidadMostrar);
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
         lista = new List<Usuarios>();
         this.lista = Contexto.Usuarios.Take(paginacion.CantidadMostrar).ToList();
         DesdeFecha = DateTime.Now;

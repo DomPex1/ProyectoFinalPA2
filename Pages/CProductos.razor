@@ -1,82 +1,84 @@
 ﻿@page "/CProductos"
 @page  "/CProductos/{I:int}"
 <h3>Consulta de Productos</h3>
+<div class="card bg-dark text-light">
+    <div class="card-body ">
+        <div class="form-group row">
+            <label for="filtro">Filtro</label>
+            <div class="input-group col-md-8">
+                <select class="form-control" @bind="Filtro">
+                    <option value="" disabled selected>Seleccione un Criterio</option>
+                    <option value="Todo">Todo</option>
+                    <option value="Id">Id</option>
+                    <option value="Descripcion">Descripcion</option>
+                    <option value="Precio">Precio</option>
+                    <option value="Costo">Costo</option>
+                    <option value="Ganancia">Ganancia</option>
+                    <option value="ProveedoresId">ProveedoresId</option>
 
-<div class="form-group row">
-    <label for="filtro">Filtro</label>
-    <div class="input-group  col-md-8">
-        <select class="form-control" @bind="Filtro">
-            <option value="" disabled selected>Seleccione un Criterio</option>
-            <option value="Todo">Todo</option>
-            <option value="Id">Id</option>
-            <option value="Descripcion">Descripcion</option>
-            <option value="Precio">Precio</option>
-            <option value="Costo">Costo</option>
-            <option value="Ganancia">Ganancia</option>
-            <option value="ProveedoresId">ProveedoresId</option>
 
+                </select>
 
-        </select>
-
-        <div align="right" class="input-group col-md-6">
-            <label for="criterio"> Criterio </label>
-            <input type="search" class="form-control" @bind-value="Criterio" />
+                <div align="right" class="input-group col-md-6">
+                    <label for="criterio"> Criterio </label>
+                    <input type="search" class="form-control" @bind-value="Criterio" />
+                </div>
+                <button type="button" class="btn btn-success" @onclick="Buscar">Buscar</button>
+            </div>
         </div>
-        <button type="button" class="btn btn-success" @onclick="Buscar">Buscar</button>
+
+        <div class="form-group row">
+            <input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
+            <div class="input-group  col-sm-6">
+                <label for="DesdeFecha" class="col-md-2">Desde</label>
+                <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
+                <label for="HastaFechaInput" class="col-md-2">Hasta</label>
+                <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
+            </div>
+        </div>
+
+
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>ProductoId</th>
+                    <th>Descripcion</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Ganancia</th>
+                    <th>ProveedoresId</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in lista)
+                {
+                    <tr>
+                        <th>@item.ProductoId</th>
+                        <th>@item.Descripcion</th>
+                        <th>@item.Precio</th>
+                        <th>@item.Cantidad</th>
+                        <th>@item.Ganancia</th>
+                        <th>@item.ProveedoresId</th>
+                        <th>@item.FechaIngreso.ToString("dd/MM/yyyy")</th>
+                        <td><a class="btn btn-sm btn-outline-primary" href="RProductos/@item.ProductoId">Ver</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <nav aria-label="...">
+            <ul class="pagination pagination-lg">
+                @for (int i = 1; i <= totaldepaginas; i++)
+                {
+                    <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CProductos/@i">@i</a></li>
+                }
+
+            </ul>
+        </nav>
+
+        <h5 class="text-success">@mensaje</h5>
     </div>
 </div>
-
-<div class="form-group row">
-    <input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
-    <div class="input-group  col-sm-6">
-        <label for="DesdeFecha" class="col-md-2">Desde</label>
-        <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
-        <label for="HastaFechaInput" class="col-md-2">Hasta</label>
-        <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
-    </div>
-</div>
-
-
-<table class="table">
-    <thead class="thead-light">
-        <tr>
-            <th>ProductoId</th>
-            <th>Descripcion</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-            <th>Ganancia</th>
-            <th>ProveedoresId</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in lista)
-        {
-            <tr>
-                <th>@item.ProductoId</th>
-                <th>@item.Descripcion</th>
-                <th>@item.Precio</th>
-                <th>@item.Cantidad</th>
-                <th>@item.Ganancia</th>
-                <th>@item.ProveedoresId</th>
-                <th>@item.FechaIngreso.ToString("dd/MM/yyyy")</th>
-                <td><a class="btn btn-sm btn-outline-primary" href="RProductos/@item.ProductoId">Ver</a></td>
-            </tr>
-        }
-    </tbody>
-</table>
-<nav aria-label="...">
-    <ul class="pagination pagination-lg">
-        @for (int i = 1; i <= totaldepaginas; i++)
-        {
-            <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CProductos/@i">@i</a></li>
-        }
-
-    </ul>
-</nav>
-
-<h5 class="text-success">@mensaje</h5>
-
 
 @code {
 
@@ -111,7 +113,7 @@
     private void Saltar()
     {
         Contador += paginacion.Pagina;
-        if(Contador >= totaldepaginas)
+        if (Contador >= totaldepaginas)
         {
             Contador = 0;
         }
@@ -124,7 +126,7 @@
     protected override void OnInitialized()
     {
         conteo = Contexto.Productos.Count();
-        totaldepaginas = Math.Ceiling(conteo/paginacion.CantidadMostrar);
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
         lista = new List<Productos>();
         this.lista = Contexto.Productos.Take(paginacion.CantidadMostrar).ToList();
         DesdeFecha = DateTime.Now;

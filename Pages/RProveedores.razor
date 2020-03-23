@@ -1,42 +1,44 @@
 ﻿@page "/RProveedores/{ProveedoresId:int}"
 
+<div class="card bg-dark text-light">
+    <div class="card-body ">
+        <h1>Registro Proveedores</h1>
 
-<h1>Registro Proveedores</h1>
+        <EditForm Model="@proveedores" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
-<EditForm Model="@proveedores" OnValidSubmit="Guardar">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+            <div class="container">
+                <label for="ProveedorId" class="col-md-2 col-form-label"> ProveedorId</label>
+                <input type="number" class="col-md-2 form-check" @bind="proveedores.ProveedorId" />
+                <br />
 
-    <div class="container">
-        <label for="ProveedorId" class="col-md-2 col-form-label"> ProveedorId</label>
-        <input type="number" class="col-md-2 form-check" @bind="proveedores.ProveedorId" />
-        <br />
+                <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
 
-        <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
+            </div>
+            <div class="container">
+                <label for="Nombres" class="col-md-2 col-form-label">Nombres</label>
+                <input type="text" class="form-check col-md-2" @bind="proveedores.Nombres" />
+            </div>
+            <div class="container">
+                <label for="Direccion" class="col-md-2 col-form-label">Direccion</label>
+                <input type="text" class="form-check col-md-2" @bind="proveedores.Direccion" />
+            </div>
+            <div class="container">
+                <label for="Telefono" class="col-md-2col-form-label">Telefono</label>
+                <input type="number" class="col-md-2 form-check" @bind="proveedores.Telefono" />
+            </div>
 
+            <div class="form-group">
+                <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
+                <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
+                <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
+            </div>
+
+            <h3>@Mensaje</h3>
+        </EditForm>
     </div>
-    <div class="container">
-        <label for="Nombres" class="col-md-2 col-form-label">Nombres</label>
-        <input type="text" class="form-check col-md-2" @bind="proveedores.Nombres" />
-    </div>
-    <div class="container">
-        <label for="Direccion" class="col-md-2 col-form-label">Direccion</label>
-        <input type="text" class="form-check col-md-2" @bind="proveedores.Direccion" />
-    </div>
-    <div class="container">
-        <label for="Telefono" class="col-md-2col-form-label">Telefono</label>
-        <input type="number" class="col-md-2 form-check" @bind="proveedores.Telefono" />
-    </div>
-
-    <div class="form-group">
-        <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
-        <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
-        <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
-    </div>
-
-    <h3>@Mensaje</h3>
-</EditForm>
-
+</div>
 
 @code {
     [Parameter]

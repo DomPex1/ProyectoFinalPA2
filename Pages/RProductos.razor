@@ -1,69 +1,71 @@
 ﻿@page "/RProductos/{ProductoId:int}"
 
+    <div class="card bg-dark text-light">
+        <div class="card-body ">
+            <h1>Registro Productos</h1>
 
-<h1>Registro Productos</h1>
+            <EditForm Model="@productos" OnValidSubmit="Guardar">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
 
-<EditForm Model="@productos" OnValidSubmit="Guardar">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+                <div class="container">
+                    <label for="ProductoId" class="col-md-2 col-form-label"> ProductoId</label>
+                    <input type="number" class="col-md-2 form-check" @bind="productos.ProductoId" />
+                    <br />
 
-    <div class="container">
-        <label for="ProductoId" class="col-md-2 col-form-label"> ProductoId</label>
-        <input type="number" class="col-md-2 form-check" @bind="productos.ProductoId" />
-        <br />
+                    <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
 
-        <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
+                </div>
+                <div class="container">
+                    <label for="Descripcion" class="col-md-2 col-form-label">Descripcion</label>
+                    <input type="text" class="form-check col-md-2" @bind="productos.Descripcion" />
+                </div>
+                <div class="container">
+                    <label for="Proveedor">Proveedor</label>
+                    <div class="col-md-2 col-form-label">
+                        <InputSelect @bind-Value="@ProveedorSeleccionado" class="form-control" @onchange="CargarProveedores" @onclick="CargarProveedores">
+                            <option value="" disabled selected>Seleccione un Cliente</option>
+                            @foreach (var item in listaProveedores)
+                            {
+                                <option value="@item.ProveedorId">@item.Nombres</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
 
-    </div>
-    <div class="container">
-        <label for="Descripcion" class="col-md-2 col-form-label">Descripcion</label>
-        <input type="text" class="form-check col-md-2" @bind="productos.Descripcion" />
-    </div>
-    <div class="container">
-        <label for="Proveedor">Proveedor</label>
-        <div class="col-md-2">
-            <InputSelect @bind-Value="@ProveedorSeleccionado" class="form-control" @onchange="CargarProveedores" @onclick="CargarProveedores">
-                <option value="" disabled selected>Seleccione un Cliente</option>
-                @foreach (var item in listaProveedores)
-                {
-                    <option value="@item.ProveedorId">@item.Nombres</option>
-                }
-            </InputSelect>
+                <div class="container">
+                    <label for="Cantidad" class="col-md-2col-form-label">Cantidad</label>
+                    <input type="number" class="col-md-2 form-check" @bind="productos.Cantidad" />
+                </div>
+                <div class="container">
+                    <label for="Precio" class="col-md-2col-form-label">Precio</label>
+                    <input type="number" class="col-md-2 form-check" @bind="productos.Precio" />
+                </div>
+                <div class="container">
+                    <label for="FechaIngreso" class="col-md-2 col-form-label"> Fecha</label>
+                    <input type="datetime" class="col-md-2 form-check" @bind="productos.FechaIngreso" />
+                </div>
+                <div class="container">
+                    <label for="Costo" class="col-md-2 col-form-label"> Costo</label>
+                    <input type="number" class="col-md-2 form-check " @bind="productos.Costo" />
+                </div>
+                <div class="container">
+                    <label for="Ganancia" class="col-md-2 col-form-label">Ganancia</label>
+                    <input type="number" class="col-md-2 form-check " @bind="productos.Ganancia" />
+                </div>
+
+                <br />
+
+                <div class="form-group">
+                    <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
+                    <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
+                    <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
+                </div>
+
+                <h3>@Mensaje</h3>
+            </EditForm>
         </div>
     </div>
-
-    <div class="container">
-        <label for="Cantidad" class="col-md-2col-form-label">Cantidad</label>
-        <input type="number" class="col-md-2 form-check" @bind="productos.Cantidad" />
-    </div>
-    <div class="container">
-        <label for="Precio" class="col-md-2col-form-label">Precio</label>
-        <input type="number" class="col-md-2 form-check" @bind="productos.Precio" />
-    </div>
-    <div class="container">
-        <label for="FechaIngreso" class="col-md-2 col-form-label"> Fecha</label>
-        <input type="datetime" class="col-md-2 form-check" @bind="productos.FechaIngreso" />
-    </div>
-    <div class="container">
-        <label for="Costo" class="col-md-2 col-form-label"> Costo</label>
-        <input type="number" class="col-md-2 form-check " @bind="productos.Costo" />
-    </div>
-    <div class="container">
-        <label for="Ganancia" class="col-md-2 col-form-label">Ganancia</label>
-        <input type="number" class="col-md-2 form-check " @bind="productos.Ganancia" />
-    </div>
-
-    <br />
-
-    <div class="form-group">
-        <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
-        <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
-        <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
-    </div>
-
-    <h3>@Mensaje</h3>
-</EditForm>
-
 
 @code {
     [Parameter]
@@ -89,18 +91,18 @@
             Buscar();
         }
     }
-     public void CargarProveedores()
-       {
-           try
-           {
-                   proveedores = controllersProveedores.Buscar(Convert.ToInt32(ProveedorSeleccionado));
+    public void CargarProveedores()
+    {
+        try
+        {
+            proveedores = controllersProveedores.Buscar(Convert.ToInt32(ProveedorSeleccionado));
 
-            }
-            catch (Exception)
-            {
+        }
+        catch (Exception)
+        {
 
             throw;
-            }
+        }
     }
     private void Guardar()
     {

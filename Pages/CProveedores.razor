@@ -1,36 +1,38 @@
 ﻿@page "/CProveedores"
 
+    <div class="card bg-dark text-light">
+        <div class="card-body ">
+            <h1>Consulta Proveedores</h1>
+            <br />
 
-<h1>Consulta Proveedores</h1>
-<br />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ProveedoresId</th>
+                        <th>Nombres</th>
+                        <th>Telefono</th>
+                        <th>Dirrecion</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ProveedoresId</th>
-            <th>Nombres</th>
-            <th>Telefono</th>
-            <th>Dirrecion</th>
-        </tr>
-    </thead>
-    <tbody>
+                    @foreach (var item in lista)
+                    {
+                        <tr>
+                            <th>@item.ProveedorId</th>
+                            <th>@item.Nombres</th>
+                            <th>@item.Telefono</th>
+                            <th>@item.Direccion</th>
+                            <td><a class="btn btn-info" href="RProveedores/@item.ProveedorId">Ver</a></td>
 
-        @foreach (var item in lista)
-        {
-            <tr>
-                <th>@item.ProveedorId</th>
-                <th>@item.Nombres</th>
-                <th>@item.Telefono</th>
-                <th>@item.Direccion</th>
-                <td><a class="btn btn-info" href="RProveedores/@item.ProveedorId">Ver</a></td>
+                        </tr>
+                    }
 
-            </tr>
-        }
+                </tbody>
+            </table>
 
-    </tbody>
-</table>
-
-
+        </div>
+    </div>
 
 @code {
 

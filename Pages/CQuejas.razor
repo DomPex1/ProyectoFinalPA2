@@ -1,60 +1,65 @@
 ﻿@page "/CQuejas"
-<h3>Consulta de Quejas</h3>
 
-<div class="form-group row">
-    <label for="filtro">Filtro</label>
-    <div class="input-group  col-md-8">
-        <select class="form-control" @bind="Filtro">
-            <option value="" disabled selected>Seleccione un Criterio</option>
-            <option value="Todo">Todo</option>
-            <option value="Id">Id</option>
-            <option value="Cliente">Cliente</option>
-            <option value="Descripcion">Descripcion</option>
-        </select>
 
-        <div align="right" class="input-group col-md-6">
-            <label for="criterio"> Criterio&nbsp;&nbsp; </label>
-            <input type="search" class="form-control" @bind-value="Criterio" />
+    <div class="card bg-dark text-light">
+        <div class="card-body ">
+            <h3>Consulta de Quejas</h3>
+
+            <div class="form-group row">
+                <label for="filtro">Filtro</label>
+                <div class="input-group  col-md-8">
+                    <select class="form-control" @bind="Filtro">
+                        <option value="" disabled selected>Seleccione un Criterio</option>
+                        <option value="Todo">Todo</option>
+                        <option value="Id">Id</option>
+                        <option value="Cliente">Cliente</option>
+                        <option value="Descripcion">Descripcion</option>
+                    </select>
+
+                    <div align="right" class="input-group col-md-6">
+                        <label for="criterio"> Criterio&nbsp;&nbsp; </label>
+                        <input type="search" class="form-control" @bind-value="Criterio" />
+                    </div>
+                    <button type="button" class="btn btn-success" @onclick="Buscar">Buscar</button>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
+                <div class="input-group  col-sm-6">
+                    <label for="DesdeFecha" class="col-md-2">Desde</label>
+                    <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
+                    <label for="HastaFechaInput" class="col-md-2">Hasta</label>
+                    <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
+                </div>
+            </div>
+
+
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>QuejasId</th>
+                        <th>Cliente</th>
+                        <th>Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in lista)
+                    {
+                        <tr>
+                            <th>@item.QuejasId</th>
+                            <th>@item.ClienteId</th>
+                            <th>@item.Descripcion</th>
+                            <th>@item.Fecha.ToString("dd/MM/yyyy")</th>
+                            <td><a class="btn btn-sm btn-outline-primary" href="RQuejas/@item.QuejasId">Ver</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <h5 class="text-success">@mensaje</h5>
         </div>
-        <button type="button" class="btn btn-success" @onclick="Buscar">Buscar</button>
     </div>
-</div>
-
-<div class="form-group row">
-    <input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
-    <div class="input-group  col-sm-6">
-        <label for="DesdeFecha" class="col-md-2">Desde</label>
-        <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
-        <label for="HastaFechaInput" class="col-md-2">Hasta</label>
-        <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
-    </div>
-</div>
-
-
-<table class="table">
-    <thead class="thead-light">
-        <tr>
-            <th>QuejasId</th>
-            <th>Cliente</th>
-            <th>Descripcion</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in lista)
-        {
-            <tr>
-                <th>@item.QuejasId</th>
-                <th>@item.ClienteId</th>
-                <th>@item.Descripcion</th>
-                <th>@item.Fecha.ToString("dd/MM/yyyy")</th>
-                <td><a class="btn btn-sm btn-outline-primary" href="RQuejas/@item.QuejasId">Ver</a></td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<h5 class="text-success">@mensaje</h5>
-
 
 @code {
 
@@ -112,7 +117,7 @@
                         case "FormaPedido":
                             lista = controller.GetList(e => e.Descripcion == Criterio);
                             break;
-                  
+
                     }
                     if (BuscarFecha == true)
                     {
