@@ -1,123 +1,127 @@
 ﻿@page "/RPedidos"
 @page "/RPedidos/{PedidosId:int}"
 
-    <div class="card bg-dark text-light">
-        <div class="card-body ">
-            <h1>Registro Usuario</h1>
+<div class="card bg-dark text-light">
+    <div class="card-body ">
+        <h1>Registro Pedidos</h1>
 
-            <EditForm Model="@pedidos" OnValidSubmit="Guardar">
-                <DataAnnotationsValidator />
-                <ValidationSummary />
+        <EditForm Model="@pedidos" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
-                <div class="container">
-                    <label for="PedidosId" class="col-md-2 col-form-label"> PedidosId</label>
-                    <input type="number" class="col-md-2 form-check" @bind="pedidos.PedidosId" />
-                    <br />
-
-                    <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
-
-                </div>
-                <div class="container">
-                    <label for="Cliente">Cliente</label>
-                    <div class="col-md-2">
-                        <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onchange="CargarCliente" @onclick="CargarCliente">
-                            <option value="" disabled selected>Seleccione un Cliente</option>
-                            @foreach (var item in listaClientes)
-                            {
-                                <option value="@item.ClienteId">@item.Nombre</option>
-                            }
-                        </InputSelect>
-                    </div>
-                </div>
-                <div class="container">
-                    <label for="FormaPedido" class="col-md-2 col-form-label">FormaPedido</label>
-                    <input type="text" class="form-check col-md-2" @bind="pedidos.FormaPedido" />
-                </div>
-                <div class="container">
-                    <label for="Fecha" class="col-md-2col-form-label">Fecha</label>
-                    <input type="datetime" class="col-md-2 form-check" @bind="pedidos.FechaPedido" />
-                </div>
-                <div class="container">
-                    <label for="Producto">Producto</label>
-                    <div class="col-md-2">
-                        <InputSelect @bind-Value="@ProductoSeleccionado" class="form-control" @onchange="CargarProducto" @onclick="CargarProducto" @onfocusout="CargarCantidad" @onfocusin="CargarCantidad" @onfocus="CargarCantidad">
-                            <option value="" disabled selected>Seleccione un Producto</option>
-                            @foreach (var item in listaProductos)
-                            {
-                                <option value="@item.ProductoId">@item.Descripcion</option>
-                            }
-                        </InputSelect>
-
-                    </div>
-                </div>
-                <div class="container">
-                    <label for="Cantidad" class="col-md-2col-form-label">Cantidad</label>
-                    <input type="datetime" class="col-md-2 form-check" @bind="pedidos.Cantidad" />
-                </div>
-                <div class="container">
-                    <label for="Disponible" class="col-md-2col-form-label">Disponible</label>
-                    <input type="number" class="col-md-2 form-check" readonly="readonly" @bind="disponible" />
-                    <br />
-                </div>
-
-                <div class=" container">
-                    <button type="button" class="btn btn-primary" @onclick="AgregarProducto">AgregarProducto</button>
-                </div>
-                <br />
-                <div>
-                    <table class="table text-light">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>ProductoId</th>
-                                <th>Cantidad</th>
-                                <th>Precio</th>
-                                <th>SubTotal</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (listaProductos.Count == 0)
-                            {
-                                <option value="-1">No hay Asignatura</option>
-                            }
-                            else
-                            {
-                                @foreach (var item in pedidos.Detalles)
-                                {
-                                    <tr>
-                                        <th>@item.PedidosDetalleId</th>
-                                        <th>@item.ProductoId</th>
-                                        <th>@item.Cantidad</th>
-                                        <th>@item.Precio</th>
-                                        <th>@item.SubTotal</th>
-                                        <th><button type="button" class="btn btn-danger" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
-
-                                    </tr>
-                                }
-                            }
-
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="container">
-                    <label for="Total" class="col-md-2col-form-label ">Total</label>
-                    <input type="number" class="col-md-2 form-check" readonly="readonly" @bind="pedidos.Total" />
-                </div>
-
-                <br />
-
+            <label for="PedidosId">Id</label>
+            <div class="form-inline">
+                <InputNumber @bind-Value="pedidos.PedidosId" class="form-control " />
+                <button type="button" class="btn btn-success mx-sm-3" @onclick="Buscar">Buscar</button>
+            </div>
+            <br />
+            <div class="form-group">
+                <label for="Cliente">Cliente</label>
+                <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control col-md-3" @onchange="CargarCliente" @onclick="CargarCliente">
+                    <option value="" disabled selected>Seleccione un cliente</option>
+                    @foreach (var item in listaClientes)
+                    {
+                        <option value="@item.ClienteId">@item.Nombre</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="form-group">
+                <label for="FormaPedido">Forma de pedido</label>
+                <InputSelect @bind-Value="pedidos.FormaPedido" class="form-control col-md-3" @onchange="CargarCliente" @onclick="CargarCliente">
+                    <option value="" disabled selected>Seleccione una forma de pedido</option>
+                    <option>Credito</option>
+                    <option>Contado</option>
+                </InputSelect>
+            </div>
+            <div class="form-group">
+                <label for="Fecha">Fecha</label>
+                <InputDate @bind-Value="pedidos.FechaPedido" class="form-control col-md-2" />
+            </div>
+            <br />
+            <div class="form-inline">
                 <div class="form-group">
-                    <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
-                    <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
-                    <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
-                </div>
+                    <label for="Producto">Producto</label>
 
-                <h3>@Mensaje</h3>
-            </EditForm>
-        </div>
+                    <InputSelect @bind-Value="@ProductoSeleccionado" class="form-control mx-sm-3" @onchange="CargarProducto" @onclick="CargarProducto" @onfocusout="CargarCantidad" @onfocusin="CargarCantidad" @onfocus="CargarCantidad">
+                        <option value="" disabled selected>Seleccione un Producto</option>
+                        @foreach (var item in listaProductos)
+                        {
+                            <option value="@item.ProductoId">@item.Descripcion</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="form-group">
+                    <label for="Cantidad">Cantidad</label>
+                    <InputNumber @bind-Value="pedidos.Cantidad" class="form-control mx-sm-3" />
+                </div>
+                <div class="form-group">
+                    <label for="Disponible">Disponible</label>
+                    <InputNumber class="form-control mx-sm-3" readonly="readonly" @bind-Value="disponible" />
+                </div>
+                <button type="button" class="btn btn-primary  mx-sm-3" @onclick="AgregarProducto">AgregarProducto</button>
+            </div>
+
+
+
+
+
+
+
+            <br />
+            <div>
+                <table class="table text-light">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Id</th>
+                            <th>ProductoId</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>SubTotal</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (listaProductos.Count == 0)
+                        {
+                            <option value="-1">No hay Asignatura</option>
+                        }
+                        else
+                        {
+                            @foreach (var item in pedidos.Detalles)
+                            {
+                                <tr>
+                                    <th>@item.PedidosDetalleId</th>
+                                    <th>@item.ProductoId</th>
+                                    <th>@item.Cantidad</th>
+                                    <th>@item.Precio</th>
+                                    <th>@item.SubTotal</th>
+                                    <th><button type="button" class="btn btn-danger" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
+
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <label for="Total">Total</label>
+                <InputNumber class="form-control col-md-2" readonly="readonly" @bind-Value="pedidos.Total" />
+            </div>
+
+            <br />
+
+            <div class="form-group">
+                <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
+                <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
+                <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
+            </div>
+
+            <h3>@Mensaje</h3>
+        </EditForm>
     </div>
+</div>
 
 @code {
 
