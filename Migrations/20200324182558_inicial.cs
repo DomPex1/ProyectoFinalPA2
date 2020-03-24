@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProyectoFinalPA2.Migrations
 {
-    public partial class Nuevo : Migration
+    public partial class inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,9 +13,9 @@ namespace ProyectoFinalPA2.Migrations
                 {
                     ClienteId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nombre = table.Column<string>(nullable: false),
-                    Telefono = table.Column<int>(nullable: false),
-                    Email = table.Column<string>(nullable: false)
+                    Nombre = table.Column<string>(maxLength: 40, nullable: false),
+                    Telefono = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(maxLength: 40, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,7 +30,7 @@ namespace ProyectoFinalPA2.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     FechaPedido = table.Column<DateTime>(nullable: false),
                     ClienteId = table.Column<int>(nullable: false),
-                    FormaPedido = table.Column<string>(nullable: false),
+                    FormaPedido = table.Column<string>(maxLength: 40, nullable: false),
                     ProductoId = table.Column<int>(nullable: false),
                     Cantidad = table.Column<int>(nullable: false),
                     Total = table.Column<decimal>(nullable: false)
@@ -46,7 +46,7 @@ namespace ProyectoFinalPA2.Migrations
                 {
                     ProductoId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Descripcion = table.Column<string>(nullable: false),
+                    Descripcion = table.Column<string>(maxLength: 40, nullable: false),
                     FechaIngreso = table.Column<DateTime>(nullable: false),
                     Precio = table.Column<decimal>(nullable: false),
                     Cantidad = table.Column<int>(nullable: false),
@@ -65,9 +65,9 @@ namespace ProyectoFinalPA2.Migrations
                 {
                     ProveedorId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nombres = table.Column<string>(nullable: false),
-                    Direccion = table.Column<string>(nullable: false),
-                    Telefono = table.Column<string>(nullable: false)
+                    Nombres = table.Column<string>(maxLength: 40, nullable: false),
+                    Direccion = table.Column<string>(maxLength: 40, nullable: false),
+                    Telefono = table.Column<string>(maxLength: 15, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,7 +80,7 @@ namespace ProyectoFinalPA2.Migrations
                 {
                     QuejasId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Descripcion = table.Column<string>(nullable: true),
+                    Descripcion = table.Column<string>(maxLength: 40, nullable: false),
                     Fecha = table.Column<DateTime>(nullable: false),
                     ClienteId = table.Column<int>(nullable: false)
                 },
@@ -95,11 +95,11 @@ namespace ProyectoFinalPA2.Migrations
                 {
                     UsuarioId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Usuario = table.Column<string>(nullable: false),
+                    Usuario = table.Column<string>(maxLength: 40, nullable: false),
                     Clave = table.Column<string>(nullable: false),
-                    NivelUsuario = table.Column<string>(nullable: false),
-                    Nombres = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
+                    NivelUsuario = table.Column<string>(maxLength: 40, nullable: false),
+                    Nombres = table.Column<string>(maxLength: 40, nullable: false),
+                    Email = table.Column<string>(maxLength: 40, nullable: false),
                     FechaCreacion = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

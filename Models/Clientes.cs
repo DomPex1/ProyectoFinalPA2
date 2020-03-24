@@ -15,7 +15,7 @@ namespace ProyectoFinalPA2.Models
         [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public string Nombre { get; set; }
         [Required(ErrorMessage = "No puede estar vacio")]
-        public int Telefono { get; set; }
+        public string Telefono { get; set; }
 
         [Required(ErrorMessage = "No puede estar vacio")]
         [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
@@ -25,7 +25,7 @@ namespace ProyectoFinalPA2.Models
         {
             ClienteId = 0;
             Nombre = string.Empty;
-            Telefono = 0;
+            Telefono = string.Empty;
             Email = string.Empty;
         }
     }

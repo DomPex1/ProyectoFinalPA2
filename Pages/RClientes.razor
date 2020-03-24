@@ -9,26 +9,28 @@
             <DataAnnotationsValidator />
             <ValidationSummary />
 
-            <div class="container">
-                <label for="ClienteId" class="col-md-2 col-form-label"> ClienteId</label>
-                <input type="number" class="col-md-2 form-check" @bind="clientes.ClienteId" />
-                <br />
+            <label for="ClienteId">Id</label>
+            <div class="form-inline">
+                <InputNumber @bind-Value="clientes.ClienteId" class="form-control " />
+                <button type="button" class="btn btn-success mx-sm-3" @onclick="Buscar">Buscar</button>
+            </div>
+            <br />
+            <div class="form-group">
+                <label for="Nombre">Nombre</label>
+                <InputText @bind-Value="clientes.Nombre" class="form-control col-md-2" />
 
-                <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
+            </div>
+            <div class="form-group">
+                <label for="Nombre">Email</label>
+                <InputText @bind-Value="clientes.Email" class="form-control col-md-2" />
 
             </div>
-            <div class="container">
-                <label for="Nombre" class="col-md-2 col-form-label">Nombre</label>
-                <input type="text" class="form-check col-md-2" @bind="clientes.Nombre" />
+            <div class="form-group">
+                <label for="Nombre">Telefono</label>
+                <InputText @bind-Value="clientes.Telefono" class="form-control col-md-2" />
+
             </div>
-            <div class="container">
-                <label for="Email" class="col-md-2 col-form-label">Email</label>
-                <input type="text" class="form-check col-md-2" @bind="clientes.Email" />
-            </div>
-            <div class="container">
-                <label for="Telefono" class="col-md-2col-form-label">Telefono</label>
-                <input type="text" class="col-md-2 form-check" @bind="clientes.Telefono" />
-            </div>
+            
 
             <br />
 

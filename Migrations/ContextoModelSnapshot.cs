@@ -24,14 +24,17 @@ namespace ProyectoFinalPA2.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
-                    b.Property<int>("Telefono")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ClienteId");
 
@@ -55,7 +58,8 @@ namespace ProyectoFinalPA2.Migrations
 
                     b.Property<string>("FormaPedido")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
                     b.Property<int>("ProductoId")
                         .HasColumnType("INTEGER");
@@ -110,7 +114,8 @@ namespace ProyectoFinalPA2.Migrations
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
                     b.Property<DateTime>("FechaIngreso")
                         .HasColumnType("TEXT");
@@ -137,15 +142,18 @@ namespace ProyectoFinalPA2.Migrations
 
                     b.Property<string>("Direccion")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
                     b.Property<string>("Nombres")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
                     b.Property<string>("Telefono")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(15);
 
                     b.HasKey("ProveedorId");
 
@@ -162,7 +170,9 @@ namespace ProyectoFinalPA2.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
@@ -206,22 +216,26 @@ namespace ProyectoFinalPA2.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NivelUsuario")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
                     b.Property<string>("Nombres")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
                     b.Property<string>("Usuario")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
                     b.HasKey("UsuarioId");
 
