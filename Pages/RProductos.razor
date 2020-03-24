@@ -8,23 +8,22 @@
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
-                <div class="container">
-                    <label for="ProductoId" class="col-md-2 col-form-label"> ProductoId</label>
-                    <input type="number" class="col-md-2 form-check" @bind="productos.ProductoId" />
-                    <br />
-
-                    <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
+                <label for="UsuarioId">Id</label>
+                <div class="form-inline">
+                    <InputNumber @bind-Value="productos.ProductoId" class="form-control " />
+                    <button type="button" class="btn btn-success mx-sm-3" @onclick="Buscar">Buscar</button>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label for="Descripcion">Descripcion</label>
+                    <InputText @bind-Value="productos.Descripcion" class="form-control col-md-3 " />
 
                 </div>
-                <div class="container">
-                    <label for="Descripcion" class="col-md-2 col-form-label">Descripcion</label>
-                    <input type="text" class="form-check col-md-2" @bind="productos.Descripcion" />
-                </div>
-                <div class="container">
+                <div class="form-group">
                     <label for="Proveedor">Proveedor</label>
-                    <div class="col-md-2 col-form-label">
-                        <InputSelect @bind-Value="@ProveedorSeleccionado" class="form-control" @onchange="CargarProveedores" @onclick="CargarProveedores">
-                            <option value="" disabled selected>Seleccione un Cliente</option>
+                    <div class="form-group">
+                        <InputSelect @bind-Value="@ProveedorSeleccionado" class="form-control col-md-3" @onchange="CargarProveedores" @onclick="CargarProveedores">
+                            <option value="" disabled selected>Seleccione un proveedor</option>
                             @foreach (var item in listaProveedores)
                             {
                                 <option value="@item.ProveedorId">@item.Nombres</option>
@@ -33,25 +32,29 @@
                     </div>
                 </div>
 
-                <div class="container">
-                    <label for="Cantidad" class="col-md-2col-form-label">Cantidad</label>
-                    <input type="number" class="col-md-2 form-check" @bind="productos.Cantidad" />
+                <div class="form-group">
+                    <label for="Cantidad">Cantidad</label>
+                    <InputNumber @bind-Value="productos.Cantidad" class="form-control col-md-1" />
                 </div>
-                <div class="container">
-                    <label for="Precio" class="col-md-2col-form-label">Precio</label>
-                    <input type="number" class="col-md-2 form-check" @bind="productos.Precio" @onfocus="CargarGanancia" @onfocusin="CargarGanancia" @onfocusout="CargarGanancia" />
+                <div class="form-group">
+                    <label for="Precio">Precio</label>
+                    <InputNumber @bind-Value="productos.Precio" class="form-control col-md-2" @onfocus="CargarGanancia" @onfocusin="CargarGanancia" @onfocusout="CargarGanancia" />
                 </div>
-                <div class="container">
-                    <label for="FechaIngreso" class="col-md-2 col-form-label"> Fecha</label>
-                    <input type="datetime" class="col-md-2 form-check" @bind="productos.FechaIngreso" />
+
+                <div class="form-group">
+                    <label for="FechaIngreso"> Fecha</label>
+                    <InputDate @bind-Value="productos.FechaIngreso" class="form-control col-md-2" />
+
                 </div>
-                <div class="container">
-                    <label for="Costo" class="col-md-2 col-form-label"> Costo</label>
-                    <input type="number" class="col-md-2 form-check " @bind="productos.Costo" @onfocus="CargarGanancia" @onfocusin="CargarGanancia" @onfocusout="CargarGanancia"/>
+                <div class="form-group">
+                    <label for="Costo">Costo</label>
+                    <InputNumber @bind-Value="productos.Costo" class="form-control col-md-2" @onfocus="CargarGanancia" @onfocusin="CargarGanancia" @onfocusout="CargarGanancia" />
                 </div>
-                <div class="container">
-                    <label for="Ganancia" class="col-md-2 col-form-label">Ganancia</label>
-                    <input type="number" class="col-md-2 form-check" readonly="readonly" @bind="productos.Ganancia" />
+                
+                <div class="form-group">
+                    <label for="Ganancia">Ganancia</label>
+                    <InputNumber readonly="readonly" @bind-Value="productos.Ganancia" class="form-control col-md-2"/>
+                    
                 </div>
 
                 <br />
