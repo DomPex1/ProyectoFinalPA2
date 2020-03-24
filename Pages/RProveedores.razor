@@ -8,27 +8,25 @@
             <DataAnnotationsValidator />
             <ValidationSummary />
 
-            <div class="container">
-                <label for="ProveedorId" class="col-md-2 col-form-label"> ProveedorId</label>
-                <input type="number" class="col-md-2 form-check" @bind="proveedores.ProveedorId" />
-                <br />
-
-                <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
-
+            <label for="ProveedorId">Id</label>
+            <div class="form-inline">
+                <InputNumber @bind-Value="proveedores.ProveedorId" class="form-control " />
+                <button type="button" class="btn btn-success mx-sm-3" @onclick="Buscar">Buscar</button>
             </div>
-            <div class="container">
-                <label for="Nombres" class="col-md-2 col-form-label">Nombres</label>
-                <input type="text" class="form-check col-md-2" @bind="proveedores.Nombres" />
+            <br />
+            <div class="form-group">
+                <label for="Nombres">Nombres</label>
+                <InputText  @bind-Value="proveedores.Nombres" class="form-control col-md-3"/>
             </div>
-            <div class="container">
-                <label for="Direccion" class="col-md-2 col-form-label">Direccion</label>
-                <input type="text" class="form-check col-md-2" @bind="proveedores.Direccion" />
+            <div class="form-group">
+                <label for="Direccion">Direccion</label>
+                <InputText class="form-control col-md-3" @bind-Value="proveedores.Direccion" />
             </div>
-            <div class="container">
-                <label for="Telefono" class="col-md-2col-form-label">Telefono</label>
-                <input type="number" class="col-md-2 form-check" @bind="proveedores.Telefono" />
+            <div class="form-group">
+                <label for="Telefono" >Telefono</label>
+                <InputText class="form-control col-md-3" @bind-Value="proveedores.Telefono" />
             </div>
-
+            <br/>
             <div class="form-group">
                 <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
                 <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>

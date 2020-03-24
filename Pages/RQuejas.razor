@@ -9,53 +9,49 @@
             <DataAnnotationsValidator />
             <ValidationSummary />
 
-            <div class="container">
-                <label for="QuejasId" class="col-md-2 col-form-label"> Quejas</label>
-                <input type="number" class="col-md-2 form-check" @bind="quejas.QuejasId" />
-                <br />
-
-                <button type="button" class="col-md-2 btn btn-info" @onclick="Buscar">Buscar</button>
-
+            <label for="QuejasId">Id</label>
+            <div class="form-inline">
+                <InputNumber @bind-Value="quejas.QuejasId" class="form-control " />
+                <button type="button" class="btn btn-success mx-sm-3" @onclick="Buscar">Buscar</button>
             </div>
-            <div class="container">
+            <br />
+            <div class="form-group">
                 <label for="Cliente">Cliente</label>
-                <div class="col-md-2">
-                    <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onchange="CargarCliente" @onclick="CargarCliente">
+                
+                    <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control col-md-2" @onchange="CargarCliente" @onclick="CargarCliente">
                         <option value="" disabled selected>Seleccione un Cliente</option>
                         @foreach (var item in listaClientes)
                         {
                             <option value="@item.ClienteId">@item.Nombre</option>
                         }
                     </InputSelect>
+                
+            </div>
+            <div class="form-group">
+                <label for="Fecha">Fecha</label>
+                <InputDate class="form-control col-md-2" @bind-Value="quejas.Fecha" />
+            </div>
+            <div class="form-inline">
+                <div class="form-group">
+                    <label for="Descripcion">Descripcion</label>
+                    <InputText class="form-control mx-sm-3" @bind-Value="quejas.Descripcion" />
                 </div>
-            </div>
-            <div class="container">
-                <label for="Fecha" class="col-md-2col-form-label">Fecha</label>
-                <input type="datetime" class="col-md-2 form-check" @bind="quejas.Fecha" />
-            </div>
-            <div class="container">
-                <label for="Descripcion" class="col-md-2 col-form-label">Descripcion</label>
-                <input type="text" class="form-check col-md-2" @bind="quejas.Descripcion" />
-            </div>
-
-
-            <div class="container">
-                <label for="Problema" class="col-md-2col-form-label">Problema</label>
-                <input type="text" class="col-md-2 form-check" @bind="Problemas" />
-            </div>
-            <div class="container">
-                <label for="Solucion" class="col-md-2col-form-label">Solucion</label>
-                <input type="text" class="col-md-2 form-check" @bind="Soluciones" />
-            </div>
-
-
-
-            <div class=" container">
+                <div class="form-group">
+                    <label for="Problema">Problema</label>
+                    <InputText class="form-control mx-sm-3" @bind-Value="Problemas" />
+                </div>
+                <div class="form-group">
+                    <label for="Solucion">Solucion</label>
+                    <InputText class="form-control mx-sm-3" @bind-Value="Soluciones" />
+                </div>
                 <button type="button" class="btn btn-primary" @onclick="Agregar">Agregar</button>
             </div>
+            <br />
+            
+  
             <div>
-                <table class="table">
-                    <thead>
+                <table class="table text-light">
+                    <thead class="thead-light">
                         <tr>
                             <th>Id</th>
                             <th>Problema</th>
