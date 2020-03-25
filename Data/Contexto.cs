@@ -19,6 +19,8 @@ namespace ProyectoFinalPA2.Data
         public DbSet<PedidosDetalle> PedidosDetalles { get; set; }
         public DbSet<QuejasDetalle> QuejasDetalles { get; set; }
 
+        public DbSet <CategoriaArticulos> CategoriaArticulos { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
