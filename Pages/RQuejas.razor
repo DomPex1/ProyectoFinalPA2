@@ -17,25 +17,25 @@
             <br />
             <div class="form-group">
                 <label for="Cliente">Cliente</label>
-                
-                    <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control col-md-2" @onchange="CargarCliente" @onclick="CargarCliente">
-                        <option value="" disabled selected>Seleccione un Cliente</option>
-                        @foreach (var item in listaClientes)
-                        {
-                            <option value="@item.ClienteId">@item.Nombre</option>
-                        }
-                    </InputSelect>
-                
+
+                <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control col-md-2" @onchange="CargarCliente" @onclick="CargarCliente">
+                    <option value="" disabled selected>Seleccione un Cliente</option>
+                    @foreach (var item in listaClientes)
+                    {
+                        <option value="@item.ClienteId">@item.Nombre</option>
+                    }
+                </InputSelect>
+
             </div>
             <div class="form-group">
                 <label for="Fecha">Fecha</label>
                 <InputDate class="form-control col-md-2" @bind-Value="quejas.Fecha" />
             </div>
+            <div class="form-group">
+                <label for="Descripcion">Descripcion</label>
+                <InputText class="form-control col-md-2" @bind-Value="quejas.Descripcion" />
+            </div>
             <div class="form-inline">
-                <div class="form-group">
-                    <label for="Descripcion">Descripcion</label>
-                    <InputText class="form-control mx-sm-3" @bind-Value="quejas.Descripcion" />
-                </div>
                 <div class="form-group">
                     <label for="Problema">Problema</label>
                     <InputText class="form-control mx-sm-3" @bind-Value="Problemas" />
@@ -47,8 +47,7 @@
                 <button type="button" class="btn btn-primary" @onclick="Agregar">Agregar</button>
             </div>
             <br />
-            
-  
+
             <div>
                 <table class="table text-light">
                     <thead class="thead-light">
@@ -67,7 +66,7 @@
                                 <th>@item.Problema</th>
                                 <th>@item.Solucion</th>
 
-                                <th><button type="button" class="btn btn-danger col-sm-2" @onclick="(()=> EliminarGrid(item))">Eliminar</button></th>
+                                <th><button type="button" class="btn btn-danger" @onclick="(()=> EliminarGrid(item))">Eliminar</button></th>
 
                             </tr>
                         }
@@ -218,14 +217,27 @@
     }
     private void Agregar()
     {
-
-        quejas.Detalles.Add(new QuejasDetalle()
+        if(Problemas == null)
         {
-            Problema = Problemas,
-            Solucion = Soluciones
+            Mensaje = "Debe agregar un problema";
+        }else
+        {
+            if(Soluciones == null)
+            {
+                Mensaje = "Debe agregar una solucion";
+            }
+            else
+            {
+                quejas.Detalles.Add(new QuejasDetalle()
+                {
+                    Problema = Problemas,
+                    Solucion = Soluciones
 
-        });
-        quejas = new Quejas();
+                });
+                
+            }
+        }
+
 
     }
 
