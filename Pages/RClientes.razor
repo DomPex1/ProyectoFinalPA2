@@ -66,7 +66,7 @@
     }
     private void Guardar()
     {
-         Mensaje = string.Empty;
+         
         if (clientes.ClienteId == 0)
         {
             controllers.Guardar(clientes);
@@ -90,14 +90,10 @@
 
     }
 
-    private void Nuevo()
-    {
-        Mensaje = string.Empty;
-        Limpiar();
-    }
+
     private void Eliminar()
     {
-         Mensaje = string.Empty;
+         
         if (clientes.ClienteId != 0)
         {
             if (controllers.Buscar(clientes.ClienteId) != null)
@@ -122,7 +118,7 @@
     }
     private void Buscar()
     {
-         Mensaje = string.Empty;
+         
         if (clientes.ClienteId != 0)
         {
             if (controllers.Buscar(clientes.ClienteId) != null)

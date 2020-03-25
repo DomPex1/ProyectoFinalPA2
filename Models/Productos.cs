@@ -10,22 +10,22 @@ namespace ProyectoFinalPA2.Models
     {
         [Key]
         public int ProductoId { get; set; }
-        [Required(ErrorMessage = "No puede estar vacio")]
+        [Required(ErrorMessage = "El campo Descripcion no puede estar vacio")]
         [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public string Descripcion { get; set; }
         public DateTime FechaIngreso { get; set; }
-        [Required(ErrorMessage = "No puede estar vacio")]
+        [Required(ErrorMessage = "El campo precio no puede estar vacio")]
         [Range(minimum: 1, maximum: 10000000, ErrorMessage = "No puede pasar el limite")]
         public decimal Precio { get; set; }
 
-        [Required(ErrorMessage = "No puede estar vacio")]
+        [Required(ErrorMessage = " El campo cantidad no puede estar vacio")]
         [Range(minimum: 1, maximum: 1000000, ErrorMessage = "No puede pasar el limite")]
         public int Cantidad { get; set; }
 
-        [Required(ErrorMessage = "No puede estar vacio")]
+        [Required(ErrorMessage = "El cambio costo no puede estar vacio")]
         [Range(minimum: 1, maximum: 1000000, ErrorMessage = "No puede pasar el limite")]
         public decimal Costo { get; set; }
-        [Required(ErrorMessage = "No puede estar vacio")]
+        [Required(ErrorMessage = "El campo Ganancia no puede estar vacio")]
         [Range(minimum: 1, maximum: 1000000, ErrorMessage = "No puede pasar el limite")]
         public decimal Ganancia { get; set; }
         
