@@ -1,0 +1,133 @@
+﻿@page "/RCategoriaArticulos/{CategoriaId:int}"
+
+
+<div class="card bg-dark text-light">
+    <div class="card-body ">
+        <h1>Registro Categoria de articulos</h1>
+
+        <EditForm Model="@categoriaArticulos" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <label for="CategoriaId">Id</label>
+            <div class="form-inline">
+                <InputNumber @bind-Value="categoriaArticulos.CategoriaId" class="form-control " />
+                <button type="button" class="btn btn-success mx-sm-3" @onclick="Buscar">Buscar</button>
+            </div>
+            <br />
+            <div class="form-group">
+                <label for="Descripcion">Descripcion</label>
+                <InputText @bind-Value="categoriaArticulos.Descripcion" class="form-control col-md-2" />
+
+            </div>
+            
+
+            <br />
+
+            <div class="form-group">
+
+                <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
+                <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
+                <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
+            </div>
+
+            <h3>@Mensaje</h3>
+        </EditForm>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public int CategoriaId { get; set; }
+    ControllersCategoriaArticulos controllers = new ControllersCategoriaArticulos();
+
+    CategoriaArticulos categoriaArticulos = new CategoriaArticulos();
+    public string Mensaje;
+
+    protected override void OnInitialized()
+    {
+        if (CategoriaId != 0)
+        {
+            categoriaArticulos.CategoriaId = CategoriaId;
+            Buscar();
+        }
+    }
+    private void Guardar()
+    {
+
+        if (categoriaArticulos.CategoriaId == 0)
+        {
+            controllers.Guardar(categoriaArticulos);
+            Mensaje = "Guardo";
+            Limpiar();
+        }
+        else
+        {
+            if (controllers.Buscar(categoriaArticulos.CategoriaId) != null)
+            {
+                controllers.Modificar(categoriaArticulos);
+                Mensaje = "Modifico";
+                Limpiar();
+            }
+
+        }
+    }
+    private void Limpiar()
+    {
+        categoriaArticulos = new CategoriaArticulos();
+
+    }
+
+
+    private void Eliminar()
+    {
+
+        if (categoriaArticulos.CategoriaId != 0)
+        {
+            if (controllers.Buscar(categoriaArticulos.CategoriaId) != null)
+            {
+
+                controllers.Eliminar(categoriaArticulos.CategoriaId);
+                Mensaje = "Eliminado";
+                Limpiar();
+
+            }
+            else
+            {
+                Mensaje = "Id no existe";
+            }
+
+        }
+        else
+        {
+            Mensaje = "Selecione un ID";
+        }
+
+    }
+    private void Buscar()
+    {
+
+        if (categoriaArticulos.CategoriaId != 0)
+        {
+            if (controllers.Buscar(categoriaArticulos.CategoriaId) != null)
+            {
+
+                categoriaArticulos = controllers.Buscar(categoriaArticulos.CategoriaId);
+
+            }
+            else
+            {
+                Mensaje = "Id no existe";
+            }
+
+        }
+        else
+        {
+            Mensaje = "Selecione un ID";
+        }
+
+
+    }
+}
