@@ -16,13 +16,13 @@ namespace ProyectoFinalPA2.Models
         
         public int ClienteId { get; set; }
 
-        [Required(ErrorMessage = "No puede estar vacio")]
+        [Required(ErrorMessage = "el campo forma de pedido no puede estar vacio")]
         [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public string FormaPedido { get; set; }
 
         public int ProductoId { get; set; }
 
-        [Required(ErrorMessage = "No puede estar vacio")]
+        [Required(ErrorMessage = " el campo cantidad no puede estar vacio")]
         [Range(minimum:1,maximum:1000000,ErrorMessage ="No puede pasar el limite")]
         public int Cantidad { get; set; }
         public decimal Total { get; set; }
