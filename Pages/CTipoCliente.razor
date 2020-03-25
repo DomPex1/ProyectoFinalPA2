@@ -1,0 +1,172 @@
+﻿@page "/CTipoCliente"
+@page  "/CTipoCliente/{I:int}"
+<div class="card bg-info text-light">
+
+
+    <div class="card-body ">
+        <h3>Consulta Tipo Clientes</h3>
+        <div class="form-inline">
+
+            <label for="filtro">Filtro</label>
+            <div class="form-group mx-sm-3 mb-2">
+                <select class="form-control" @bind="Filtro">
+                    <option value="" disabled selected>Seleccione un Criterio</option>
+                    <option value="Todo">Todo</option>
+                    <option value="Id">Id</option>
+                    <option value="Descripcion">Descripcion</option>
+
+                </select>
+            </div>
+            <label for="criterio"> Criterio</label>
+            <div class="form-group mx-sm-3 mb-2">
+
+                <input type="search" class="form-control" @bind-value="Criterio" />
+            </div>
+
+            <button type="button" class="btn btn-success mx-sm-3 mb-2" @onclick="Buscar">Buscar</button>
+
+        </div>
+        <br />
+
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>ClienteId</th>
+                    <th>Descripcion</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in lista)
+                {
+                    <tr>
+                        <th>@item.TipoClienteId</th>
+                        <th>@item.Descripcion</th>
+                        <td><a class="btn btn-primary" href="RClientes/@item.TipoClienteId">Ver</a></td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+        <nav aria-label="...">
+            <ul class="pagination pagination-lg">
+                @for (int i = 1; i <= totaldepaginas; i++)
+                {
+                    <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CClientes/@i">@i</a></li>
+                }
+
+            </ul>
+        </nav>
+
+        <h5>@mensaje</h5>
+    </div>
+
+
+</div>
+
+
+@code {
+
+    public List<TipoCliente> lista { get; set; }
+    public ControllersTipoCliente controllers = new ControllersTipoCliente();
+
+    [Parameter]
+    public int I { get; set; }
+    private int Contador { get; set; }
+    private int contCiclo { get; set; }
+
+    Paginacion paginacion = new Paginacion();
+    public double totaldepaginas { get; set; }
+
+    Contexto Contexto = new Contexto();
+    double conteo = 0;
+    private string Filtro { get; set; }
+    private string Criterio { get; set; }
+    private string mensaje;
+
+    private void NumeroSaltar()
+    {
+        Contador = I - 1;
+        Saltar();
+    }
+
+    private void Saltar()
+    {
+        Contador += paginacion.Pagina;
+        if (Contador >= totaldepaginas)
+        {
+            Contador = 0;
+        }
+        lista = Contexto.TipoClientes
+            .Skip(Contador * paginacion.CantidadMostrar)
+            .Take(paginacion.CantidadMostrar)
+            .ToList();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        lista = new List<TipoCliente>();
+
+
+
+    }
+
+    private void Buscar()
+    {
+
+        try
+        {
+            Cargar();
+
+            if (Filtro == null)
+            {
+                Filtro = "Todo";
+
+            }
+
+            lista = controllers.GetList(a => true);
+
+            if (lista.Count == 0)
+            {
+                mensaje = "No hay clientes registrado";
+            }
+            else
+            {
+                mensaje = "";
+                switch (Filtro)
+                {
+                    case "Todo":
+                        lista = controllers.GetList(e => true);
+                        break;
+                    case "Id":
+                        lista = controllers.GetList(e => e.TipoClienteId == Convert.ToInt32(Criterio));
+                        break;
+                    case "Descripcion":
+                        lista = controllers.GetList(e => e.Descripcion == Criterio);
+                        break;
+                }
+
+            }
+
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    private void Cargar()
+    {
+        conteo = Contexto.TipoClientes.Count();
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+        conteo = Contexto.TipoClientes.Count();
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+        this.lista = Contexto.TipoClientes.Take(paginacion.CantidadMostrar).ToList();
+    }
+
+
+}
