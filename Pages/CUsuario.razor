@@ -113,7 +113,7 @@
     public DateTime DesdeFecha { get; set; }
     public DateTime HastaFecha { get; set; }
 
-    private void NumSaltar()
+    private void NumeroSaltar()
     {
         Contador = I - 1;
         Saltar();
@@ -134,14 +134,13 @@
 
     protected override void OnInitialized()
     {
-        conteo = Contexto.Usuarios.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+
         lista = new List<Usuarios>();
-        this.lista = Contexto.Usuarios.Take(paginacion.CantidadMostrar).ToList();
+
+
         DesdeFecha = DateTime.Now;
         HastaFecha = DateTime.Now;
 
-        NumSaltar();
     }
 
     private void Buscar()
@@ -149,49 +148,59 @@
 
         try
         {
+            cargar();
+
             if (Filtro == null)
             {
                 Filtro = "Todo";
-                
+
             }
-            
+
             lista = controller.GetList(a => true);
 
-                if (lista.Count == 0)
+            if (lista.Count == 0)
+            {
+                mensaje = "No hay usuarios registrado";
+            }
+            else
+            {
+                mensaje = "";
+                switch (Filtro)
                 {
-                    mensaje = "No hay usuarios registrado";
+                    case "Todo":
+                        lista = controller.GetList(e => true);
+                        break;
+                    case "Id":
+                        lista = controller.GetList(e => e.UsuarioId == Convert.ToInt32(Criterio));
+                        break;
+                    case "Nombres":
+                        lista = controller.GetList(e => e.Nombres == Criterio);
+                        break;
+                    case "Usuario":
+                        lista = controller.GetList(e => e.Usuario == Criterio);
+                        break;
+                    case "Email":
+                        lista = controller.GetList(e => e.Usuario == Criterio);
+                        break;
                 }
-                else
+                if (BuscarFecha == true)
                 {
-                    mensaje = "";
-                    switch (Filtro)
-                    {
-                        case "Todo":
-                            lista = controller.GetList(e => true);
-                            break;
-                        case "Id":
-                            lista = controller.GetList(e => e.UsuarioId == Convert.ToInt32(Criterio));
-                            break;
-                        case "Nombres":
-                            lista = controller.GetList(e => e.Nombres == Criterio);
-                            break;
-                        case "Usuario":
-                            lista = controller.GetList(e => e.Usuario == Criterio);
-                            break;
-                        case "Email":
-                            lista = controller.GetList(e => e.Usuario == Criterio);
-                            break;
-                    }
-                    if (BuscarFecha == true)
-                    {
-                        lista = controller.GetList(p => p.FechaCreacion >= DesdeFecha.Date && p.FechaCreacion <= HastaFecha.Date);
-                    }
+                    lista = controller.GetList(p => p.FechaCreacion >= DesdeFecha.Date && p.FechaCreacion <= HastaFecha.Date);
                 }
-            
+            }
+
         }
         catch (Exception)
         {
             throw;
         }
+    }
+
+    private void cargar()
+    { 
+  conteo = Contexto.Usuarios.Count();
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+        this.lista = Contexto.Usuarios.Take(paginacion.CantidadMostrar).ToList();       
+        NumeroSaltar();
     }
 }

@@ -80,20 +80,20 @@
 
 @code {
 
-    private List<Quejas> lista { get; set; }
-    public ControllersQuejas controller = new ControllersQuejas();
+        private List<Quejas> lista { get; set; }
+        public ControllersQuejas controller = new ControllersQuejas();
 
 
-    private string Filtro { get; set; }
-    private string Criterio { get; set; }
-    private string mensaje;
+        private string Filtro { get; set; }
+        private string Criterio { get; set; }
+        private string mensaje;
 
-    public bool BuscarFecha { get; set; }
-    public DateTime DesdeFecha { get; set; }
-    public DateTime HastaFecha { get; set; }
+        public bool BuscarFecha { get; set; }
+        public DateTime DesdeFecha { get; set; }
+        public DateTime HastaFecha { get; set; }
 
-    [Parameter]
-    public int I { get; set; }
+        [Parameter]
+        public int I { get; set; }
     private int Contador { get; set; }
     private int contCiclo { get; set; }
 
@@ -103,12 +103,34 @@
     Contexto Contexto = new Contexto();
     double conteo = 0;
 
+    public void NumeroSaltar()
+    {
+        Contador = I - 1;
+        Saltar();
+    }
+
+    public void Saltar()
+    {
+        Contador += paginacion.Pagina;
+        if (Contador >= totaldepaginas)
+        {
+            Contador = 0;
+        }
+        lista = Contexto.Quejas
+            .Skip(Contador * paginacion.CantidadMostrar)
+            .Take(paginacion.CantidadMostrar)
+            .ToList();
+    }
+
     protected override void OnInitialized()
     {
-      
+        
         lista = new List<Quejas>();
         DesdeFecha = DateTime.Now;
         HastaFecha = DateTime.Now;
+
+
+       
     }
 
     private void Buscar()
@@ -163,8 +185,8 @@
 
     private void Cargar()
     {
-       conteo = Contexto.Quejas.Count();
-      totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
-      this.lista = Contexto.Quejas.Take(paginacion.CantidadMostrar).ToList();
+        conteo = Contexto.Quejas.Count();
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+                this.lista = Contexto.Quejas.Take(paginacion.CantidadMostrar).ToList();
     }
 }
