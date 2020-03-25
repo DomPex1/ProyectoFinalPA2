@@ -15,7 +15,7 @@ namespace ProyectoFinalPA2.Controllers
             Contexto db = new Contexto();
             try
             {
-                db.Clientes.Add(categoriaArticulos);
+                db.CategoriaArticulos.Add(categoriaArticulos);
                 paso = db.SaveChanges() > 0;
             }
             catch (Exception)
