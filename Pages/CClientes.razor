@@ -94,10 +94,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        conteo = Contexto.Clientes.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+        
         lista = new List<Clientes>();
-        this.lista = Contexto.Clientes.Take(paginacion.CantidadMostrar).ToList();
+        
 
     }
 
@@ -111,7 +110,7 @@
             if (Filtro == null)
             {
                 Filtro = "Todo";
-
+                
             }
 
             lista = controllers.GetList(a => true);
@@ -122,6 +121,7 @@
             }
             else
             {
+
                 mensaje = "";
                 switch (Filtro)
                 {
