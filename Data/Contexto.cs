@@ -14,7 +14,7 @@ namespace ProyectoFinalPA2.Data
         public DbSet<Pedidos> Pedidos { get; set; }
         public DbSet<Clientes> Clientes { get; set; }
 
-        public DbSet<TipoCliente> TipoClientes { get; set }
+        public DbSet<TipoCliente> TipoClientes { get; set; }
         public DbSet<Quejas> Quejas { get; set; }
         public DbSet<Proveedores> Proveedores { get; set; }
         public DbSet<PedidosDetalle> PedidosDetalles { get; set; }

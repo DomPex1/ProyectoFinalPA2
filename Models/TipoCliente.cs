@@ -20,7 +20,7 @@ namespace ProyectoFinalPA2.Models
         public TipoCliente()
         {
             TipoClienteId = 0;
-            Descripcion = string.Empty
+            Descripcion = string.Empty;
         }
     }
 }
