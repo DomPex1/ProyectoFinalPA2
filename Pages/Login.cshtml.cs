@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProyectoFinalPA2.Controllers;
+
+
 namespace BlazorCookieAuth.Server.Pages
 {
     [AllowAnonymous]
@@ -26,8 +28,7 @@ namespace BlazorCookieAuth.Server.Pages
                     CookieAuthenticationDefaults.AuthenticationScheme);
             }
             catch { }
-            if (ControllersUsuario.InicioSesion(paramUsername, paramPassword))
-            {
+            
                 var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, paramUsername),
@@ -51,7 +52,7 @@ namespace BlazorCookieAuth.Server.Pages
                 {
                     string error = ex.Message;
                 }
-            }
+            
             
             return LocalRedirect(returnUrl);
         }

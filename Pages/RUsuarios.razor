@@ -12,14 +12,14 @@
                     <InputNumber @bind-Value="usuarios.UsuarioId" class="form-control " />
                     <button type="button" class="btn btn-success mx-sm-3" @onclick="Buscar">Buscar</button>
                 </div>
-                <br/>
+                <br />
 
                 <div class="form-group ">
                     <label for="Nombre">Nombres</label>
                     <InputText @bind-Value="usuarios.Nombres" class="form-control col-md-2" />
                 </div>
 
-              
+
                 <div class="form-group ">
                     <label for="Usuario"> Usuario</label>
                     <InputText @bind-Value="usuarios.Usuario" class="form-control col-md-2" />
@@ -31,7 +31,13 @@
                 </div>
                 <div class="form-group">
                     <label for="NivelUsuario">NivelUsuario</label>
-                    <InputText @bind-Value="usuarios.NivelUsuario" class="form-control col-md-2" />
+                    <InputSelect @bind-Value="@usuarios.NivelUsuario" class="form-control col-md-2">
+                        <option value="" disabled selected>Seleccione un nivel</option>
+
+                        <option>Administrador</option>
+                        <option>Empleado</option>
+
+                    </InputSelect>
                 </div>
                 <div class="form-group">
                     <label for="FechaCreacion"> Fecha</label>
@@ -42,7 +48,7 @@
                     <InputText @bind-Value="usuarios.Email" class="form-control col-md-3 " />
                 </div>
                 <br />
-
+                
                 <div class="form-group">
                     <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
                     <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
@@ -72,6 +78,7 @@
 
                 private void Guardar()
                 {
+                    Mensaje= string.Empty;
                     if (usuarios.UsuarioId == 0)
                     {
                         controllers.Guardar(usuarios);
@@ -89,12 +96,22 @@
 
                     }
                 }
+
                 private void Limpiar()
                 {
                     usuarios = new Usuarios();
+                    
+                }
+
+                private void Nuevo()
+                {
+                    Mensaje= string.Empty;
+                    Limpiar();
                 }
                 private void Eliminar()
+
                 {
+                    Mensaje= string.Empty;
                     if (usuarios.UsuarioId != 0)
                     {
                         if (controllers.Buscar(usuarios.UsuarioId) != null)
@@ -119,6 +136,7 @@
                 }
                 private void Buscar()
                 {
+                    Mensaje= string.Empty;
                     if (usuarios.UsuarioId != 0)
                     {
                         if (controllers.Buscar(usuarios.UsuarioId) != null)

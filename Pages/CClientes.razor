@@ -60,7 +60,7 @@
                     <ul class="pagination pagination-lg">
                         @for (int i = 1; i <= totaldepaginas; i++)
                         {
-                            <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CUsuario/@i">@i</a></li>
+                            <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CClientes/@i">@i</a></li>
                         }
 
                     </ul>
@@ -94,7 +94,10 @@
 
     protected override async Task OnInitializedAsync()
     {
+        conteo = Contexto.Clientes.Count();
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
         lista = new List<Clientes>();
+        this.lista = Contexto.Clientes.Take(paginacion.CantidadMostrar).ToList();
 
     }
 

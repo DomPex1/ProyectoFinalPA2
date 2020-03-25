@@ -1,5 +1,7 @@
 ﻿@page "/loginControl"
 @using System.Web;
+
+
 <AuthorizeView>
     <Authorized>
         <b>Hello, @context.User.Identity.Name!</b>
@@ -14,7 +16,7 @@
         &nbsp;&nbsp;
         <input type="password"
                placeholder="Password"
-               @bind="@Password" />
+               @bind="Password" />
         <a class="ml-md-auto btn btn-primary"
            href="/login?paramUsername=@encode(@Username)&paramPassword=@encode(@Password)"
            target="_top">Login</a>
@@ -25,6 +27,9 @@
     public Usuarios Usuario = new Usuarios();
     string Username = "";
     string Password = "";
+
+    
+
     private string encode(string param)
     {
         return HttpUtility.UrlEncode(param);
