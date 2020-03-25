@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ProyectoFinalPA2.Controllers;
 namespace BlazorCookieAuth.Server.Pages
 {
     [AllowAnonymous]
@@ -25,30 +26,33 @@ namespace BlazorCookieAuth.Server.Pages
                     CookieAuthenticationDefaults.AuthenticationScheme);
             }
             catch { }
-          
-            var claims = new List<Claim>
+            if (ControllersUsuario.InicioSesion(paramUsername, paramPassword))
+            {
+                var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, paramUsername),
                 new Claim(ClaimTypes.Role, "Administrator"),
             };
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var authProperties = new AuthenticationProperties
-            {
-                IsPersistent = true,
-                RedirectUri = this.Request.Host.Value
-            };
-            try
-            {
-                await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    RedirectUri = this.Request.Host.Value
+                };
+                try
+                {
+                    await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+                }
+                catch (Exception ex)
+                {
+                    string error = ex.Message;
+                }
             }
-            catch (Exception ex)
-            {
-                string error = ex.Message;
-            }
+            
             return LocalRedirect(returnUrl);
         }
     }

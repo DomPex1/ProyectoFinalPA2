@@ -100,5 +100,23 @@ namespace ProyectoFinalPA2.Controllers
 
             return lista;
         }
+        public static bool InicioSesion(string Usuario, string psw)
+        {
+            bool paso = false;
+            Contexto db = new Contexto();
+
+            try
+            {
+                var lista = db.Usuarios.Where(A => true).ToList();
+                paso = db.Usuarios.Any(A => A.Usuario.Equals(Usuario) && A.Clave.Equals(psw));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return paso;
+        }
     }
 }
