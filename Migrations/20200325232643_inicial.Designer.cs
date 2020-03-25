@@ -9,7 +9,7 @@ using ProyectoFinalPA2.Data;
 namespace ProyectoFinalPA2.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200324182558_inicial")]
+    [Migration("20200325232643_inicial")]
     partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,6 +17,22 @@ namespace ProyectoFinalPA2.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.2");
+
+            modelBuilder.Entity("ProyectoFinalPA2.Models.CategoriaArticulos", b =>
+                {
+                    b.Property<int>("CategoriaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
+
+                    b.HasKey("CategoriaId");
+
+                    b.ToTable("CategoriaArticulo");
+                });
 
             modelBuilder.Entity("ProyectoFinalPA2.Models.Clientes", b =>
                 {
@@ -204,6 +220,22 @@ namespace ProyectoFinalPA2.Migrations
                     b.HasIndex("QuejasId");
 
                     b.ToTable("QuejasDetalles");
+                });
+
+            modelBuilder.Entity("ProyectoFinalPA2.Models.TipoCliente", b =>
+                {
+                    b.Property<int>("TipoClienteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
+
+                    b.HasKey("TipoClienteId");
+
+                    b.ToTable("TipoClientes");
                 });
 
             modelBuilder.Entity("ProyectoFinalPA2.Models.Usuarios", b =>

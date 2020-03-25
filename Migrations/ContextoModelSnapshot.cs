@@ -16,6 +16,22 @@ namespace ProyectoFinalPA2.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.2");
 
+            modelBuilder.Entity("ProyectoFinalPA2.Models.CategoriaArticulos", b =>
+                {
+                    b.Property<int>("CategoriaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
+
+                    b.HasKey("CategoriaId");
+
+                    b.ToTable("CategoriaArticulo");
+                });
+
             modelBuilder.Entity("ProyectoFinalPA2.Models.Clientes", b =>
                 {
                     b.Property<int>("ClienteId")
@@ -202,6 +218,22 @@ namespace ProyectoFinalPA2.Migrations
                     b.HasIndex("QuejasId");
 
                     b.ToTable("QuejasDetalles");
+                });
+
+            modelBuilder.Entity("ProyectoFinalPA2.Models.TipoCliente", b =>
+                {
+                    b.Property<int>("TipoClienteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
+
+                    b.HasKey("TipoClienteId");
+
+                    b.ToTable("TipoClientes");
                 });
 
             modelBuilder.Entity("ProyectoFinalPA2.Models.Usuarios", b =>

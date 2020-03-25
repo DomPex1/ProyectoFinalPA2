@@ -8,6 +8,19 @@ namespace ProyectoFinalPA2.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "CategoriaArticulo",
+                columns: table => new
+                {
+                    CategoriaId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Descripcion = table.Column<string>(maxLength: 40, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoriaArticulo", x => x.CategoriaId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Clientes",
                 columns: table => new
                 {
@@ -90,6 +103,19 @@ namespace ProyectoFinalPA2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TipoClientes",
+                columns: table => new
+                {
+                    TipoClienteId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Descripcion = table.Column<string>(maxLength: 40, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TipoClientes", x => x.TipoClienteId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Usuarios",
                 columns: table => new
                 {
@@ -165,6 +191,9 @@ namespace ProyectoFinalPA2.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "CategoriaArticulo");
+
+            migrationBuilder.DropTable(
                 name: "Clientes");
 
             migrationBuilder.DropTable(
@@ -178,6 +207,9 @@ namespace ProyectoFinalPA2.Migrations
 
             migrationBuilder.DropTable(
                 name: "QuejasDetalles");
+
+            migrationBuilder.DropTable(
+                name: "TipoClientes");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
