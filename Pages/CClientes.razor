@@ -94,10 +94,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        conteo = Contexto.Clientes.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
         lista = new List<Clientes>();
-        this.lista = Contexto.Clientes.Take(paginacion.CantidadMostrar).ToList();
+
     }
 
     private void Buscar()
@@ -105,47 +103,57 @@
 
         try
         {
+            Cargar();
+
             if (Filtro == null)
             {
                 Filtro = "Todo";
-                
+
             }
-            
+
             lista = controllers.GetList(a => true);
 
-                if (lista.Count == 0)
+            if (lista.Count == 0)
+            {
+                mensaje = "No hay clientes registrado";
+            }
+            else
+            {
+                mensaje = "";
+                switch (Filtro)
                 {
-                    mensaje = "No hay clientes registrado";
+                    case "Todo":
+                        lista = controllers.GetList(e => true);
+                        break;
+                    case "Id":
+                        lista = controllers.GetList(e => e.ClienteId == Convert.ToInt32(Criterio));
+                        break;
+                    case "Nombres":
+                        lista = controllers.GetList(e => e.Nombre == Criterio);
+                        break;
+                    case "Usuario":
+                        lista = controllers.GetList(e => Convert.ToString(e.Telefono) == Criterio);
+                        break;
+                    case "Email":
+                        lista = controllers.GetList(e => e.Email == Criterio);
+                        break;
                 }
-                else
-                {
-                    mensaje = "";
-                    switch (Filtro)
-                    {
-                        case "Todo":
-                            lista = controllers.GetList(e => true);
-                            break;
-                        case "Id":
-                            lista = controllers.GetList(e => e.ClienteId == Convert.ToInt32(Criterio));
-                            break;
-                        case "Nombres":
-                            lista = controllers.GetList(e => e.Nombre == Criterio);
-                            break;
-                        case "Usuario":
-                            lista = controllers.GetList(e => Convert.ToString(e.Telefono) == Criterio);
-                            break;
-                        case "Email":
-                            lista = controllers.GetList(e => e.Email == Criterio);
-                            break;
-                    }
-                    
-                }
-            
+
+            }
+
         }
         catch (Exception)
         {
             throw;
         }
     }
+
+    private void Cargar()
+    { 
+          conteo = Contexto.Clientes.Count();
+          totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+          this.lista = Contexto.Clientes.Take(paginacion.CantidadMostrar).ToList();   
+    }
+
 
 }

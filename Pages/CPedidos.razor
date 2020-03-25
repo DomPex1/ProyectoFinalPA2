@@ -107,13 +107,8 @@
 
 
     protected override void OnInitialized()
-    {
-
-        conteo = Contexto.Pedidos.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
-        
+    {       
         lista = new List<Pedidos>();
-        this.lista = Contexto.Pedidos.Take(paginacion.CantidadMostrar).ToList();
         DesdeFecha = DateTime.Now;
         HastaFecha = DateTime.Now;
     }
@@ -167,5 +162,12 @@
         {
             throw;
         }
+    }
+    private void Cargar()
+    { 
+        
+        conteo = Contexto.Pedidos.Count();
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+         this.lista = Contexto.Pedidos.Take(paginacion.CantidadMostrar).ToList();
     }
 }

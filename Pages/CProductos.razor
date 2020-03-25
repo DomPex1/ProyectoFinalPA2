@@ -130,12 +130,11 @@
 
     protected override void OnInitialized()
     {
-        conteo = Contexto.Productos.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+      
         lista = new List<Productos>();
-        this.lista = Contexto.Productos.Take(paginacion.CantidadMostrar).ToList();
-        DesdeFecha = DateTime.Now;
+       DesdeFecha = DateTime.Now;
         HastaFecha = DateTime.Now;
+
     }
 
     private void Buscar()
@@ -194,5 +193,12 @@
         {
             throw;
         }
+    }
+     private void Cargar()
+    { 
+        conteo = Contexto.Productos.Count();
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+        this.lista = Contexto.Productos.Take(paginacion.CantidadMostrar).ToList();
+
     }
 }

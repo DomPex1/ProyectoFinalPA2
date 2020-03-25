@@ -88,14 +88,11 @@
     Contexto Contexto = new Contexto();
     double conteo = 0;
 
-    private string mensaje; 
+    private string mensaje;
 
     protected override async Task OnInitializedAsync()
     {
-        conteo = Contexto.Proveedores.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
-        lista = controllers.GetList(P => true);
-        this.lista = Contexto.Proveedores.Take(paginacion.CantidadMostrar).ToList();
+        lista = new List<Proveedores>();
     }
 
     private void Buscar()
@@ -103,48 +100,56 @@
 
         try
         {
+            Cargar();
+
             if (Filtro == null)
             {
                 Filtro = "Todo";
-                
+
             }
-            
+
             lista = controllers.GetList(a => true);
 
-                if (lista.Count == 0)
+            if (lista.Count == 0)
+            {
+                mensaje = "No hay clientes registrado";
+            }
+            else
+            {
+                mensaje = "";
+                switch (Filtro)
                 {
-                    mensaje = "No hay clientes registrado";
+                    case "Todo":
+                        lista = controllers.GetList(e => true);
+                        break;
+                    case "Id":
+                        lista = controllers.GetList(e => e.ProveedorId == Convert.ToInt32(Criterio));
+                        break;
+                    case "Nombres":
+                        lista = controllers.GetList(e => e.Nombres == Criterio);
+                        break;
+                    case "Usuario":
+                        lista = controllers.GetList(e => Convert.ToString(e.Telefono) == Criterio);
+                        break;
+                    case "Email":
+                        lista = controllers.GetList(e => e.Direccion == Criterio);
+                        break;
                 }
-                else
-                {
-                    mensaje = "";
-                    switch (Filtro)
-                    {
-                        case "Todo":
-                            lista = controllers.GetList(e => true);
-                            break;
-                        case "Id":
-                            lista = controllers.GetList(e => e.ProveedorId == Convert.ToInt32(Criterio));
-                            break;
-                        case "Nombres":
-                            lista = controllers.GetList(e => e.Nombres == Criterio);
-                            break;
-                        case "Usuario":
-                            lista = controllers.GetList(e => Convert.ToString(e.Telefono) == Criterio);
-                            break;
-                        case "Email":
-                            lista = controllers.GetList(e => e.Direccion == Criterio);
-                            break;
-                    }
-                    
-                }
-            
+
+            }
+
         }
         catch (Exception)
         {
             throw;
         }
     }
-
+    private void Cargar()
+    {
+        lista = controllers.GetList(P => true);
+        conteo = Contexto.Proveedores.Count();
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+        this.lista = Contexto.Proveedores.Take(paginacion.CantidadMostrar).ToList();
+    }
 }
 
