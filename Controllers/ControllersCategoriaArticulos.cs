@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinalPA2.Data;
@@ -15,7 +16,7 @@ namespace ProyectoFinalPA2.Controllers
             Contexto db = new Contexto();
             try
             {
-                db.CategoriaArticulos.Add(categoriaArticulos);
+                db.CategoriaArticulo.Add(categoriaArticulos);
                 paso = db.SaveChanges() > 0;
             }
             catch (Exception)
@@ -46,13 +47,13 @@ namespace ProyectoFinalPA2.Controllers
             return paso;
         }
 
-        public Clientes Buscar(int id)
+        public CategoriaArticulos Buscar(int id)
         {
-            Clientes clientes = new Clientes();
+            CategoriaArticulos categoriaArticulos = new CategoriaArticulos();
             Contexto db = new Contexto();
             try
             {
-                clientes = db.Clientes.Find(id);
+                categoriaArticulos = db.CategoriaArticulo.Find(id);
             }
             catch (Exception)
             {
@@ -60,16 +61,16 @@ namespace ProyectoFinalPA2.Controllers
                 throw;
             }
 
-            return clientes;
+            return categoriaArticulos;
         }
         public bool Eliminar(int id)
         {
-            Clientes clientes = new Clientes();
+            CategoriaArticulos categoriaArticulos = new CategoriaArticulos();
             bool paso = false;
             Contexto db = new Contexto();
             try
             {
-                var eliminar = db.Clientes.Find(id);
+                var eliminar = db.CategoriaArticulo.Find(id);
                 db.Entry(eliminar).State = EntityState.Deleted;
                 paso = db.SaveChanges() > 0;
             }
@@ -80,14 +81,14 @@ namespace ProyectoFinalPA2.Controllers
             }
             return paso;
         }
-        public List<Clientes> GetList(Expression<Func<Clientes, bool>> expression)
+        public List<CategoriaArticulos> GetList(Expression<Func<CategoriaArticulos, bool>> expression)
         {
-            List<Clientes> lista = new List<Clientes>();
+            List<CategoriaArticulos> lista = new List<CategoriaArticulos>();
             Contexto db = new Contexto();
 
             try
             {
-                lista = db.Clientes.Where(expression).ToList();
+                lista = db.CategoriaArticulo.Where(expression).ToList();
             }
             catch (Exception)
             {
