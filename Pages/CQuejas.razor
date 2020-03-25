@@ -163,8 +163,8 @@
 
     private void Cargar()
     {
-          conteo = Contexto.Quejas.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+       conteo = Contexto.Quejas.Count();
+      totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
       this.lista = Contexto.Quejas.Take(paginacion.CantidadMostrar).ToList();
     }
 }
