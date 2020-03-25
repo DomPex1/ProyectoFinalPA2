@@ -105,10 +105,8 @@
 
     protected override void OnInitialized()
     {
-        conteo = Contexto.Quejas.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+      
         lista = new List<Quejas>();
-        this.lista = Contexto.Quejas.Take(paginacion.CantidadMostrar).ToList();
         DesdeFecha = DateTime.Now;
         HastaFecha = DateTime.Now;
     }
@@ -118,6 +116,7 @@
 
         try
         {
+            Cargar();
             if (Filtro == null)
             {
                 mensaje = "Debe seleccionar un Criterio";
@@ -160,5 +159,12 @@
         {
             throw;
         }
+    }
+
+    private void Cargar()
+    {
+          conteo = Contexto.Quejas.Count();
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+      this.lista = Contexto.Quejas.Take(paginacion.CantidadMostrar).ToList();
     }
 }

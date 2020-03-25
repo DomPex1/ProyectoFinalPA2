@@ -7,6 +7,8 @@
 
 Este sistema esta creado para el uso en la ferreteria Mendoza, asi facilitando la venta y el control de dicha entidad.
 
+![image](https://user-images.githubusercontent.com/50554753/77569618-d6747300-6ea0-11ea-8c65-363a47e89e07.png)
+
 ## **Contamos con:**
 
 
