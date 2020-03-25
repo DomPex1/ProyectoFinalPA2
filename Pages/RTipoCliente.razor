@@ -1,0 +1,131 @@
+﻿@page "/RTipoCliente/{TipoClienteId:int}"
+
+
+<div class="card bg-dark text-light">
+    <div class="card-body ">
+        <h1>TipoCliente</h1>
+
+        <EditForm Model="@tipoCliente" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <label for="TipoClienteId">Id</label>
+            <div class="form-inline">
+                <InputNumber @bind-Value="tipoCliente.TipoClienteId" class="form-control " />
+                <button type="button" class="btn btn-success mx-sm-3" @onclick="Buscar">Buscar</button>
+            </div>
+            <br />
+            <div class="form-group">
+                <label for="Descripcion">Descripcion</label>
+                <InputText @bind-Value="tipoCliente.Descripcion" class="form-control col-md-2" />
+
+            </div>
+
+            <br />
+
+            <div class="form-group">
+
+                <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
+                <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
+                <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
+            </div>
+
+            <h3>@Mensaje</h3>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int TipoClienteId { get; set; }
+    ControllersTipoCliente controllers = new ControllersTipoCliente();
+
+    TipoCliente tipoCliente = new TipoCliente();
+
+    public string Mensaje;
+
+    protected override void OnInitialized()
+    {
+        if (TipoClienteId != 0)
+        {
+            tipoCliente.TipoClienteId = TipoClienteId;
+            Buscar();
+        }
+    }
+    private void Guardar()
+    {
+
+        if (tipoCliente.TipoClienteId == 0)
+        {
+            controllers.Guardar(tipoCliente);
+            Mensaje = "Guardo";
+            Limpiar();
+        }
+        else
+        {
+            if (controllers.Buscar(tipoCliente.TipoClienteId) != null)
+            {
+                controllers.Modificar(tipoCliente);
+                Mensaje = "Modifico";
+                Limpiar();
+            }
+
+        }
+    }
+    private void Limpiar()
+    {
+        tipoCliente = new TipoCliente();
+
+    }
+
+
+    private void Eliminar()
+    {
+
+        if (tipoCliente.TipoClienteId != 0)
+        {
+            if (controllers.Buscar(tipoCliente.TipoClienteId) != null)
+            {
+
+                controllers.Eliminar(tipoCliente.TipoClienteId);
+                Mensaje = "Eliminado";
+                Limpiar();
+
+            }
+            else
+            {
+                Mensaje = "Id no existe";
+            }
+
+        }
+        else
+        {
+            Mensaje = "Selecione un ID";
+        }
+
+    }
+    private void Buscar()
+    {
+
+        if (tipoCliente.TipoClienteId != 0)
+        {
+            if (controllers.Buscar(tipoCliente.TipoClienteId) != null)
+            {
+
+                tipoCliente = controllers.Buscar(tipoCliente.TipoClienteId);
+
+            }
+            else
+            {
+                Mensaje = "Id no existe";
+            }
+
+        }
+        else
+        {
+            Mensaje = "Selecione un ID";
+        }
+
+
+    }
+}
