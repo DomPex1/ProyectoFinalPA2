@@ -92,12 +92,31 @@
     private string Criterio { get; set; }
     private string mensaje;
 
+    private void NumeroSaltar()
+    {
+        Contador = I - 1;
+        Saltar();
+    }
+
+    private void Saltar()
+    {
+        Contador += paginacion.Pagina;
+        if (Contador >= totaldepaginas)
+        {
+            Contador = 0;
+        }
+        lista = Contexto.Clientes
+            .Skip(Contador * paginacion.CantidadMostrar)
+            .Take(paginacion.CantidadMostrar)
+            .ToList();
+    }
+
     protected override async Task OnInitializedAsync()
     {
-        conteo = Contexto.Clientes.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+      
         lista = new List<Clientes>();
-        this.lista = Contexto.Clientes.Take(paginacion.CantidadMostrar).ToList();
+
+        
 
     }
 
@@ -152,10 +171,12 @@
     }
 
     private void Cargar()
-    { 
+    {
           conteo = Contexto.Clientes.Count();
-          totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
-          this.lista = Contexto.Clientes.Take(paginacion.CantidadMostrar).ToList();   
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+        conteo = Contexto.Clientes.Count();
+        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
+        this.lista = Contexto.Clientes.Take(paginacion.CantidadMostrar).ToList();
     }
 
 
