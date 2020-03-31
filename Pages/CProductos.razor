@@ -109,30 +109,13 @@
     public DateTime DesdeFecha { get; set; }
     public DateTime HastaFecha { get; set; }
 
-    private void NumSaltar()
-    {
-        Contador = I - 1;
-        Saltar();
-    }
 
-    private void Saltar()
-    {
-        Contador += paginacion.Pagina;
-        if (Contador >= totaldepaginas)
-        {
-            Contador = 0;
-        }
-        lista = Contexto.Productos
-            .Skip(Contador * paginacion.CantidadMostrar)
-            .Take(paginacion.CantidadMostrar)
-            .ToList();
-    }
 
     protected override void OnInitialized()
     {
-      
+
         lista = new List<Productos>();
-       DesdeFecha = DateTime.Now;
+        DesdeFecha = DateTime.Now;
         HastaFecha = DateTime.Now;
 
     }
@@ -193,12 +176,5 @@
         {
             throw;
         }
-    }
-     private void Cargar()
-    { 
-        conteo = Contexto.Productos.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
-        this.lista = Contexto.Productos.Take(paginacion.CantidadMostrar).ToList();
-
     }
 }

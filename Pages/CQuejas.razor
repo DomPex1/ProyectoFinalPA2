@@ -103,25 +103,7 @@
     Contexto Contexto = new Contexto();
     double conteo = 0;
 
-    public void NumeroSaltar()
-    {
-        Contador = I - 1;
-        Saltar();
-    }
-
-    public void Saltar()
-    {
-        Contador += paginacion.Pagina;
-        if (Contador >= totaldepaginas)
-        {
-            Contador = 0;
-        }
-        lista = Contexto.Quejas
-            .Skip(Contador * paginacion.CantidadMostrar)
-            .Take(paginacion.CantidadMostrar)
-            .ToList();
-    }
-
+ 
     protected override void OnInitialized()
     {
         
@@ -138,7 +120,7 @@
 
         try
         {
-            Cargar();
+          
             if (Filtro == null)
             {
                 mensaje = "Debe seleccionar un Criterio";
@@ -183,10 +165,4 @@
         }
     }
 
-    private void Cargar()
-    {
-        conteo = Contexto.Quejas.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
-                this.lista = Contexto.Quejas.Take(paginacion.CantidadMostrar).ToList();
-    }
 }

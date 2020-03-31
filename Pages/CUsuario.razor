@@ -113,24 +113,7 @@
     public DateTime DesdeFecha { get; set; }
     public DateTime HastaFecha { get; set; }
 
-    private void NumeroSaltar()
-    {
-        Contador = I - 1;
-        Saltar();
-    }
-
-    private void Saltar()
-    {
-        Contador += paginacion.Pagina;
-        if (Contador >= totaldepaginas)
-        {
-            Contador = 0;
-        }
-        lista = Contexto.Usuarios
-            .Skip(Contador * paginacion.CantidadMostrar)
-            .Take(paginacion.CantidadMostrar)
-            .ToList();
-    }
+ 
 
     protected override void OnInitialized()
     {
@@ -148,7 +131,7 @@
 
         try
         {
-            cargar();
+           
 
             if (Filtro == null)
             {
@@ -196,11 +179,4 @@
         }
     }
 
-    private void cargar()
-    { 
-  conteo = Contexto.Usuarios.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
-        this.lista = Contexto.Usuarios.Take(paginacion.CantidadMostrar).ToList();       
-        NumeroSaltar();
-    }
 }
