@@ -1,161 +1,244 @@
 ﻿@page "/RUsuarios/{UsuarioId:int}"
+@inject IToastService toastService
+@using Blazored.Toast.Configuration
 
-    <div class="card bg-dark text-light">
-        <div class="card-body ">
-            <h1>Registro Usuario</h1>
-
-            <EditForm Model="@usuarios" OnValidSubmit="Guardar">
-                <DataAnnotationsValidator />
-                <ValidationSummary />
-                <label for="UsuarioId">Id</label>
-                <div class="form-inline">
-                    <InputNumber @bind-Value="usuarios.UsuarioId" class="form-control " />
-                    <button type="button" class="btn btn-success mx-sm-3" @onclick="Buscar">Buscar</button>
-                </div>
-                <br />
-
-                <div class="form-group ">
-                    <label for="Nombre">Nombres</label>
-                    <InputText @bind-Value="usuarios.Nombres" class="form-control col-md-2" />
-                </div>
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug" />
 
 
-                <div class="form-group ">
-                    <label for="Usuario"> Usuario</label>
-                    <InputText @bind-Value="usuarios.Usuario" class="form-control col-md-2" />
-                </div>
 
-                <div class="form-group ">
-                    <label for="Clave">Clave</label>
-                    <input type="password" @bind="usuarios.Clave" class="form-control col-md-2" />
-                </div>
-                <div class="form-group">
-                    <label for="NivelUsuario">NivelUsuario</label>
-                    <InputSelect @bind-Value="@usuarios.NivelUsuario" class="form-control col-md-2">
-                        <option value="" disabled selected>Seleccione un nivel</option>
+<div class="card bg-dark text-light">
+    <div class="card-body ">
+        <h1>Registro Usuario</h1>
 
-                        <option>Administrador</option>
-                        <option>Empleado</option>
+        <EditForm Model="@usuarios" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <label for="UsuarioId">Id</label>
+            <div class="form-inline">
+                <InputNumber @bind-Value="usuarios.UsuarioId" class="form-control " />
+                <button type="button" class="btn btn-success mx-sm-3" @onclick="Buscar">Buscar</button>
+            </div>
+            <br />
 
-                    </InputSelect>
-                </div>
-                <div class="form-group">
-                    <label for="FechaCreacion"> Fecha</label>
-                    <InputDate @bind-Value="usuarios.FechaCreacion" class="form-control col-md-2" />
-                </div>
-                <div class="form-group ">
-                    <label for="Email"> Email</label>
-                    <InputText @bind-Value="usuarios.Email" class="form-control col-md-3 " />
-                </div>
-                <br />
-                
-                <div class="form-group">
-                    <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
-                    <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
-                    <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
-                </div>
+            <div class="form-group ">
+                <label for="Nombre">Nombres</label>
+                <InputText @bind-Value="usuarios.Nombres" class="form-control col-md-2" />
+            </div>
 
-                <h3>@Mensaje</h3>
-            </EditForm>
-        </div>
+
+            <div class="form-group ">
+                <label for="Usuario"> Usuario</label>
+                <InputText @bind-Value="usuarios.Usuario" class="form-control col-md-2" />
+            </div>
+
+            <div class="form-group ">
+                <label for="Clave">Clave</label>
+                <input type="password" @bind="usuarios.Clave" class="form-control col-md-2" />
+            </div>
+            <div class="form-group">
+                <label for="NivelUsuario">NivelUsuario</label>
+                <InputSelect @bind-Value="@usuarios.NivelUsuario" class="form-control col-md-2">
+                    <option value="" disabled selected>Seleccione un nivel</option>
+
+                    <option>Administrador</option>
+                    <option>Empleado</option>
+
+                </InputSelect>
+            </div>
+            <div class="form-group">
+                <label for="FechaCreacion"> Fecha</label>
+                <InputDate @bind-Value="usuarios.FechaCreacion" class="form-control col-md-2" />
+            </div>
+            <div class="form-group ">
+                <label for="Email"> Email</label>
+                <InputText @bind-Value="usuarios.Email" class="form-control col-md-3 " />
+            </div>
+            <br />
+
+            <div class="form-group">
+                <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
+                <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
+                <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
+            </div>
+
+            
+            <BlazoredToasts />
+        </EditForm>
     </div>
+</div>
 
-            @code {
-                [Parameter]
-                public int UsuarioId { get; set; }
-                ControllersUsuario controllers = new ControllersUsuario();
-                Usuarios usuarios = new Usuarios();
-                public string Mensaje;
+@code {
+    [Parameter]
+    public int UsuarioId { get; set; }
+    ControllersUsuario controllers = new ControllersUsuario();
+    Usuarios usuarios = new Usuarios();
+    public string Mensaje;
 
-                protected override void OnInitialized()
-                {
-                    if (UsuarioId > 0)
-                    {
-                        usuarios.UsuarioId = UsuarioId;
-                        Buscar();
-                    }
-                }
+    protected override void OnInitialized()
+    {
+        if (UsuarioId > 0)
+        {
+            usuarios.UsuarioId = UsuarioId;
+            Buscar();
+        }
+    }
 
-                private void Guardar()
-                {
-                    Mensaje= string.Empty;
-                    if (usuarios.UsuarioId == 0)
-                    {
-                        controllers.Guardar(usuarios);
-                        Mensaje = "Guardo";
-                        Limpiar();
-                    }
-                    else
-                    {
-                        if (controllers.Buscar(usuarios.UsuarioId) != null)
-                        {
-                            controllers.Modificar(usuarios);
-                            Mensaje = "Modifico";
-                            Limpiar();
-                        }
+    private void Guardar()
+    {
+        if (EmailExiste())
+        {
+            toastService.ShowError("Email en uso por otro usuario.", "Error");
+            
+            return;
+        }
 
-                    }
-                }
+        if (UsuarioExiste())
+        {
+            toastService.ShowError("usuario ya en uso.", "Error");
+            
+            return;
+        }
 
-                private void Limpiar()
-                {
-                    usuarios = new Usuarios();
-                    
-                }
-
-                private void Nuevo()
-                {
-                    Mensaje= string.Empty;
-                    Limpiar();
-                }
-                private void Eliminar()
-
-                {
-                    Mensaje= string.Empty;
-                    if (usuarios.UsuarioId != 0)
-                    {
-                        if (controllers.Buscar(usuarios.UsuarioId) != null)
-                        {
-
-                            controllers.Eliminar(usuarios.UsuarioId);
-                            Mensaje = "Eliminado";
-                            Limpiar();
-
-                        }
-                        else
-                        {
-                            Mensaje = "Id no existe";
-                        }
-
-                    }
-                    else
-                    {
-                        Mensaje = "Selecione un ID";
-                    }
-
-                }
-                private void Buscar()
-                {
-                    Mensaje= string.Empty;
-                    if (usuarios.UsuarioId != 0)
-                    {
-                        if (controllers.Buscar(usuarios.UsuarioId) != null)
-                        {
-
-                            usuarios = controllers.Buscar(usuarios.UsuarioId);
-
-                        }
-                        else
-                        {
-                            Mensaje = "Id no existe";
-                        }
-
-                    }
-                    else
-                    {
-                        Mensaje = "Selecione un ID";
-                    }
-
-
-                }
+        Mensaje = string.Empty;
+        if (usuarios.UsuarioId == 0)
+        {
+            controllers.Guardar(usuarios);
+            
+            toastService.ShowSuccess("Usuario guardado.", "logrado con exito");
+            Limpiar();
+        }
+        else
+        {
+            if (controllers.Buscar(usuarios.UsuarioId) != null)
+            {
+                controllers.Modificar(usuarios);
+                
+                toastService.ShowSuccess("Usuario modificado.", "Exito");
+                Limpiar();
             }
+
+        }
+    }
+
+    private void Limpiar()
+    {
+        usuarios = new Usuarios();
+
+    }
+
+    private void Nuevo()
+    {
+        
+        Limpiar();
+    }
+    private void Eliminar()
+
+    {
+        Mensaje = string.Empty;
+        if (usuarios.UsuarioId != 0)
+        {
+            if (controllers.Buscar(usuarios.UsuarioId) != null)
+            {
+
+                controllers.Eliminar(usuarios.UsuarioId);
+                toastService.ShowSuccess("Usuario guardado.", "logrado con exito");
+                Limpiar();
+
+            }
+            else
+            {
+                toastService.ShowWarning("Id no existe.", "Precaución");
+                
+            }
+
+        }
+        else
+        {
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
+            
+        }
+
+    }
+    private void Buscar()
+    {
+        Mensaje = string.Empty;
+        if (usuarios.UsuarioId != 0)
+        {
+            if (controllers.Buscar(usuarios.UsuarioId) != null)
+            {
+
+                usuarios = controllers.Buscar(usuarios.UsuarioId);
+                toastService.ShowSuccess("Usuario encontrado.", "logrado con exito");
+
+            }
+            else
+            {
+                
+                toastService.ShowWarning("Id no existe.", "Precaución");
+            }
+
+        }
+        else
+        {
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
+        }
+        
+
+    }
+    public bool UsuarioExiste()
+    {
+        bool paso = false;
+        var Listado = new List<Usuarios>();
+
+        Listado = controllers.GetList(p => p.Usuario == usuarios.Usuario);
+
+        if (Listado.Count == 1)
+        {
+            if (usuarios.UsuarioId == 0)
+                return paso = true;
+
+            Usuarios UsuarioTemporal = new Usuarios();
+            UsuarioTemporal = Listado[0];
+            if (UsuarioTemporal.UsuarioId != usuarios.UsuarioId)
+            {
+                paso = true;
+            }
+        }
+        else if (Listado.Count > 1)
+        {
+            paso = true;
+        }
+
+        return paso;
+    }
+    public bool EmailExiste()
+    {
+        bool paso = false;
+        var Listado = new List<Usuarios>();
+
+        Listado = controllers.GetList(p => p.Email == usuarios.Email);
+
+        if (Listado.Count == 1)
+        {
+            if (usuarios.UsuarioId == 0)
+                return paso = true;
+
+            Usuarios UsuarioTemporal = new Usuarios();
+            UsuarioTemporal = Listado[0];
+            if (UsuarioTemporal.UsuarioId != usuarios.UsuarioId)
+            {
+                paso = true;
+            }
+        }
+        else if (Listado.Count > 1)
+        {
+            paso = true;
+        }
+
+        return paso;
+    }
+}
