@@ -26,7 +26,7 @@ namespace ProyectoFinalPA2.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(@"Server= .\SQLEXPRESS; Database=FerreteriaMendozaDb; trusted_connection=true");
+            optionsBuilder.UseSqlServer(@"Server=tcp:proyectofinalpa220200331111503dbserver.database.windows.net,1433;Initial Catalog=ProyectoFinalPA220200331111503_db;Persist Security Info=False;User ID=ErickGutierrez;Password=!MiContrasena123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30");
         }
     }
 }
