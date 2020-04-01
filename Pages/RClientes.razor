@@ -21,6 +21,18 @@
 
             </div>
             <div class="form-group">
+                <label for="Proveedor">Proveedor</label>
+                <div class="form-group">
+                    <InputSelect @bind-Value="@TipoclienteSeleccionado" class="form-control col-md-3" @onchange="CargarTipoCliente" @onclick="CargarTipoCliente">
+                        <option value="" disabled selected>Seleccione un proveedor</option>
+                        @foreach (var item in listaTipoCliente)
+                        {
+                            <option value="@item.TipoClienteId">@item.Descripcion</option>
+                        }
+                    </InputSelect>
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="Nombre">Email</label>
                 <InputText @bind-Value="clientes.Email" class="form-control col-md-2" />
 
@@ -52,10 +64,12 @@
     [Parameter]
     public int ClienteId { get; set; }
     ControllersCliente controllers = new ControllersCliente();
-
+    private string TipoclienteSeleccionado;
+    private TipoCliente tipoCliente;
+    private List<TipoCliente> listaTipoCliente = new List<TipoCliente>();
     Clientes clientes = new Clientes();
     public string Mensaje;
-
+    ControllersTipoCliente controllersTipoCliente = new ControllersTipoCliente();
     protected override void OnInitialized()
     {
         if (ClienteId != 0)
@@ -66,7 +80,7 @@
     }
     private void Guardar()
     {
-         
+        listaTipoCliente = controllersTipoCliente.GetList(e => true); 
         if (clientes.ClienteId == 0)
         {
             controllers.Guardar(clientes);
@@ -140,4 +154,18 @@
 
 
     }
+    public void CargarTipoCliente()
+    {
+        try
+        {
+            tipoCliente = controllersTipoCliente.Buscar(Convert.ToInt32(TipoclienteSeleccionado));
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+
 }
