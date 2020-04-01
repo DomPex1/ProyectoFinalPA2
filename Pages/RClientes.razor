@@ -33,7 +33,7 @@
                 <label for="Tipodecliente">Tipo de cliente</label>
                 <div class="form-group">
                     <InputSelect @bind-Value="@clientes.TipoCliente" class="form-control col-md-3" @onchange="CargarTipoCliente" @onclick="CargarTipoCliente">
-                        <option value="" disabled selected>Seleccione un proveedor</option>
+                        <option value="" disabled selected>Seleccione un tipo de cliente</option>
                         @foreach (var item in listaTipoCliente)
                         {
                             <option value="@item.TipoClienteId">@item.Descripcion</option>
