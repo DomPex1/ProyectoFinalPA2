@@ -1,5 +1,14 @@
-﻿@page "/RPedidos"
+﻿
 @page "/RPedidos/{PedidosId:int}"
+
+@inject IToastService toastService
+
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug" />
 
 <div class="card bg-dark text-light">
     <div class="card-body ">
@@ -112,7 +121,7 @@
                 <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
             </div>
 
-            <h3>@Mensaje</h3>
+            <BlazoredToasts />
         </EditForm>
     </div>
 </div>
@@ -161,7 +170,7 @@
         if (pedidos.PedidosId == 0)
         {
             controllers.Guardar(pedidos);
-            Mensaje = "Guardo";
+            toastService.ShowSuccess("Pedido guardado.", "logrado con exito");
             Limpiar();
         }
         else
@@ -169,7 +178,7 @@
             if (controllers.Buscar(pedidos.PedidosId) != null)
             {
                 controllers.Modificar(pedidos);
-                Mensaje = "Modifico";
+                toastService.ShowSuccess("Pedido modificado.", "Exito");
                 Limpiar();
             }
 
@@ -234,19 +243,19 @@
             {
 
                 controllers.Eliminar(pedidos.PedidosId);
-                Mensaje = "Eliminado";
+                toastService.ShowSuccess("Pedido eliminado.", "logrado con exito");
                 Limpiar();
 
             }
             else
             {
-                Mensaje = "Id no existe";
+                toastService.ShowWarning("Id no existe.", "Precaución");
             }
 
         }
         else
         {
-            Mensaje = "Selecione un ID";
+             toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
     }
@@ -258,18 +267,19 @@
             {
 
                 pedidos = controllers.Buscar(pedidos.PedidosId);
+                toastService.ShowSuccess("Pedido encontrado.", "logrado con exito");
 
 
             }
             else
             {
-                Mensaje = "Id no existe";
+                toastService.ShowWarning("Id no existe.", "Precaución");
             }
 
         }
         else
         {
-            Mensaje = "Selecione un ID";
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
 
@@ -285,13 +295,15 @@
         {
             if (disponible < pedidos.Cantidad)
             {
-                Mensaje = "Cantidad no puede pasar disponible";
+                toastService.ShowWarning("Cantidad no puede pasar disponible.", "Precaución");
+                
             }
             else
             {
                 if (pedidos.Detalles.Any(i => i.ProductoId == productos.ProductoId))
                 {
-                    Mensaje = "Este producto ya esta seleccionado";
+                    toastService.ShowWarning("Este producto ya esta seleccionado", "Precaución");
+                    
                 }
                 else
                 {

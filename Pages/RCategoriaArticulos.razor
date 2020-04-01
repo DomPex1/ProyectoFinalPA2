@@ -1,5 +1,13 @@
 ﻿@page "/RCategoriaArticulos/{CategoriaId:int}"
 
+@inject IToastService toastService
+
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug" />
 
 <div class="card bg-dark text-light">
     <div class="card-body ">
@@ -20,7 +28,7 @@
                 <InputText @bind-Value="categoriaArticulos.Descripcion" class="form-control col-md-2" />
 
             </div>
-            
+
 
             <br />
 
@@ -31,7 +39,7 @@
                 <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
             </div>
 
-            <h3>@Mensaje</h3>
+            <BlazoredToasts />
         </EditForm>
     </div>
 </div>
@@ -60,7 +68,7 @@
         if (categoriaArticulos.CategoriaId == 0)
         {
             controllers.Guardar(categoriaArticulos);
-            Mensaje = "Guardo";
+            toastService.ShowSuccess("CategoriaArticulo guardado.", "logrado con exito");
             Limpiar();
         }
         else
@@ -68,7 +76,7 @@
             if (controllers.Buscar(categoriaArticulos.CategoriaId) != null)
             {
                 controllers.Modificar(categoriaArticulos);
-                Mensaje = "Modifico";
+                toastService.ShowSuccess("CategoriaArticulo modificado.", "Exito");
                 Limpiar();
             }
 
@@ -90,19 +98,19 @@
             {
 
                 controllers.Eliminar(categoriaArticulos.CategoriaId);
-                Mensaje = "Eliminado";
+                toastService.ShowSuccess("CategoriaArticulo eliminado.", "logrado con exito");
                 Limpiar();
 
             }
             else
             {
-                Mensaje = "Id no existe";
+                toastService.ShowWarning("Id no existe.", "Precaución");
             }
 
         }
         else
         {
-            Mensaje = "Selecione un ID";
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
     }
@@ -115,17 +123,17 @@
             {
 
                 categoriaArticulos = controllers.Buscar(categoriaArticulos.CategoriaId);
-
+                toastService.ShowSuccess("CategoriaArticulo encontrado.", "logrado con exito");
             }
             else
             {
-                Mensaje = "Id no existe";
+                toastService.ShowWarning("Id no existe.", "Precaución");
             }
 
         }
         else
         {
-            Mensaje = "Selecione un ID";
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
 
