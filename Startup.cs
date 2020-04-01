@@ -13,6 +13,7 @@ using ProyectoFinalPA2.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
+using Blazored.Toast;
 
 namespace ProyectoFinalPA2
 {
@@ -57,6 +58,7 @@ namespace ProyectoFinalPA2
             services.AddScoped<HttpClient>();
             // BLAZOR COOKIE Auth Code (end)
             // ******
+            services.AddBlazoredToast();
 
         }
 

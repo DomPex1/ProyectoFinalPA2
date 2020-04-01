@@ -10,8 +10,8 @@ using ProyectoFinalPA2.Data;
 namespace ProyectoFinalPA2.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200401031305_incial")]
-    partial class incial
+    [Migration("20200401205219_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,6 +58,11 @@ namespace ProyectoFinalPA2.Migrations
                     b.Property<string>("Telefono")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipoCliente")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(40)")
+                        .HasMaxLength(40);
 
                     b.HasKey("ClienteId");
 

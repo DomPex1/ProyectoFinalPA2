@@ -1,5 +1,14 @@
 ﻿@page "/RClientes/{ClienteId:int}"
 
+@inject IToastService toastService
+
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug" />
+
 
 <div class="card bg-dark text-light">
     <div class="card-body ">
@@ -19,6 +28,18 @@
                 <label for="Nombre">Nombre</label>
                 <InputText @bind-Value="clientes.Nombre" class="form-control col-md-2" />
 
+            </div>
+            <div class="form-group">
+                <label for="Tipodecliente">Tipo de cliente</label>
+                <div class="form-group">
+                    <InputSelect @bind-Value="@clientes.TipoCliente" class="form-control col-md-3" @onchange="CargarTipoCliente" @onclick="CargarTipoCliente">
+                        <option value="" disabled selected>Seleccione un proveedor</option>
+                        @foreach (var item in listaTipoCliente)
+                        {
+                            <option value="@item.TipoClienteId">@item.Descripcion</option>
+                        }
+                    </InputSelect>
+                </div>
             </div>
             <div class="form-group">
                 <label for="Nombre">Email</label>
@@ -41,7 +62,7 @@
                 <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
             </div>
 
-            <h3>@Mensaje</h3>
+            <BlazoredToasts />
         </EditForm>
     </div>
 </div>
@@ -52,25 +73,34 @@
     [Parameter]
     public int ClienteId { get; set; }
     ControllersCliente controllers = new ControllersCliente();
-
+    private string TipoclienteSeleccionado;
+    private TipoCliente tipoCliente;
+    private List<TipoCliente> listaTipoCliente = new List<TipoCliente>();
     Clientes clientes = new Clientes();
     public string Mensaje;
-
+    ControllersTipoCliente controllersTipoCliente = new ControllersTipoCliente();
     protected override void OnInitialized()
     {
         if (ClienteId != 0)
         {
+            listaTipoCliente = controllersTipoCliente.GetList(e => true);
             clientes.ClienteId = ClienteId;
             Buscar();
         }
     }
     private void Guardar()
     {
-         
+        if (EmailExiste())
+        {
+            toastService.ShowError("Email en uso por otro cliente.", "Error");
+            
+            return;
+        }
+
         if (clientes.ClienteId == 0)
         {
             controllers.Guardar(clientes);
-            Mensaje = "Guardo";
+            toastService.ShowSuccess("Cliente guardado.", "logrado con exito");
             Limpiar();
         }
         else
@@ -78,7 +108,7 @@
             if (controllers.Buscar(clientes.ClienteId) != null)
             {
                 controllers.Modificar(clientes);
-                Mensaje = "Modifico";
+                toastService.ShowSuccess("Cliente modificado.", "Exito");
                 Limpiar();
             }
 
@@ -86,58 +116,99 @@
     }
     private void Limpiar()
     {
-         clientes= new Clientes();
+        clientes = new Clientes();
 
     }
 
 
     private void Eliminar()
     {
-         
+
         if (clientes.ClienteId != 0)
         {
             if (controllers.Buscar(clientes.ClienteId) != null)
             {
 
                 controllers.Eliminar(clientes.ClienteId);
-                Mensaje = "Eliminado";
+                toastService.ShowSuccess("Cliente eliminado.", "logrado con exito");
                 Limpiar();
 
             }
             else
             {
-                Mensaje = "Id no existe";
+                toastService.ShowWarning("Id no existe.", "Precaución");
             }
 
         }
         else
         {
-            Mensaje = "Selecione un ID";
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
     }
     private void Buscar()
     {
-         
+
         if (clientes.ClienteId != 0)
         {
             if (controllers.Buscar(clientes.ClienteId) != null)
             {
 
                 clientes = controllers.Buscar(clientes.ClienteId);
+                toastService.ShowSuccess("Cliente encontrado.", "logrado con exito");
 
             }
             else
             {
-                Mensaje = "Id no existe";
+                toastService.ShowWarning("Id no existe.", "Precaución");
             }
 
         }
         else
         {
-            Mensaje = "Selecione un ID";
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
 
     }
+    public void CargarTipoCliente()
+    {
+        try
+        {
+            tipoCliente = controllersTipoCliente.Buscar(Convert.ToInt32(TipoclienteSeleccionado));
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    public bool EmailExiste()
+    {
+        bool paso = false;
+        var Listado = new List<Clientes>();
+
+        Listado = controllers.GetList(p => p.Email == clientes.Email);
+
+        if (Listado.Count == 1)
+        {
+            if (clientes.ClienteId == 0)
+                return paso = true;
+
+            Clientes clienteTemporal = new Clientes();
+            clienteTemporal = Listado[0];
+            if (clienteTemporal.ClienteId != clientes.ClienteId)
+            {
+                paso = true;
+            }
+        }
+        else if (Listado.Count > 1)
+        {
+            paso = true;
+        }
+
+        return paso;
+    }
+
 }

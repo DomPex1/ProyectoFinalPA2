@@ -149,7 +149,7 @@
 
        
     }
-        private void Paginar()
+    private void Paginar()
     {
 
         paginaActual = 1;
@@ -157,7 +157,6 @@
         paginas = Math.Ceiling(cantidad / paginacion.Mostrar);
         listaPaginado = lista.Take(paginacion.Mostrar).ToList();
     }
-
     private void Buscar()
     {
 
