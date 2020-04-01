@@ -149,6 +149,14 @@
 
        
     }
+        private void Paginar()
+    {
+
+        paginaActual = 1;
+        cantidad = lista.Count();
+        paginas = Math.Ceiling(cantidad / paginacion.Mostrar);
+        listaPaginado = lista.Take(paginacion.Mostrar).ToList();
+    }
 
     private void Buscar()
     {
