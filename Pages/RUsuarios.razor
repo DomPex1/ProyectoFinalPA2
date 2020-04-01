@@ -1,6 +1,6 @@
 ﻿@page "/RUsuarios/{UsuarioId:int}"
 @inject IToastService toastService
-@using Blazored.Toast.Configuration
+
 
 <BlazoredToasts Position="ToastPosition.BottomRight"
                 Timeout="5"
@@ -145,7 +145,7 @@
             {
 
                 controllers.Eliminar(usuarios.UsuarioId);
-                toastService.ShowSuccess("Usuario guardado.", "logrado con exito");
+                toastService.ShowSuccess("Usuario eliminado.", "logrado con exito");
                 Limpiar();
 
             }

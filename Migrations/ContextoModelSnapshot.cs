@@ -57,6 +57,11 @@ namespace ProyectoFinalPA2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TipoCliente")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(40)")
+                        .HasMaxLength(40);
+
                     b.HasKey("ClienteId");
 
                     b.ToTable("Clientes");
