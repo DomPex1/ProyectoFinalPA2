@@ -14,7 +14,8 @@ Este sistema esta creado para el uso en la ferreteria Mendoza, asi facilitando l
 
 ![image](https://user-images.githubusercontent.com/50554753/77497466-c36f8d80-6e23-11ea-97df-d8e0fa1878f5.png)
  
-  ![image](https://user-images.githubusercontent.com/50554753/77497565-016cb180-6e24-11ea-93cb-854c14a18647.png)
+  ![image](https://user-images.githubusercontent.com/50554753/78186383-a564e700-743a-11ea-9dbc-35eeb69a3ca7.png)
+  
   ![image](https://user-images.githubusercontent.com/50554753/77497783-8c4dac00-6e24-11ea-9f4a-bf78b19445a7.png)
 ##
 ![image](https://user-images.githubusercontent.com/50554753/77497835-a8514d80-6e24-11ea-98b9-735668bd51b3.png)
