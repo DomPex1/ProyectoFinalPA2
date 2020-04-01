@@ -23,7 +23,7 @@
             <div class="form-group">
                 <label for="Proveedor">Proveedor</label>
                 <div class="form-group">
-                    <InputSelect @bind-Value="@TipoclienteSeleccionado" class="form-control col-md-3" @onchange="CargarTipoCliente" @onclick="CargarTipoCliente">
+                    <InputSelect @bind-Value="@clientes.ToString" class="form-control col-md-3" @onchange="CargarTipoCliente" @onclick="CargarTipoCliente">
                         <option value="" disabled selected>Seleccione un proveedor</option>
                         @foreach (var item in listaTipoCliente)
                         {
@@ -74,13 +74,14 @@
     {
         if (ClienteId != 0)
         {
+            listaTipoCliente = controllersTipoCliente.GetList(e => true);
             clientes.ClienteId = ClienteId;
             Buscar();
         }
     }
     private void Guardar()
     {
-        listaTipoCliente = controllersTipoCliente.GetList(e => true); 
+        clientes.TipoCliente = TipoclienteSeleccionado;
         if (clientes.ClienteId == 0)
         {
             controllers.Guardar(clientes);
@@ -100,14 +101,14 @@
     }
     private void Limpiar()
     {
-         clientes= new Clientes();
+        clientes= new Clientes();
 
     }
 
 
     private void Eliminar()
     {
-         
+
         if (clientes.ClienteId != 0)
         {
             if (controllers.Buscar(clientes.ClienteId) != null)
@@ -132,7 +133,7 @@
     }
     private void Buscar()
     {
-         
+
         if (clientes.ClienteId != 0)
         {
             if (controllers.Buscar(clientes.ClienteId) != null)
