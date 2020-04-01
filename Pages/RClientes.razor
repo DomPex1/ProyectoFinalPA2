@@ -32,7 +32,7 @@
             <div class="form-group">
                 <label for="Tipodecliente">Tipo de cliente</label>
                 <div class="form-group">
-                    <InputSelect @bind-Value="@clientes.TipoCliente" class="form-control col-md-3" @onchange="CargarTipoCliente" @onclick="CargarTipoCliente">
+                    <InputSelect @bind-Value="@TipoclienteSeleccionado" class="form-control col-md-3" @onchange="CargarTipoCliente" @onclick="CargarTipoCliente">
                         <option value="" disabled selected>Seleccione un tipo de cliente</option>
                         @foreach (var item in listaTipoCliente)
                         {
@@ -89,7 +89,8 @@
         }
     }
     private void Guardar()
-    {
+    {   
+        clientes.TipoCliente=Convert.ToInt32(TipoclienteSeleccionado);
         if (EmailExiste())
         {
             toastService.ShowError("Email en uso por otro cliente.", "Error");
@@ -117,6 +118,7 @@
     private void Limpiar()
     {
         clientes = new Clientes();
+        TipoclienteSeleccionado=string.Empty;
 
     }
 

@@ -1,74 +1,95 @@
 ﻿@page "/RProductos/{ProductoId:int}"
 
-    <div class="card bg-dark text-light">
-        <div class="card-body ">
-            <h1>Registro Productos</h1>
+@inject IToastService toastService
 
-            <EditForm Model="@productos" OnValidSubmit="Guardar">
-                <DataAnnotationsValidator />
-                <ValidationSummary />
 
-                <label for="UsuarioId">Id</label>
-                <div class="form-inline">
-                    <InputNumber @bind-Value="productos.ProductoId" class="form-control " />
-                    <button type="button" class="btn btn-success mx-sm-3" @onclick="Buscar">Buscar</button>
-                </div>
-                <br />
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug" />
+
+<div class="card bg-dark text-light">
+    <div class="card-body ">
+        <h1>Registro Productos</h1>
+
+        <EditForm Model="@productos" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <label for="UsuarioId">Id</label>
+            <div class="form-inline">
+                <InputNumber @bind-Value="productos.ProductoId" class="form-control " />
+                <button type="button" class="btn btn-success mx-sm-3" @onclick="Buscar">Buscar</button>
+            </div>
+            <br />
+            <div class="form-group">
+                <label for="categoriadearticulo">categoria de articulo</label>
                 <div class="form-group">
-                    <label for="Descripcion">Descripcion</label>
-                    <InputText @bind-Value="productos.Descripcion" class="form-control col-md-3 " />
+                    <InputSelect @bind-Value="@CategoriaArticuloSeleccionado" class="form-control col-md-3" @onchange="CargarCategoriaArticulo" @onclick="CargarCategoriaArticulo">
+                        <option value="" disabled selected>Seleccione un tipo de cliente</option>
+                        @foreach (var item in listaCategoriaArticulos)
+                        {
+                            <option value="@item.CategoriaId">@item.Descripcion</option>
+                        }
+                    </InputSelect>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Descripcion">Descripcion</label>
+                <InputText @bind-Value="productos.Descripcion" class="form-control col-md-3 " />
 
-                </div>
+            </div>
+            <div class="form-group">
+                <label for="Proveedor">Proveedor</label>
                 <div class="form-group">
-                    <label for="Proveedor">Proveedor</label>
-                    <div class="form-group">
-                        <InputSelect @bind-Value="@ProveedorSeleccionado" class="form-control col-md-3" @onchange="CargarProveedores" @onclick="CargarProveedores">
-                            <option value="" disabled selected>Seleccione un proveedor</option>
-                            @foreach (var item in listaProveedores)
-                            {
-                                <option value="@item.ProveedorId">@item.Nombres</option>
-                            }
-                        </InputSelect>
-                    </div>
+                    <InputSelect @bind-Value="@ProveedorSeleccionado" class="form-control col-md-3" @onchange="CargarProveedores" @onclick="CargarProveedores">
+                        <option value="" disabled selected>Seleccione un proveedor</option>
+                        @foreach (var item in listaProveedores)
+                        {
+                            <option value="@item.ProveedorId">@item.Nombres</option>
+                        }
+                    </InputSelect>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="Cantidad">Cantidad</label>
-                    <InputNumber @bind-Value="productos.Cantidad" class="form-control col-md-1" />
-                </div>
-                <div class="form-group">
-                    <label for="Precio">Precio</label>
-                    <InputNumber @bind-Value="productos.Precio" class="form-control col-md-2" @onfocus="CargarGanancia" @onfocusin="CargarGanancia" @onfocusout="CargarGanancia" />
-                </div>
+            <div class="form-group">
+                <label for="Cantidad">Cantidad</label>
+                <InputNumber @bind-Value="productos.Cantidad" class="form-control col-md-1" />
+            </div>
+            <div class="form-group">
+                <label for="Precio">Precio</label>
+                <InputNumber @bind-Value="productos.Precio" class="form-control col-md-2" @onfocus="CargarGanancia" @onfocusin="CargarGanancia" @onfocusout="CargarGanancia" />
+            </div>
 
-                <div class="form-group">
-                    <label for="FechaIngreso"> Fecha</label>
-                    <InputDate @bind-Value="productos.FechaIngreso" class="form-control col-md-2" />
+            <div class="form-group">
+                <label for="FechaIngreso"> Fecha</label>
+                <InputDate @bind-Value="productos.FechaIngreso" class="form-control col-md-2" />
 
-                </div>
-                <div class="form-group">
-                    <label for="Costo">Costo</label>
-                    <InputNumber @bind-Value="productos.Costo" class="form-control col-md-2" @onfocus="CargarGanancia" @onfocusin="CargarGanancia" @onfocusout="CargarGanancia" />
-                </div>
-                
-                <div class="form-group">
-                    <label for="Ganancia">Ganancia</label>
-                    <InputNumber readonly="readonly" @bind-Value="productos.Ganancia" class="form-control col-md-2"/>
-                    
-                </div>
+            </div>
+            <div class="form-group">
+                <label for="Costo">Costo</label>
+                <InputNumber @bind-Value="productos.Costo" class="form-control col-md-2" @onfocus="CargarGanancia" @onfocusin="CargarGanancia" @onfocusout="CargarGanancia" />
+            </div>
 
-                <br />
+            <div class="form-group">
+                <label for="Ganancia">Ganancia</label>
+                <InputNumber readonly="readonly" @bind-Value="productos.Ganancia" class="form-control col-md-2" />
 
-                <div class="form-group">
-                    <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
-                    <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
-                    <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
-                </div>
+            </div>
 
-                <h3>@Mensaje</h3>
-            </EditForm>
-        </div>
+            <br />
+
+            <div class="form-group">
+                <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
+                <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
+                <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
+            </div>
+
+            <BlazoredToasts />
+        </EditForm>
     </div>
+</div>
 
 @code {
     [Parameter]
@@ -76,10 +97,15 @@
     ControllersProducto controllers = new ControllersProducto();
     Productos productos = new Productos();
 
+    private CategoriaArticulos categoriaArticulos;
+    private List<CategoriaArticulos> listaCategoriaArticulos = new List<CategoriaArticulos>();
+    ControllersCategoriaArticulos controllersCategoriaArticulos = new ControllersCategoriaArticulos();
+
     private List<Proveedores> listaProveedores = new List<Proveedores>();
     ControllersProveedores controllersProveedores = new ControllersProveedores();
 
     private string ProveedorSeleccionado;
+    private string CategoriaArticuloSeleccionado;
 
     private Proveedores proveedores;
 
@@ -87,6 +113,7 @@
 
     protected override void OnInitialized()
     {
+        listaCategoriaArticulos = controllersCategoriaArticulos.GetList(e => true);
         listaProveedores = controllersProveedores.GetList(e => true);
         if (ProductoId > 0)
         {
@@ -110,11 +137,12 @@
     private void Guardar()
     {
         productos.ProveedoresId = Convert.ToInt32(ProveedorSeleccionado);
+        productos.CategoriaArticuloId = Convert.ToInt32(CategoriaArticuloSeleccionado);
 
         if (productos.ProductoId == 0)
         {
             controllers.Guardar(productos);
-            Mensaje = "Guardo";
+            toastService.ShowSuccess("Producto guardado.", "logrado con exito");
             Limpiar();
         }
         else
@@ -122,7 +150,7 @@
             if (controllers.Buscar(productos.ProductoId) != null)
             {
                 controllers.Modificar(productos);
-                Mensaje = "Modifico";
+                toastService.ShowSuccess("Producto modificado.", "Exito");
                 Limpiar();
             }
 
@@ -132,6 +160,7 @@
     {
         productos = new Productos();
         ProveedorSeleccionado = string.Empty;
+        CategoriaArticuloSeleccionado = string.Empty;
     }
     private void Eliminar()
     {
@@ -141,19 +170,19 @@
             {
 
                 controllers.Eliminar(productos.ProductoId);
-                Mensaje = "Eliminado";
+                toastService.ShowSuccess("Producto eliminado.", "logrado con exito");
                 Limpiar();
 
             }
             else
             {
-                Mensaje = "Id no existe";
+                toastService.ShowWarning("Id no existe.", "Precaución");
             }
 
         }
         else
         {
-            Mensaje = "Selecione un ID";
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
     }
@@ -165,17 +194,18 @@
             {
 
                 productos = controllers.Buscar(productos.ProductoId);
+                toastService.ShowSuccess("Producto encontrado.", "logrado con exito");
 
             }
             else
             {
-                Mensaje = "Id no existe";
+                toastService.ShowWarning("Id no existe.", "Precaución");
             }
 
         }
         else
         {
-            Mensaje = "Selecione un ID";
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
 
@@ -185,6 +215,19 @@
         try
         {
             productos.Ganancia = productos.Precio - productos.Costo;
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    public void CargarCategoriaArticulo()
+    {
+        try
+        {
+            categoriaArticulos = controllersCategoriaArticulos.Buscar(Convert.ToInt32(CategoriaArticuloSeleccionado));
+
         }
         catch (Exception)
         {
