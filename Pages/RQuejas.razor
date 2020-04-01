@@ -1,6 +1,15 @@
 ﻿@page "/RQuejas"
 @page "/RQuejas/{QuejasId:int}"
 
+@inject IToastService toastService
+
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug" />
+
 <div class="card bg-dark text-light">
     <div class="card-body ">
         <h1>Registro Quejas</h1>
@@ -82,7 +91,7 @@
                 <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
             </div>
 
-            <h3>@Mensaje</h3>
+            <BlazoredToasts />
         </EditForm>
     </div>
 </div>
@@ -133,7 +142,7 @@
         if (quejas.QuejasId == 0)
         {
             controllers.Guardar(quejas);
-            Mensaje = "Guardo";
+            toastService.ShowSuccess("Quejas guardado.", "logrado con exito");
             Limpiar();
         }
         else
@@ -141,7 +150,7 @@
             if (controllers.Buscar(quejas.QuejasId) != null)
             {
                 controllers.Modificar(quejas);
-                Mensaje = "Modifico";
+                toastService.ShowSuccess("Quejas modificado.", "Exito");
                 Limpiar();
             }
 
@@ -175,19 +184,19 @@
             {
 
                 controllers.Eliminar(quejas.QuejasId);
-                Mensaje = "Eliminado";
+                toastService.ShowSuccess("Quejas eliminado.", "logrado con exito");
                 Limpiar();
 
             }
             else
             {
-                Mensaje = "Id no existe";
+                toastService.ShowWarning("Id no existe.", "Precaución");
             }
 
         }
         else
         {
-            Mensaje = "Selecione un ID";
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
     }
@@ -199,32 +208,36 @@
             {
 
                 quejas = controllers.Buscar(quejas.QuejasId);
+                toastService.ShowSuccess("Quejas encontrado.", "logrado con exito");
 
 
             }
             else
             {
-                Mensaje = "Id no existe";
+                toastService.ShowWarning("Id no existe.", "Precaución");
             }
 
         }
         else
         {
-            Mensaje = "Selecione un ID";
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
 
     }
     private void Agregar()
     {
-        if(Problemas == null)
+        if (Problemas == null)
         {
-            Mensaje = "Debe agregar un problema";
-        }else
+            toastService.ShowWarning("Debe agregar un problema.", "Precaución");
+            
+        }
+        else
         {
-            if(Soluciones == null)
+            if (Soluciones == null)
             {
-                Mensaje = "Debe agregar una solucion";
+                toastService.ShowWarning("Debe agregar una solucion.", "Precaución");
+                
             }
             else
             {

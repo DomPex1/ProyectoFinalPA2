@@ -1,5 +1,13 @@
 ﻿@page "/RProveedores/{ProveedoresId:int}"
 
+@inject IToastService toastService
+
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug" />
 <div class="card bg-dark text-light">
     <div class="card-body ">
         <h1>Registro Proveedores</h1>
@@ -16,24 +24,24 @@
             <br />
             <div class="form-group">
                 <label for="Nombres">Nombres</label>
-                <InputText  @bind-Value="proveedores.Nombres" class="form-control col-md-3"/>
+                <InputText @bind-Value="proveedores.Nombres" class="form-control col-md-3" />
             </div>
             <div class="form-group">
                 <label for="Direccion">Direccion</label>
                 <InputText class="form-control col-md-3" @bind-Value="proveedores.Direccion" />
             </div>
             <div class="form-group">
-                <label for="Telefono" >Telefono</label>
+                <label for="Telefono">Telefono</label>
                 <InputText class="form-control col-md-3" @bind-Value="proveedores.Telefono" />
             </div>
-            <br/>
+            <br />
             <div class="form-group">
                 <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
                 <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
                 <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
             </div>
 
-            <h3>@Mensaje</h3>
+            <BlazoredToasts />
         </EditForm>
     </div>
 </div>
@@ -60,7 +68,7 @@
         if (proveedores.ProveedorId == 0)
         {
             controllers.Guardar(proveedores);
-            Mensaje = "Guardo";
+            toastService.ShowSuccess("Proveedor guardado.", "logrado con exito");
             Limpiar();
         }
         else
@@ -68,7 +76,7 @@
             if (controllers.Buscar(proveedores.ProveedorId) != null)
             {
                 controllers.Modificar(proveedores);
-                Mensaje = "Modifico";
+                toastService.ShowSuccess("Proveedor modificado.", "Exito");
                 Limpiar();
             }
 
@@ -86,19 +94,19 @@
             {
 
                 controllers.Eliminar(proveedores.ProveedorId);
-                Mensaje = "Eliminado";
+                toastService.ShowSuccess("Proveedor eliminado.", "logrado con exito");
                 Limpiar();
 
             }
             else
             {
-                Mensaje = "Id no existe";
+                toastService.ShowWarning("Id no existe.", "Precaución");
             }
 
         }
         else
         {
-            Mensaje = "Selecione un ID";
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
     }
@@ -110,17 +118,18 @@
             {
 
                 proveedores = controllers.Buscar(proveedores.ProveedorId);
+                toastService.ShowSuccess("Proveedor encontrado.", "logrado con exito");
 
             }
             else
             {
-                Mensaje = "Id no existe";
+               toastService.ShowWarning("Id no existe.", "Precaución");
             }
 
         }
         else
         {
-            Mensaje = "Selecione un ID";
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
 

@@ -10,9 +10,14 @@ namespace ProyectoFinalPA2.Models
     {
         [Key]
         public int ProductoId { get; set; }
+        [Required(ErrorMessage = "El campo CategoriaArticulo no puede estar vacio")]
+        [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
+        public int CategoriaArticuloId { get; set; }
         [Required(ErrorMessage = "El campo Descripcion no puede estar vacio")]
         [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public string Descripcion { get; set; }
+
+        
         public DateTime FechaIngreso { get; set; }
         [Required(ErrorMessage = "El campo precio no puede estar vacio")]
         [Range(minimum: 1, maximum: 10000000, ErrorMessage = "No puede pasar el limite")]
@@ -37,6 +42,8 @@ namespace ProyectoFinalPA2.Models
         public Productos()
         {
             ProductoId = 0;
+            CategoriaArticuloId =0;
+            ProveedoresId = 0;
             Descripcion = string.Empty;
             FechaIngreso = DateTime.Now;
             Precio = 0;

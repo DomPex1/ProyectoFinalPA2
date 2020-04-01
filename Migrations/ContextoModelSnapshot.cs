@@ -57,9 +57,8 @@ namespace ProyectoFinalPA2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TipoCliente")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(40)")
+                    b.Property<int>("TipoCliente")
+                        .HasColumnType("int")
                         .HasMaxLength(40);
 
                     b.HasKey("ClienteId");
@@ -137,6 +136,10 @@ namespace ProyectoFinalPA2.Migrations
 
                     b.Property<int>("Cantidad")
                         .HasColumnType("int");
+
+                    b.Property<int>("CategoriaArticuloId")
+                        .HasColumnType("int")
+                        .HasMaxLength(40);
 
                     b.Property<decimal>("Costo")
                         .HasColumnType("decimal(18,2)");

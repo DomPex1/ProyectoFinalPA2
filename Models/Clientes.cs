@@ -22,7 +22,7 @@ namespace ProyectoFinalPA2.Models
         public string Email { get; set; }
         [Required(ErrorMessage = "El campo Tipo de cliente no puede estar vacio")]
         [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
-        public string TipoCliente { get; set; }
+        public int TipoCliente { get; set; }
 
         public Clientes()
         {
@@ -30,7 +30,7 @@ namespace ProyectoFinalPA2.Models
             Nombre = string.Empty;
             Telefono = string.Empty;
             Email = string.Empty;
-            TipoCliente= string.Empty;
+            TipoCliente= 0;
         }
     }
 }

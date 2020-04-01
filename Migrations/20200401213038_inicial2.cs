@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProyectoFinalPA2.Migrations
 {
-    public partial class inicial : Migration
+    public partial class inicial2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,7 +29,7 @@ namespace ProyectoFinalPA2.Migrations
                     Nombre = table.Column<string>(maxLength: 40, nullable: false),
                     Telefono = table.Column<string>(nullable: false),
                     Email = table.Column<string>(maxLength: 40, nullable: false),
-                    TipoCliente = table.Column<string>(maxLength: 40, nullable: false)
+                    TipoCliente = table.Column<int>(maxLength: 40, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,6 +60,7 @@ namespace ProyectoFinalPA2.Migrations
                 {
                     ProductoId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoriaArticuloId = table.Column<int>(maxLength: 40, nullable: false),
                     Descripcion = table.Column<string>(maxLength: 40, nullable: false),
                     FechaIngreso = table.Column<DateTime>(nullable: false),
                     Precio = table.Column<decimal>(nullable: false),

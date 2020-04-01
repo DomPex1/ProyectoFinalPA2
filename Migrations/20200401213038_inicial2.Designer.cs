@@ -10,8 +10,8 @@ using ProyectoFinalPA2.Data;
 namespace ProyectoFinalPA2.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200401205219_inicial")]
-    partial class inicial
+    [Migration("20200401213038_inicial2")]
+    partial class inicial2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,9 +59,8 @@ namespace ProyectoFinalPA2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TipoCliente")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(40)")
+                    b.Property<int>("TipoCliente")
+                        .HasColumnType("int")
                         .HasMaxLength(40);
 
                     b.HasKey("ClienteId");
@@ -139,6 +138,10 @@ namespace ProyectoFinalPA2.Migrations
 
                     b.Property<int>("Cantidad")
                         .HasColumnType("int");
+
+                    b.Property<int>("CategoriaArticuloId")
+                        .HasColumnType("int")
+                        .HasMaxLength(40);
 
                     b.Property<decimal>("Costo")
                         .HasColumnType("decimal(18,2)");

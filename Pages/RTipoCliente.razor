@@ -1,5 +1,13 @@
 ﻿@page "/RTipoCliente/{TipoClienteId:int}"
 
+@inject IToastService toastService
+
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug" />
 
 <div class="card bg-dark text-light">
     <div class="card-body ">
@@ -30,7 +38,7 @@
                 <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
             </div>
 
-            <h3>@Mensaje</h3>
+            <BlazoredToasts />
         </EditForm>
     </div>
 </div>
@@ -58,7 +66,7 @@
         if (tipoCliente.TipoClienteId == 0)
         {
             controllers.Guardar(tipoCliente);
-            Mensaje = "Guardo";
+            toastService.ShowSuccess("TipoCliente guardado.", "logrado con exito");
             Limpiar();
         }
         else
@@ -66,7 +74,7 @@
             if (controllers.Buscar(tipoCliente.TipoClienteId) != null)
             {
                 controllers.Modificar(tipoCliente);
-                Mensaje = "Modifico";
+                toastService.ShowSuccess("TipoCliente modificado.", "Exito");
                 Limpiar();
             }
 
@@ -88,19 +96,19 @@
             {
 
                 controllers.Eliminar(tipoCliente.TipoClienteId);
-                Mensaje = "Eliminado";
+                toastService.ShowSuccess("TipoCliente eliminado.", "logrado con exito");
                 Limpiar();
 
             }
             else
             {
-                Mensaje = "Id no existe";
+                toastService.ShowWarning("Id no existe.", "Precaución");
             }
 
         }
         else
         {
-            Mensaje = "Selecione un ID";
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
     }
@@ -113,17 +121,18 @@
             {
 
                 tipoCliente = controllers.Buscar(tipoCliente.TipoClienteId);
+                toastService.ShowSuccess("TipoCliente encontrado.", "logrado con exito");
 
             }
             else
             {
-                Mensaje = "Id no existe";
+                toastService.ShowWarning("Id no existe.", "Precaución");
             }
 
         }
         else
         {
-            Mensaje = "Selecione un ID";
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
 
