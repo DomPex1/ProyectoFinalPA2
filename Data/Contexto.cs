@@ -26,7 +26,7 @@ namespace ProyectoFinalPA2.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlite(@"Data source = Database\ProyectoFinal1Data.db");
+            optionsBuilder.UseSqlServer(@"Server= .\SQLEXPRESS; Database=FerreteriaMendozaDb; trusted_connection=true");
         }
     }
 }

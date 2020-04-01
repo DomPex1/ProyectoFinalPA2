@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProyectoFinalPA2.Migrations
 {
-    public partial class inicial : Migration
+    public partial class incial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace ProyectoFinalPA2.Migrations
                 columns: table => new
                 {
                     CategoriaId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Descripcion = table.Column<string>(maxLength: 40, nullable: false)
                 },
                 constraints: table =>
@@ -25,7 +25,7 @@ namespace ProyectoFinalPA2.Migrations
                 columns: table => new
                 {
                     ClienteId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(maxLength: 40, nullable: false),
                     Telefono = table.Column<string>(nullable: false),
                     Email = table.Column<string>(maxLength: 40, nullable: false)
@@ -40,7 +40,7 @@ namespace ProyectoFinalPA2.Migrations
                 columns: table => new
                 {
                     PedidosId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FechaPedido = table.Column<DateTime>(nullable: false),
                     ClienteId = table.Column<int>(nullable: false),
                     FormaPedido = table.Column<string>(maxLength: 40, nullable: false),
@@ -58,7 +58,7 @@ namespace ProyectoFinalPA2.Migrations
                 columns: table => new
                 {
                     ProductoId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Descripcion = table.Column<string>(maxLength: 40, nullable: false),
                     FechaIngreso = table.Column<DateTime>(nullable: false),
                     Precio = table.Column<decimal>(nullable: false),
@@ -77,7 +77,7 @@ namespace ProyectoFinalPA2.Migrations
                 columns: table => new
                 {
                     ProveedorId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Nombres = table.Column<string>(maxLength: 40, nullable: false),
                     Direccion = table.Column<string>(maxLength: 40, nullable: false),
                     Telefono = table.Column<string>(maxLength: 15, nullable: false)
@@ -92,7 +92,7 @@ namespace ProyectoFinalPA2.Migrations
                 columns: table => new
                 {
                     QuejasId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Descripcion = table.Column<string>(maxLength: 40, nullable: false),
                     Fecha = table.Column<DateTime>(nullable: false),
                     ClienteId = table.Column<int>(nullable: false)
@@ -107,7 +107,7 @@ namespace ProyectoFinalPA2.Migrations
                 columns: table => new
                 {
                     TipoClienteId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Descripcion = table.Column<string>(maxLength: 40, nullable: false)
                 },
                 constraints: table =>
@@ -120,7 +120,7 @@ namespace ProyectoFinalPA2.Migrations
                 columns: table => new
                 {
                     UsuarioId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Usuario = table.Column<string>(maxLength: 40, nullable: false),
                     Clave = table.Column<string>(nullable: false),
                     NivelUsuario = table.Column<string>(maxLength: 40, nullable: false),
@@ -138,7 +138,7 @@ namespace ProyectoFinalPA2.Migrations
                 columns: table => new
                 {
                     PedidosDetalleId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     PedidosId = table.Column<int>(nullable: false),
                     ProductoId = table.Column<int>(nullable: false),
                     Cantidad = table.Column<int>(nullable: false),
@@ -161,7 +161,7 @@ namespace ProyectoFinalPA2.Migrations
                 columns: table => new
                 {
                     QuejasDetalleId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     QuejasId = table.Column<int>(nullable: false),
                     Problema = table.Column<string>(nullable: true),
                     Solucion = table.Column<string>(nullable: true)
