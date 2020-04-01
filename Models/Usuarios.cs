@@ -22,8 +22,9 @@ namespace ProyectoFinalPA2.Models
         [Required(ErrorMessage = "El campo nombres no puede estar vacio")]
         [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public string Nombres { get; set; }
-        [Required(ErrorMessage = "El campo email no puede estar vacio")]
-        [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
+        [Required(ErrorMessage = "El Email es obligatorio")]
+        [EmailAddress(ErrorMessage = "Debe ingresar un Email valido.")]
+        [MaxLength(40, ErrorMessage = "Este correo es muy largo.")]
         public string Email { get; set; }
         public DateTime FechaCreacion { get; set; }
 
