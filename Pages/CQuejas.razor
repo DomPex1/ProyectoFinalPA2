@@ -1,6 +1,33 @@
 ﻿@page "/CQuejas"
 @page  "/CQuejas/{I:int}"
 
+    <style>
+        a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 16px;
+        }
+
+            a:hover {
+                background-color: #ddd;
+                color: black;
+            }
+
+        .previous {
+            background-color: #808080;
+            color: black;
+        }
+
+        .next {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .round {
+            border-radius: 50%;
+        }
+    </style>
+
 <div class="card bg-info text-light">
     <div class="card-body ">
         <h3>Consulta de Quejas</h3>
@@ -53,27 +80,31 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in lista)
+                @if (listaPaginado.Count == 0)
                 {
                     <tr>
-                        <th>@item.QuejasId</th>
-                        <th>@item.ClienteId</th>
-                        <th>@item.Descripcion</th>
-                        <th>@item.Fecha.ToString("dd/MM/yyyy")</th>
-                        <td><a class="btn btn-primary" href="RQuejas/@item.QuejasId">Ver</a></td>
+                        <th colspan="12" style="color:white; text-align: center">"No hay datos que mostrar"</th>
                     </tr>
+                }
+                else
+                {
+                    @foreach (var item in listaPaginado)
+                    {
+                        <tr>
+                            <th>@item.QuejasId</th>
+                            <th>@item.ClienteId</th>
+                            <th>@item.Descripcion</th>
+                            <th>@item.Fecha.ToString("dd/MM/yyyy")</th>
+                            <td><a class="btn btn-primary" href="RQuejas/@item.QuejasId">Ver</a></td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
-        <nav aria-label="...">
-            <ul class="pagination pagination-lg">
-                @for (int i = 1; i <= totaldepaginas; i++)
-                {
-                    <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CQuejas/@i">@i</a></li>
-                }
 
-            </ul>
-        </nav>
+        <a class="previous" @onclick="Anterior">&laquo; Previous</a>
+        <a class="next" @onclick="Siguiente">Next &raquo;</a>
+
         <h5>@mensaje</h5>
     </div>
 </div>
@@ -81,6 +112,7 @@
 @code {
 
         private List<Quejas> lista { get; set; }
+     private List<Quejas> listaPaginado { get; set; }
         public ControllersQuejas controller = new ControllersQuejas();
 
 
@@ -94,20 +126,23 @@
 
         [Parameter]
         public int I { get; set; }
-    private int Contador { get; set; }
-    private int contCiclo { get; set; }
+
 
     Paginacion paginacion = new Paginacion();
-    public double totaldepaginas { get; set; }
+
 
     Contexto Contexto = new Contexto();
     double conteo = 0;
 
+        double paginas = 0;
+    double cantidad = 0;
+    int paginaActual = 0;
+
  
     protected override void OnInitialized()
     {
-        
-        lista = new List<Quejas>();
+        lista = controller.GetList(p => true);
+        listaPaginado = new List<Quejas>();
         DesdeFecha = DateTime.Now;
         HastaFecha = DateTime.Now;
 
@@ -120,6 +155,7 @@
 
         try
         {
+            Paginar();
           
             if (Filtro == null)
             {
@@ -164,5 +200,28 @@
             throw;
         }
     }
+        private void Siguiente()
+    {
+        if (paginaActual < paginas)
+        {
+            paginaActual++;
+            listaPaginado = lista
+                .Skip((paginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
 
+        }
+    }
+
+    private void Anterior()
+    {
+        if (paginaActual > 1)
+        {
+            paginaActual--;
+            listaPaginado = lista
+                .Skip((paginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+        }
+    }
 }

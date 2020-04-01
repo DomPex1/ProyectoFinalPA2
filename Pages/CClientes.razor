@@ -1,87 +1,116 @@
 ﻿@page "/CClientes"
 @page  "/CClientes/{I:int}"
+
+
+<style>
+    a {
+        text-decoration: none;
+        display: inline-block;
+        padding: 8px 16px;
+    }
+
+        a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+    .previous {
+        background-color: #808080;
+        color: black;
+    }
+
+    .next {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .round {
+        border-radius: 50%;
+    }
+</style>
+
 <div class="card bg-info text-light">
-    
-       
-            <div class="card-body ">
-                <h3>Consulta Clientes</h3>
-                <div class="form-inline">
 
-                    <label for="filtro">Filtro</label>
-                    <div class="form-group mx-sm-3 mb-2">
-                        <select class="form-control" @bind="Filtro">
-                            <option value="" disabled selected>Seleccione un Criterio</option>
-                            <option value="Todo">Todo</option>
-                            <option value="Id">Id</option>
-                            <option value="Nombres">Nombres</option>
-                            <option value="Usuario">Usuario</option>
-                            <option value="Email">Email</option>
-                        </select>
-                    </div>
-                    <label for="criterio"> Criterio</label>
-                    <div class="form-group mx-sm-3 mb-2">
 
-                        <input type="search" class="form-control" @bind-value="Criterio" />
-                    </div>
+    <div class="card-body ">
+        <h3>Consulta Clientes</h3>
+        <div class="form-inline">
 
-                    <button type="button" class="btn btn-success mx-sm-3 mb-2" @onclick="Buscar">Buscar</button>
-
-                </div>
-                <br />
-
-                <table class="table">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>ClienteId</th>
-                            <th>Nombre</th>
-                            <th>Telefono</th>
-                            <th>Email</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @foreach (var item in lista)
-                        {
-                            <tr>
-                                <th>@item.ClienteId</th>
-                                <th>@item.Nombre</th>
-                                <th>@item.Telefono</th>
-                                <th>@item.Email</th>
-                                <td><a class="btn btn-primary" href="RClientes/@item.ClienteId">Ver</a></td>
-
-                            </tr>
-                        }
-
-                    </tbody>
-                </table>
-
-                <nav aria-label="...">
-                    <ul class="pagination pagination-lg">
-                        @for (int i = 1; i <= totaldepaginas; i++)
-                        {
-                            <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CClientes/@i">@i</a></li>
-                        }
-
-                    </ul>
-                </nav>
-
-                <h5>@mensaje</h5>
+            <label for="filtro">Filtro</label>
+            <div class="form-group mx-sm-3 mb-2">
+                <select class="form-control" @bind="Filtro">
+                    <option value="" disabled selected>Seleccione un Criterio</option>
+                    <option value="Todo">Todo</option>
+                    <option value="Id">Id</option>
+                    <option value="Nombres">Nombres</option>
+                    <option value="Usuario">Usuario</option>
+                    <option value="Email">Email</option>
+                </select>
             </div>
-        
-    
+            <label for="criterio"> Criterio</label>
+            <div class="form-group mx-sm-3 mb-2">
+
+                <input type="search" class="form-control" @bind-value="Criterio" />
+            </div>
+
+            <button type="button" class="btn btn-success mx-sm-3 mb-2" @onclick="Buscar">Buscar</button>
+
+        </div>
+        <br />
+
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>ClienteId</th>
+                    <th>Nombre</th>
+                    <th>Telefono</th>
+                    <th>Email</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (listaPaginado.Count == 0)
+                {
+                    <tr>
+                        <th colspan="12" style="color:white; text-align: center">"No hay datos que mostrar"</th>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in listaPaginado)
+                    {
+                        <tr>
+                            <th>@item.ClienteId</th>
+                            <th>@item.Nombre</th>
+                            <th>@item.Telefono</th>
+                            <th>@item.Email</th>
+                            <td><a class="btn btn-primary" href="RClientes/@item.ClienteId">Ver</a></td>
+
+                        </tr>
+                    }
+                }
+                </tbody>
+        </table>
+
+        <a class="previous" @onclick="Anterior">&laquo; Previous</a>
+        <a class="next" @onclick="Siguiente">Next &raquo;</a>
+
+        <h5>@mensaje</h5>
+    </div>
+
+
 </div>
 
 
 @code {
 
     public List<Clientes> lista { get; set; }
+    public List<Clientes> listaPaginado { get; set; }
     public ControllersCliente controllers = new ControllersCliente();
 
     [Parameter]
     public int I { get; set; }
-    private int Contador { get; set; }
-    private int contCiclo { get; set; }
+
 
     Paginacion paginacion = new Paginacion();
     public double totaldepaginas { get; set; }
@@ -92,15 +121,26 @@
     private string Criterio { get; set; }
     private string mensaje;
 
-  
+    double paginas = 0;
+    double cantidad = 0;
+    int paginaActual = 0;
+
 
     protected override async Task OnInitializedAsync()
     {
-      
-        lista = new List<Clientes>();
 
-        
+        lista = controllers.GetList(p => true);
+        listaPaginado = new List<Clientes>();
 
+
+    }
+    private void Paginar()
+    {
+
+        paginaActual = 1;
+        cantidad = lista.Count();
+        paginas = Math.Ceiling(cantidad / paginacion.Mostrar);
+        listaPaginado = lista.Take(paginacion.Mostrar).ToList();
     }
 
     private void Buscar()
@@ -108,7 +148,8 @@
 
         try
         {
-            
+
+            Paginar();
 
             if (Filtro == null)
             {
@@ -153,7 +194,31 @@
         }
     }
 
- 
+    private void Siguiente()
+    {
+        if (paginaActual < paginas)
+        {
+            paginaActual++;
+            listaPaginado = lista
+                .Skip((paginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+
+        }
+    }
+
+    private void Anterior()
+    {
+        if (paginaActual > 1)
+        {
+            paginaActual--;
+            listaPaginado = lista
+                .Skip((paginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+        }
+    }
+
 
 
 }
