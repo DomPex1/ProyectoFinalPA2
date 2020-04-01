@@ -7,7 +7,12 @@ namespace ProyectoFinalPA2.Models
 {
     public class Paginacion
     {
-        public int Pagina { get; set; } = 1;
-        public int CantidadMostrar { get; set; } = 10;
+        public int Pagina { get; set; }
+        public int Mostrar { get; set; }
+        public Paginacion()
+        {
+            Pagina = 1;
+            Mostrar = 5;
+        }
     }
 }

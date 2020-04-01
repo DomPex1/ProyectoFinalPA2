@@ -1,6 +1,32 @@
 ﻿@page "/CProveedores"
 @page  "/CProveedores/{I:int}"
 
+    <style>
+        a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 16px;
+        }
+
+            a:hover {
+                background-color: #ddd;
+                color: black;
+            }
+
+        .previous {
+            background-color: #808080;
+            color: black;
+        }
+
+        .next {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .round {
+            border-radius: 50%;
+        }
+    </style>
 
 <div class="card bg-info text-light">
     <div class="card-body ">
@@ -41,30 +67,32 @@
                 </tr>
             </thead>
             <tbody>
-
-                @foreach (var item in lista)
+                @if (listaPaginado.Count == 0)
                 {
                     <tr>
-                        <th>@item.ProveedorId</th>
-                        <th>@item.Nombres</th>
-                        <th>@item.Telefono</th>
-                        <th>@item.Direccion</th>
-                        <td><a class="btn btn-primary" href="RProveedores/@item.ProveedorId">Ver</a></td>
-
+                        <th colspan="12" style="color:white; text-align: center">"No hay datos que mostrar"</th>
                     </tr>
                 }
-
-            </tbody>
-        </table>
-        <nav aria-label="...">
-            <ul class="pagination pagination-lg">
-                @for (int i = 1; i <= totaldepaginas; i++)
+                else
                 {
-                    <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CUsuario/@i">@i</a></li>
-                }
 
-            </ul>
-        </nav>
+                    @foreach (var item in listaPaginado)
+                    {
+                        <tr>
+                            <th>@item.ProveedorId</th>
+                            <th>@item.Nombres</th>
+                            <th>@item.Telefono</th>
+                            <th>@item.Direccion</th>
+                            <td><a class="btn btn-primary" href="RProveedores/@item.ProveedorId">Ver</a></td>
+
+                        </tr>
+                    }
+                }
+                </tbody>
+        </table>
+
+        <a class="previous" @onclick="Anterior">&laquo; Previous</a>
+        <a class="next" @onclick="Siguiente">Next &raquo;</a>
 
         <h5>@mensaje</h5>
 
@@ -74,14 +102,15 @@
 @code {
 
     public List<Proveedores> lista { get; set; }
+    public List<Proveedores> listaPaginado { get; set; }
     public ControllersProveedores controllers = new ControllersProveedores();
     [Parameter]
     public int I { get; set; }
-    private int Contador { get; set; }
-    private int contCiclo { get; set; }
+
+
 
     Paginacion paginacion = new Paginacion();
-    public double totaldepaginas { get; set; }
+
 
     private string Filtro { get; set; }
     private string Criterio { get; set; }
@@ -89,18 +118,31 @@
     double conteo = 0;
 
     private string mensaje;
+        
+    double paginas = 0;
+    double cantidad = 0;
+    int paginaActual = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        lista = new List<Proveedores>();
+        lista = controllers.GetList(p => true);
+        listaPaginado = new List<Proveedores>();
     }
+    
+    private void Paginar()
+    {
 
+        paginaActual = 1;
+        cantidad = lista.Count();
+        paginas = Math.Ceiling(cantidad / paginacion.Mostrar);
+        listaPaginado = lista.Take(paginacion.Mostrar).ToList();
+    }
     private void Buscar()
     {
 
         try
         {
-            Cargar();
+               Paginar();
 
             if (Filtro == null)
             {
@@ -144,12 +186,28 @@
             throw;
         }
     }
-    private void Cargar()
+      private void Siguiente()
     {
-        lista = controllers.GetList(P => true);
-        conteo = Contexto.Proveedores.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
-        this.lista = Contexto.Proveedores.Take(paginacion.CantidadMostrar).ToList();
+        if (paginaActual < paginas)
+        {
+            paginaActual++;
+            listaPaginado = lista
+                .Skip((paginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+
+        }
+    }
+
+    private void Anterior()
+    {
+        if (paginaActual > 1)
+        {
+            paginaActual--;
+            listaPaginado = lista
+                .Skip((paginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+        }
     }
 }
-

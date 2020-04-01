@@ -1,63 +1,97 @@
 ﻿@page "/CUsuario"
 @page  "/CUsuario/{I:int}"
 
+    <style>
+        a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 16px;
+        }
+
+            a:hover {
+                background-color: #ddd;
+                color: black;
+            }
+
+        .previous {
+            background-color: #808080;
+            color: black;
+        }
+
+        .next {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .round {
+            border-radius: 50%;
+        }
+    </style>
 
 <div class="card bg-info text-light">
-        <div class="card-body ">
-            <h3>Consulta de Usuarios</h3>
+    <div class="card-body ">
+        <h3>Consulta de Usuarios</h3>
 
-            <div class="form-inline">
+        <div class="form-inline">
 
-                <label for="filtro">Filtro</label>
-                <div class="form-group mx-sm-3 mb-2">
-                    <select class="form-control" @bind="Filtro">
-                        <option value="" disabled selected>Seleccione un Criterio</option>
-                        <option value="Todo">Todo</option>
-                        <option value="Id">Id</option>
-                        <option value="Nombres">Nombres</option>
-                        <option value="Usuario">Usuario</option>
-                        <option value="Email">Email</option>
-                    </select>
-                </div>
-                <label for="criterio"> Criterio</label>
-                <div class="form-group mx-sm-3 mb-2">
+            <label for="filtro">Filtro</label>
+            <div class="form-group mx-sm-3 mb-2">
+                <select class="form-control" @bind="Filtro">
+                    <option value="" disabled selected>Seleccione un Criterio</option>
+                    <option value="Todo">Todo</option>
+                    <option value="Id">Id</option>
+                    <option value="Nombres">Nombres</option>
+                    <option value="Usuario">Usuario</option>
+                    <option value="Email">Email</option>
+                </select>
+            </div>
+            <label for="criterio"> Criterio</label>
+            <div class="form-group mx-sm-3 mb-2">
 
-                    <input type="search" class="form-control" @bind-value="Criterio" />
-                </div>
-
-                <button type="button" class="btn btn-success mx-sm-3 mb-2" @onclick="Buscar">Buscar</button>
-
+                <input type="search" class="form-control" @bind-value="Criterio" />
             </div>
 
+            <button type="button" class="btn btn-success mx-sm-3 mb-2" @onclick="Buscar">Buscar</button>
 
-            <div class="form-inline">
-                <input class="mx-sm-3 mb-2" type="checkbox" @bind-value="BuscarFecha" id="BuscarFecha"> Filtrar por Fecha
-                
-                <div class="form-group">
-                    <label for="DesdeFecha" >Desde</label>
-                    <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control mx-sm-3 mb-2 " input />
-                    
-                    <label for="HastaFechaInput">Hasta</label>
-                    <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control mx-sm-3 mb-2" />
-                </div>
+        </div>
+
+
+        <div class="form-inline">
+            <input class="mx-sm-3 mb-2" type="checkbox" @bind-value="BuscarFecha" id="BuscarFecha"> Filtrar por Fecha
+
+            <div class="form-group">
+                <label for="DesdeFecha">Desde</label>
+                <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control mx-sm-3 mb-2 " input />
+
+                <label for="HastaFechaInput">Hasta</label>
+                <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control mx-sm-3 mb-2" />
             </div>
-            <br/>
+        </div>
+        <br />
 
-            <table class="table">
-                <thead class="thead-light">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Usuario Id</th>
+                    <th>Nombres</th>
+                    <th>Nivel de Usuario</th>
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Fecha Ingreso</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (listaPaginado.Count == 0)
+                {
                     <tr>
-                        <th>Usuario Id</th>
-                        <th>Nombres</th>
-                        <th>Nivel de Usuario</th>
-                        <th>Usuario</th>
-                        <th>Email</th>
-                        <th>Fecha Ingreso</th>
-                        <th></th>
+                        <th colspan="12" style="color:white; text-align: center">"No hay datos que mostrar"</th>
                     </tr>
-                </thead>
-
-                <tbody>
-                    @foreach (var item in lista)
+                }
+                else
+                {
+                    @foreach (var item in listaPaginado)
                     {
                         <tr>
                             <th>@item.UsuarioId</th>
@@ -70,38 +104,34 @@
 
                         </tr>
                     }
-                </tbody>
-            </table>
-            <nav aria-label="...">
-                <ul class="pagination pagination-lg">
-                    @for (int i = 1; i <= totaldepaginas; i++)
-                    {
-                        <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CUsuario/@i">@i</a></li>
-                    }
+                }
+            </tbody>
+        </table>
 
-                </ul>
-            </nav>
 
-            <h5>@mensaje</h5>
+        <a class="previous" @onclick="Anterior">&laquo; Previous</a>
+        <a class="next" @onclick="Siguiente">Next &raquo;</a>
 
-        </div>
+        <h5>@mensaje</h5>
+
+    </div>
     </div>
 @code {
 
     private List<Usuarios> lista { get; set; }
+     private List<Usuarios> listaPaginado { get; set; }
     public ControllersUsuario controller = new ControllersUsuario();
 
 
     [Parameter]
     public int I { get; set; }
-    private int Contador { get; set; }
-    private int contCiclo { get; set; }
+
 
     Paginacion paginacion = new Paginacion();
-    public double totaldepaginas { get; set; }
+
 
     Contexto Contexto = new Contexto();
-    double conteo = 0;
+
 
 
     private string Filtro { get; set; }
@@ -113,29 +143,16 @@
     public DateTime DesdeFecha { get; set; }
     public DateTime HastaFecha { get; set; }
 
-    private void NumeroSaltar()
-    {
-        Contador = I - 1;
-        Saltar();
-    }
+ 
+    double paginas = 0;
+    double cantidad = 0;
+    int paginaActual = 0;
 
-    private void Saltar()
-    {
-        Contador += paginacion.Pagina;
-        if (Contador >= totaldepaginas)
-        {
-            Contador = 0;
-        }
-        lista = Contexto.Usuarios
-            .Skip(Contador * paginacion.CantidadMostrar)
-            .Take(paginacion.CantidadMostrar)
-            .ToList();
-    }
 
     protected override void OnInitialized()
     {
-
-        lista = new List<Usuarios>();
+        lista = controller.GetList(p => true);
+        listaPaginado = new List<Usuarios>();
 
 
         DesdeFecha = DateTime.Now;
@@ -143,12 +160,21 @@
 
     }
 
+    private void Paginar()
+    {
+
+        paginaActual = 1;
+        cantidad = lista.Count();
+        paginas = Math.Ceiling(cantidad / paginacion.Mostrar);
+        listaPaginado = lista.Take(paginacion.Mostrar).ToList();
+    }
+
     private void Buscar()
     {
 
         try
         {
-            cargar();
+            Paginar();
 
             if (Filtro == null)
             {
@@ -195,12 +221,29 @@
             throw;
         }
     }
+        private void Siguiente()
+    {
+        if (paginaActual < paginas)
+        {
+            paginaActual++;
+            listaPaginado = lista
+                .Skip((paginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
 
-    private void cargar()
-    { 
-  conteo = Contexto.Usuarios.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
-        this.lista = Contexto.Usuarios.Take(paginacion.CantidadMostrar).ToList();       
-        NumeroSaltar();
+        }
     }
+
+    private void Anterior()
+    {
+        if (paginaActual > 1)
+        {
+            paginaActual--;
+            listaPaginado = lista
+                .Skip((paginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+        }
+    }
+
 }

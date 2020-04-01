@@ -1,5 +1,35 @@
 ﻿@page "/CPedidos"
 @page  "/CPedidos/{I:int}"
+
+
+<style>
+    a {
+        text-decoration: none;
+        display: inline-block;
+        padding: 8px 16px;
+    }
+
+        a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+    .previous {
+        background-color: #808080;
+        color: black;
+    }
+
+    .next {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .round {
+        border-radius: 50%;
+    }
+</style>
+
+
 <div class="card bg-info text-light">
     <div class="card-body ">
         <h3>Consulta de Pedidos</h3>
@@ -54,48 +84,51 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in lista)
+                @if (listaPaginado.Count == 0)
                 {
                     <tr>
-                        <th>@item.PedidosId</th>
-                        <th>@item.ClienteId</th>
-                        <th>@item.FormaPedido</th>
-                        <th>@item.Total</th>
-                        <th>@item.FechaPedido.ToString("dd/MM/yyyy")</th>
-                        <td><a class="btn btn-primary" href="RPedidos/@item.PedidosId">Ver</a></td>
+                        <th colspan="12" style="color:white; text-align: center">"No hay datos que mostrar"</th>
                     </tr>
                 }
-            </tbody>
-        </table>
-        <nav aria-label="...">
-            <ul class="pagination pagination-lg">
-                @for (int i = 1; i <= totaldepaginas; i++)
+                else
                 {
-                    <li class="page-item"><a class="page-link" @onclick="OnInitialized" href="CUsuario/@i">@i</a></li>
+                    @foreach (var item in listaPaginado)
+                    {
+                        <tr>
+                            <th>@item.PedidosId</th>
+                            <th>@item.ClienteId</th>
+                            <th>@item.FormaPedido</th>
+                            <th>@item.Total</th>
+                            <th>@item.FechaPedido.ToString("dd/MM/yyyy")</th>
+                            <td><a class="btn btn-primary" href="RPedidos/@item.PedidosId">Ver</a></td>
+                        </tr>
+                    }
                 }
+                </tbody>
+        </table>
 
-            </ul>
-        </nav>
+        <a class="previous" @onclick="Anterior">&laquo; Previous</a>
+        <a class="next" @onclick="Siguiente">Next &raquo;</a>
 
-        <h5 >@mensaje</h5>
+        <h5>@mensaje</h5>
     </div>
 </div>
 
 @code {
 
     private List<Pedidos> lista { get; set; }
+    private List<Pedidos> listaPaginado { get; set; }
     public ControllersPedido controller = new ControllersPedido();
 
     [Parameter]
     public int I { get; set; }
-    private int Contador { get; set; }
-    private int contCiclo { get; set; }
+
 
     Paginacion paginacion = new Paginacion();
-    public double totaldepaginas { get; set; }
+
 
     Contexto Contexto = new Contexto();
-    double conteo = 0;
+
 
     private string Filtro { get; set; }
     private string Criterio { get; set; }
@@ -104,13 +137,26 @@
     public bool BuscarFecha { get; set; }
     public DateTime DesdeFecha { get; set; }
     public DateTime HastaFecha { get; set; }
+    
+    double paginas = 0;
+    double cantidad = 0;
+    int paginaActual = 0;
 
 
     protected override void OnInitialized()
-    {       
-        lista = new List<Pedidos>();
+    {
+        lista = controller.GetList(p => true);
+        listaPaginado = new List<Pedidos>();
         DesdeFecha = DateTime.Now;
         HastaFecha = DateTime.Now;
+    }
+    private void Paginar()
+    {
+
+        paginaActual = 1;
+        cantidad = lista.Count();
+        paginas = Math.Ceiling(cantidad / paginacion.Mostrar);
+        listaPaginado = lista.Take(paginacion.Mostrar).ToList();
     }
 
     private void Buscar()
@@ -118,6 +164,8 @@
 
         try
         {
+                 Paginar();
+
             if (Filtro == null)
             {
                 mensaje = "Debe seleccionar un Criterio";
@@ -163,11 +211,29 @@
             throw;
         }
     }
-    private void Cargar()
-    { 
-        
-        conteo = Contexto.Pedidos.Count();
-        totaldepaginas = Math.Ceiling(conteo / paginacion.CantidadMostrar);
-         this.lista = Contexto.Pedidos.Take(paginacion.CantidadMostrar).ToList();
+    
+    private void Siguiente()
+    {
+        if (paginaActual < paginas)
+        {
+            paginaActual++;
+            listaPaginado = lista
+                .Skip((paginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+
+        }
+    }
+
+    private void Anterior()
+    {
+        if (paginaActual > 1)
+        {
+            paginaActual--;
+            listaPaginado = lista
+                .Skip((paginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+        }
     }
 }
