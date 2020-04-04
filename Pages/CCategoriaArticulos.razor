@@ -1,32 +1,40 @@
 ﻿@page "/CCategoriaArticulos"
 @page  "/CCategoriaArticulos/{I:int}"
 
+@inject IToastService toastService
+
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug" />
 
 <style>
     a {
-  text-decoration: none;
-  display: inline-block;
-  padding: 8px 16px;
-}
+        text-decoration: none;
+        display: inline-block;
+        padding: 8px 16px;
+    }
 
-a:hover {
-  background-color: #ddd;
-  color: black;
-}
+        a:hover {
+            background-color: #ddd;
+            color: black;
+        }
 
-.previous {
-  background-color: #808080;
-  color: black;
-}
+    .previous {
+        background-color: #808080;
+        color: black;
+    }
 
-.next {
-  background-color: #4CAF50;
-  color: white;
-}
+    .next {
+        background-color: #4CAF50;
+        color: white;
+    }
 
-.round {
-  border-radius: 50%;
-}
+    .round {
+        border-radius: 50%;
+    }
 </style>
 
 <div class="card bg-info text-light">
@@ -91,7 +99,7 @@ a:hover {
         <a class="previous" @onclick="Anterior">&laquo; Previous</a>
         <a class="next" @onclick="Siguiente">Next &raquo;</a>
 
-        <h5>@mensaje</h5>
+        <BlazoredToasts />
     </div>
 
 
@@ -158,7 +166,7 @@ a:hover {
 
             if (lista.Count == 0)
             {
-                mensaje = "No hay categorias de articulos registradas";
+                toastService.ShowWarning("No hay categoria de articulo registrados.", "Precaución");
             }
             else
             {

@@ -1,6 +1,14 @@
 ﻿@page "/CClientes"
 @page  "/CClientes/{I:int}"
 
+@inject IToastService toastService
+
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug" />
 
 <style>
     a {
@@ -89,13 +97,13 @@
                         </tr>
                     }
                 }
-                </tbody>
+            </tbody>
         </table>
 
         <a class="previous" @onclick="Anterior">&laquo; Previous</a>
         <a class="next" @onclick="Siguiente">Next &raquo;</a>
 
-        <h5>@mensaje</h5>
+        <BlazoredToasts />
     </div>
 
 
@@ -161,7 +169,7 @@
 
             if (lista.Count == 0)
             {
-                mensaje = "No hay clientes registrado";
+                 toastService.ShowWarning("No hay clientes registrados.", "Precaución");
             }
             else
             {

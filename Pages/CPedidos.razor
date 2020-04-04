@@ -1,7 +1,14 @@
 ﻿@page "/CPedidos"
 @page  "/CPedidos/{I:int}"
 
+@inject IToastService toastService
 
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug" />
 <style>
     a {
         text-decoration: none;
@@ -104,13 +111,13 @@
                         </tr>
                     }
                 }
-                </tbody>
+            </tbody>
         </table>
 
         <a class="previous" @onclick="Anterior">&laquo; Previous</a>
         <a class="next" @onclick="Siguiente">Next &raquo;</a>
 
-        <h5>@mensaje</h5>
+        <BlazoredToasts />
     </div>
 </div>
 
@@ -137,7 +144,7 @@
     public bool BuscarFecha { get; set; }
     public DateTime DesdeFecha { get; set; }
     public DateTime HastaFecha { get; set; }
-    
+
     double paginas = 0;
     double cantidad = 0;
     int paginaActual = 0;
@@ -164,11 +171,11 @@
 
         try
         {
-                 Paginar();
+            Paginar();
 
             if (Filtro == null)
             {
-                mensaje = "Debe seleccionar un Criterio";
+                Filtro = "Todo";
             }
             else
             {
@@ -176,7 +183,7 @@
 
                 if (lista.Count == 0)
                 {
-                    mensaje = "No hay Pedidos Registrado";
+                    toastService.ShowWarning("No hay pedidos registrados.", "Precaución");
                 }
                 else
                 {
@@ -211,7 +218,7 @@
             throw;
         }
     }
-    
+
     private void Siguiente()
     {
         if (paginaActual < paginas)

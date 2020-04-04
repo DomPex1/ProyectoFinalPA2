@@ -1,32 +1,40 @@
 ﻿@page "/CProveedores"
 @page  "/CProveedores/{I:int}"
 
-    <style>
-        a {
-            text-decoration: none;
-            display: inline-block;
-            padding: 8px 16px;
-        }
+@inject IToastService toastService
 
-            a:hover {
-                background-color: #ddd;
-                color: black;
-            }
 
-        .previous {
-            background-color: #808080;
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug" />
+<style>
+    a {
+        text-decoration: none;
+        display: inline-block;
+        padding: 8px 16px;
+    }
+
+        a:hover {
+            background-color: #ddd;
             color: black;
         }
 
-        .next {
-            background-color: #4CAF50;
-            color: white;
-        }
+    .previous {
+        background-color: #808080;
+        color: black;
+    }
 
-        .round {
-            border-radius: 50%;
-        }
-    </style>
+    .next {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .round {
+        border-radius: 50%;
+    }
+</style>
 
 <div class="card bg-info text-light">
     <div class="card-body ">
@@ -88,13 +96,13 @@
                         </tr>
                     }
                 }
-                </tbody>
+            </tbody>
         </table>
 
         <a class="previous" @onclick="Anterior">&laquo; Previous</a>
         <a class="next" @onclick="Siguiente">Next &raquo;</a>
 
-        <h5>@mensaje</h5>
+        <BlazoredToasts />
 
     </div>
 </div>
@@ -118,7 +126,7 @@
     double conteo = 0;
 
     private string mensaje;
-        
+
     double paginas = 0;
     double cantidad = 0;
     int paginaActual = 0;
@@ -128,7 +136,7 @@
         lista = controllers.GetList(p => true);
         listaPaginado = new List<Proveedores>();
     }
-    
+
     private void Paginar()
     {
 
@@ -142,7 +150,7 @@
 
         try
         {
-               Paginar();
+            Paginar();
 
             if (Filtro == null)
             {
@@ -154,7 +162,7 @@
 
             if (lista.Count == 0)
             {
-                mensaje = "No hay clientes registrado";
+                toastService.ShowWarning("No hay Proveedores registrados.", "Precaución");
             }
             else
             {
@@ -186,7 +194,7 @@
             throw;
         }
     }
-      private void Siguiente()
+    private void Siguiente()
     {
         if (paginaActual < paginas)
         {
