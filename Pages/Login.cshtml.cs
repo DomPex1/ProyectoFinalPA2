@@ -22,13 +22,14 @@ namespace BlazorCookieAuth.Server.Pages
             string returnUrl = Url.Content("~/");
             try
             {
-                
+
                 await HttpContext
                     .SignOutAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme);
             }
             catch { }
-            
+            if (ControllersUsuario.InicioSesion(paramUsername, paramPassword))
+            {
                 var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, paramUsername),
@@ -52,8 +53,10 @@ namespace BlazorCookieAuth.Server.Pages
                 {
                     string error = ex.Message;
                 }
-            
-            
+            }
+
+
+
             return LocalRedirect(returnUrl);
         }
     }

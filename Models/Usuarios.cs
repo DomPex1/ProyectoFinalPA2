@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ProyectoFinalPA2.Models
@@ -37,6 +38,32 @@ namespace ProyectoFinalPA2.Models
             Nombres = string.Empty;
             Email = string.Empty;
             FechaCreacion = DateTime.Now;
+        }
+        public static string Encriptar(string cadenaEncriptada)
+        {
+            if (!string.IsNullOrEmpty(cadenaEncriptada))
+            {
+                string resultado = string.Empty;
+                byte[] encryted = Encoding.Unicode.GetBytes(cadenaEncriptada);
+                resultado = Convert.ToBase64String(encryted);
+
+                return resultado;
+            }
+            return string.Empty;
+        }
+
+        public static string DesEncriptar(string cadenaDesencriptada)
+        {
+            if (!string.IsNullOrEmpty(cadenaDesencriptada))
+            {
+                string resultado = string.Empty;
+                byte[] decryted = Convert.FromBase64String(cadenaDesencriptada);
+                resultado = System.Text.Encoding.Unicode.GetString(decryted);
+
+                return resultado;
+            }
+
+            return string.Empty;
         }
     }
 }

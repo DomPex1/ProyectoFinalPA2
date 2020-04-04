@@ -100,15 +100,15 @@ namespace ProyectoFinalPA2.Controllers
 
             return lista;
         }
-        public static bool InicioSesion(string Usuario, string psw)
+        public static bool InicioSesion(string Usuario, string Clave)
         {
             bool paso = false;
             Contexto db = new Contexto();
 
             try
             {
-                var lista = db.Usuarios.Where(A => true).ToList();
-                paso = db.Usuarios.Any(A => A.Usuario.Equals(Usuario) && A.Clave.Equals(psw));
+
+                paso = db.Usuarios.Any(A => A.Usuario.Equals(Usuario) && A.Clave.Equals(Usuarios.Encriptar(Clave)));
             }
             catch (Exception)
             {
