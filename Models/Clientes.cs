@@ -24,6 +24,7 @@ namespace ProyectoFinalPA2.Models
         [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public int TipoCliente { get; set; }
 
+        public string Quejas { get; set; }
         public Clientes()
         {
             ClienteId = 0;
@@ -31,6 +32,7 @@ namespace ProyectoFinalPA2.Models
             Telefono = string.Empty;
             Email = string.Empty;
             TipoCliente= 0;
+            Quejas = string.Empty;
         }
     }
 }
