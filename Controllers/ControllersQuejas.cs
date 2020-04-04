@@ -15,8 +15,12 @@ namespace ProyectoFinalPA2.Controllers
         {
             bool paso = false;
             Contexto db = new Contexto();
+            ControllersCliente controllersCliente = new ControllersCliente();
             try
             {
+                var cliet = controllersCliente.Buscar(quejas.ClienteId);
+                cliet.Quejas = "si";
+                controllersCliente.Modificar(cliet);
                 db.Quejas.Add(quejas);
                 paso = db.SaveChanges() > 0;
             }
@@ -81,11 +85,16 @@ namespace ProyectoFinalPA2.Controllers
         public bool Eliminar(int id)
         {
             Quejas quejas = new Quejas();
-            
+            ControllersCliente controllersCliente = new ControllersCliente();
             bool paso = false;
             Contexto db = new Contexto();
             try
             {
+                var cliet = controllersCliente.Buscar(quejas.ClienteId);
+                cliet.Quejas = "No";
+                controllersCliente.Modificar(cliet);
+
+
                 var eliminar = db.Quejas.Find(id);
                 db.Entry(eliminar).State = EntityState.Deleted;
                 paso = db.SaveChanges() > 0;
