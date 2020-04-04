@@ -32,7 +32,7 @@ namespace ProyectoFinalPA2
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            
             // ******
             // BLAZOR COOKIE Auth Code (begin)
             services.Configure<CookiePolicyOptions>(options =>
@@ -47,7 +47,7 @@ namespace ProyectoFinalPA2
             // ******
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            
             // ******
             // BLAZOR COOKIE Auth Code (begin)
             // From: https://github.com/aspnet/Blazor/issues/1554
