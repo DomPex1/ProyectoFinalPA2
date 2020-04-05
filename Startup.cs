@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using Blazored.Toast;
+using Microsoft.AspNetCore.Identity;
 
 namespace ProyectoFinalPA2
 {
@@ -59,6 +60,17 @@ namespace ProyectoFinalPA2
             // BLAZOR COOKIE Auth Code (end)
             // ******
             services.AddBlazoredToast();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+            .AddDefaultTokenProviders()
+          .AddDefaultUI()
+         .AddEntityFrameworkStores<ProyectoFinalPA2Context>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
 
         }
 
