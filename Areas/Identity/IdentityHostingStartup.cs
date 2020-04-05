@@ -15,12 +15,12 @@ namespace ProyectoFinalPA2.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<ProyectoFinalPA2Context>(options =>
+               services.AddDbContext<ProyectoFinalPA2Context>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("ProyectoFinalPA2ContextConnection")));
 
-                //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                //    .AddEntityFrameworkStores<ProyectoFinalPA2Context>();
+            //    //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    //    .AddEntityFrameworkStores<ProyectoFinalPA2Context>();
             });
         }
     }
