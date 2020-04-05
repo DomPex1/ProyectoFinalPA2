@@ -20,6 +20,7 @@ namespace ProyectoFinalPA2
 {
     public class Startup
     {
+        //app.UseAuthorization();
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -90,7 +91,6 @@ namespace ProyectoFinalPA2
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
             // ******
             // BLAZOR COOKIE Auth Code (begin)
@@ -98,14 +98,16 @@ namespace ProyectoFinalPA2
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            app.UseAuthorization();
+
             // BLAZOR COOKIE Auth Code (end)
             // ******
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
-                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }

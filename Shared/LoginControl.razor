@@ -3,9 +3,12 @@
 <AuthorizeView>
     <Authorized>
         <b>Hello, @context.User.Identity.Name!</b>
-        <a class="ml-md-auto btn btn-primary"
-           href="/logout?returnUrl=/"
-           target="_top">Logout</a>
+        
+        <form method="post" action="Identity/Account/LogOut">
+            <button type="submit" class="ml-md-auto btn btn-primary">
+                Logout
+            </button>
+        </form>
     </Authorized>
     <NotAuthorized>
         <input type="text"
