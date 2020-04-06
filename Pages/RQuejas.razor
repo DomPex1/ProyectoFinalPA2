@@ -208,6 +208,8 @@
             {
 
                 quejas = controllers.Buscar(quejas.QuejasId);
+                var cliente = controllersCliente.Buscar(quejas.ClienteId);
+                ClienteSeleccionado = cliente.Nombre;
                 toastService.ShowSuccess("Quejas encontrado.", "logrado con exito");
 
 
@@ -257,7 +259,6 @@
     private void EliminarGrid(QuejasDetalle detalle)
     {
         quejas.Detalles.Remove(detalle);
-
 
 
     }

@@ -84,12 +84,14 @@ namespace ProyectoFinalPA2.Controllers
         }
         public bool Eliminar(int id)
         {
-            Quejas quejas = new Quejas();
+           // Quejas quejas = new Quejas();
             ControllersCliente controllersCliente = new ControllersCliente();
             bool paso = false;
             Contexto db = new Contexto();
             try
             {
+                var quejas = Buscar(id);
+
                 var cliet = controllersCliente.Buscar(quejas.ClienteId);
                 cliet.Quejas = "No";
                 controllersCliente.Modificar(cliet);
