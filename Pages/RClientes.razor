@@ -1,4 +1,5 @@
-﻿@page "/RClientes/{ClienteId:int}"
+﻿
+@page "/RClientes/{ClienteId:int}"
 
 @inject IToastService toastService
 
@@ -53,7 +54,7 @@
             </div>
             <div class="form-group">
                 <label for="Quejas">Tiene Quejas</label>
-                <InputText @bind-Value="clientes.Quejas" class="form-control col-md-2 readonly="readonly" />
+                <InputText readonly="readonly" @bind-Value="clientes.Quejas" class="form-control col-md-2" />
 
             </div>
 
@@ -83,8 +84,11 @@
     Clientes clientes = new Clientes();
     public string Mensaje;
     ControllersTipoCliente controllersTipoCliente = new ControllersTipoCliente();
+
     protected override void OnInitialized()
     {
+        listaTipoCliente = controllersTipoCliente.GetList(e => true);
+
         if (ClienteId != 0)
         {
             listaTipoCliente = controllersTipoCliente.GetList(e => true);
@@ -93,13 +97,13 @@
         }
     }
     private void Guardar()
-    {   
-        clientes.TipoCliente=Convert.ToInt32(TipoclienteSeleccionado);
-        
+    {
+        clientes.TipoCliente = Convert.ToInt32(TipoclienteSeleccionado);
+
         if (EmailExiste())
         {
             toastService.ShowError("Email en uso por otro cliente.", "Error");
-            
+
             return;
         }
 
@@ -124,7 +128,7 @@
     private void Limpiar()
     {
         clientes = new Clientes();
-        TipoclienteSeleccionado=string.Empty;
+        TipoclienteSeleccionado = string.Empty;
 
     }
 
