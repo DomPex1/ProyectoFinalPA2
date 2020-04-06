@@ -197,7 +197,9 @@
             {
 
                 productos = controllers.Buscar(productos.ProductoId);
-                ProveedorSeleccionado = Convert.ToString( proveedores.ProveedorId);
+                ProveedorSeleccionado = Convert.ToString( productos.ProveedoresId);
+                CategoriaArticuloSeleccionado= Convert.ToString(productos.CategoriaArticuloId);
+
                 toastService.ShowSuccess("Producto encontrado.", "logrado con exito");
                 
             }
