@@ -43,16 +43,18 @@ namespace ProyectoFinalPA2.Controllers
             Contexto db = new Contexto();
             ControllersProducto controllersproductos = new ControllersProducto();
 
+
             try
             {
-                var venta = db.Pedidos.Find(id);
-                foreach (var item in venta.Detalles)
+                
+                Pedidos pedidos = db.Pedidos.Where(e => e.PedidosId == id).Include(d => d.Detalles).FirstOrDefault();
+                foreach (var item in pedidos.Detalles)
                 {
                     var producto = controllersproductos.Buscar(item.ProductoId);
                     producto.Cantidad += item.Cantidad;
                     controllersproductos.Modificar(producto);
                 }
-                db.Entry(venta).State = EntityState.Deleted;
+                db.Entry(pedidos).State = EntityState.Deleted;
                 paso = (db.SaveChanges() > 0);
             }
             catch (Exception)

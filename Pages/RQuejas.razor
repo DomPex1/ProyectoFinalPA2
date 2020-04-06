@@ -31,7 +31,7 @@
                     <option value="" disabled selected>Seleccione un Cliente</option>
                     @foreach (var item in listaClientes)
                     {
-                        <option value="@item.ClienteId">@item.Nombre</option>
+                    <option value="@item.ClienteId">@item.Nombre</option>
                     }
                 </InputSelect>
 
@@ -44,31 +44,34 @@
                 <label for="Descripcion">Descripcion</label>
                 <InputText class="form-control col-md-2" @bind-Value="quejas.Descripcion" />
             </div>
-            <div class="form-inline">
-                <div class="form-group">
-                    <label for="Problema">Problema</label>
-                    <InputText class="form-control mx-sm-3" @bind-Value="Problemas" />
-                </div>
-                <div class="form-group">
-                    <label for="Solucion">Solucion</label>
-                    <InputText class="form-control mx-sm-3" @bind-Value="Soluciones" />
-                </div>
-                <button type="button" class="btn btn-primary" @onclick="Agregar">Agregar</button>
-            </div>
-            <br />
+            <div class="border">
+                <br />
+                <div class="form-inline">
 
-            <div>
-                <table class="table text-light">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Id</th>
-                            <th>Problema</th>
-                            <th>Solucion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <div class="form-group">
+                        <label for="Problema"class="mx-sm-3">Problema</label>
+                        <InputText class="form-control mx-sm-3" @bind-Value="Problemas" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Solucion">Solucion</label>
+                        <InputText class="form-control mx-sm-3" @bind-Value="Soluciones" />
+                    </div>
+                    <button type="button" class="btn btn-primary" @onclick="Agregar">Agregar</button>
+                </div>
+                <br />
 
-                        @foreach (var item in quejas.Detalles)
+                <div>
+                    <table class="table text-light">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Id</th>
+                                <th>Problema</th>
+                                <th>Solucion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in quejas.Detalles)
                         {
                             <tr>
                                 <th>@item.QuejasDetalleId</th>
@@ -79,8 +82,9 @@
 
                             </tr>
                         }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <br />
