@@ -168,6 +168,8 @@
             {
 
                 clientes = controllers.Buscar(clientes.ClienteId);
+                var tipoc = controllersTipoCliente.Buscar(clientes.TipoCliente);
+                TipoclienteSeleccionado = tipoc.Descripcion;
                 toastService.ShowSuccess("Cliente encontrado.", "logrado con exito");
 
             }
