@@ -20,8 +20,7 @@ namespace ProyectoFinalPA2.Models
         [Required(ErrorMessage = "El campo email no puede estar vacio")]
         [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "El campo Tipo de cliente no puede estar vacio")]
-        [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
+        
         public int TipoCliente { get; set; }
 
         public string Quejas { get; set; }

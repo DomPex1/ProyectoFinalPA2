@@ -10,8 +10,7 @@ namespace ProyectoFinalPA2.Models
     {
         [Key]
         public int ProductoId { get; set; }
-        [Required(ErrorMessage = "El campo CategoriaArticulo no puede estar vacio")]
-        [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
+        
         public int CategoriaArticuloId { get; set; }
         [Required(ErrorMessage = "El campo Descripcion no puede estar vacio")]
         [StringLength(maximumLength: 40, ErrorMessage = "Esta fuera de rango")]
