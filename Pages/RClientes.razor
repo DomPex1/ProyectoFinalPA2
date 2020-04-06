@@ -37,7 +37,7 @@
                         <option value="" disabled selected>Seleccione un tipo de cliente</option>
                         @foreach (var item in listaTipoCliente)
                         {
-                            <option value="@item.TipoClienteId">@item.Descripcion</option>
+                        <option value="@item.TipoClienteId">@item.Descripcion</option>
                         }
                     </InputSelect>
                 </div>
@@ -54,7 +54,7 @@
             </div>
             <div class="form-group">
                 <label for="Quejas">Tiene Quejas</label>
-                <InputText class="form-control col-md-2" readonly="readonly" @bind-Value="clientes.Quejas"  />
+                <InputText class="form-control col-md-2" readonly="readonly" @bind-Value="clientes.Quejas" />
 
             </div>
 
@@ -91,7 +91,7 @@
 
         if (ClienteId != 0)
         {
-            
+
             clientes.ClienteId = ClienteId;
             Buscar();
         }
@@ -169,7 +169,7 @@
 
                 clientes = controllers.Buscar(clientes.ClienteId);
                 var tipoc = controllersTipoCliente.Buscar(clientes.TipoCliente);
-                TipoclienteSeleccionado = tipoc.Descripcion;
+                TipoclienteSeleccionado = Convert.ToString(tipoc.TipoClienteId);
                 toastService.ShowSuccess("Cliente encontrado.", "logrado con exito");
 
             }

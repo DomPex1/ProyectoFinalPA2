@@ -209,7 +209,7 @@
 
                 quejas = controllers.Buscar(quejas.QuejasId);
                 var cliente = controllersCliente.Buscar(quejas.ClienteId);
-                ClienteSeleccionado = cliente.Nombre;
+                ClienteSeleccionado = Convert.ToString( cliente.ClienteId);
                 toastService.ShowSuccess("Quejas encontrado.", "logrado con exito");
 
 

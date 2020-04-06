@@ -30,7 +30,7 @@
                     <option value="" disabled selected>Seleccione un cliente</option>
                     @foreach (var item in listaClientes)
                     {
-                        <option value="@item.ClienteId">@item.Nombre</option>
+                    <option value="@item.ClienteId">@item.Nombre</option>
                     }
                 </InputSelect>
             </div>
@@ -47,44 +47,51 @@
                 <InputDate @bind-Value="pedidos.FechaPedido" class="form-control col-md-2" />
             </div>
             <br />
-            <div class="form-inline">
-                <div class="form-group">
-                    <label for="Producto">Producto</label>
+            <div class="border">
+                <br />
+                <div class="form-inline">
+                    
 
-                    <InputSelect @bind-Value="@ProductoSeleccionado" class="form-control mx-sm-3" @onchange="CargarProducto" @onclick="CargarProducto" @onfocusout="CargarCantidad" @onfocusin="CargarCantidad" @onfocus="CargarCantidad">
-                        <option value="" disabled selected>Seleccione un Producto</option>
-                        @foreach (var item in listaProductos)
+
+                        <div class="form-group">
+                            <label for="Producto"class="mx-sm-3">Producto</label>
+
+                            <InputSelect @bind-Value="@ProductoSeleccionado" class="form-control mx-sm-3" @onchange="CargarProducto" @onclick="CargarProducto" @onfocusout="CargarCantidad" @onfocusin="CargarCantidad" @onfocus="CargarCantidad">
+                                <option value="" disabled selected>Seleccione un Producto</option>
+                                @foreach (var item in listaProductos)
                         {
-                            <option value="@item.ProductoId">@item.Descripcion</option>
+                                <option value="@item.ProductoId">@item.Descripcion</option>
                         }
-                    </InputSelect>
-                </div>
-                <div class="form-group">
-                    <label for="Cantidad">Cantidad</label>
-                    <InputNumber @bind-Value="pedidos.Cantidad" class="form-control mx-sm-3" />
-                </div>
-                <div class="form-group">
-                    <label for="Disponible">Disponible</label>
-                    <InputNumber class="form-control mx-sm-3" readonly="readonly" @bind-Value="disponible" />
-                </div>
-                <button type="button" class="btn btn-primary  mx-sm-3" @onclick="AgregarProducto">AgregarProducto</button>
-            </div>
+                            </InputSelect>
+                        </div>
+                        <div class="form-group">
+                            <label for="Cantidad">Cantidad</label>
+                            <InputNumber @bind-Value="pedidos.Cantidad" class="form-control mx-sm-3" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Disponible">Disponible</label>
+                            <InputNumber class="form-control mx-sm-3" readonly="readonly" @bind-Value="disponible" />
+                        </div>
+                        <button type="button" class="btn btn-primary  mx-sm-3" @onclick="AgregarProducto">Agregar producto</button>
+                    
+                        </div>
 
-            <br />
-            <div>
-                <table class="table text-light">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Id</th>
-                            <th>ProductoId</th>
-                            <th>Cantidad</th>
-                            <th>Precio</th>
-                            <th>SubTotal</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (listaProductos.Count == 0)
+                
+                <br />
+                <div>
+                    <table class="table text-light">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Id</th>
+                                <th>ProductoId</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>SubTotal</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (listaProductos.Count == 0)
                         {
                             <option value="-1">No hay productos</option>
                         }
@@ -92,22 +99,25 @@
                         {
                             @foreach (var item in pedidos.Detalles)
                             {
-                                <tr>
-                                    <th>@item.PedidosDetalleId</th>
-                                    <th>@item.ProductoId</th>
-                                    <th>@item.Cantidad</th>
-                                    <th>@item.Precio</th>
-                                    <th>@item.SubTotal</th>
-                                    <th><button type="button" class="btn btn-danger" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
+                            <tr>
+                                <th>@item.PedidosDetalleId</th>
+                                <th>@item.ProductoId</th>
+                                <th>@item.Cantidad</th>
+                                <th>@item.Precio</th>
+                                <th>@item.SubTotal</th>
+                                <th><button type="button" class="btn btn-danger" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
 
-                                </tr>
+                            </tr>
                             }
                         }
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                    <br />
+                </div>
             </div>
-
+            <br />
+            
             <div class="form-group">
                 <label for="Total">Total</label>
                 <InputNumber class="form-control col-md-2" readonly="readonly" @bind-Value="pedidos.Total" />
@@ -116,8 +126,9 @@
             <br />
 
             <div class="form-group">
-                <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
+
                 <button type="button" class="col-md-2 btn btn-info" @onclick="Limpiar">Limpiar</button>
+                <button type="submit" class="col-md-2 btn btn-primary">Guardar</button>
                 <button type="button" class="col-md-2 btn btn-danger" @onclick="Eliminar">Eliminar</button>
             </div>
 
@@ -154,8 +165,8 @@
     private string ClienteSeleccionado { get; set; }
     public int disponible = 0;
 
-    private Productos productos;
-    private Clientes Clientes;
+    private  Productos productos=new Productos();
+    private Clientes clientes= new Clientes();
 
     Pedidos pedidos = new Pedidos();
     public string Mensaje;
@@ -203,7 +214,7 @@
     {
         try
         {
-            Clientes = controllersCliente.Buscar(Convert.ToInt32(ClienteSeleccionado));
+            clientes = controllersCliente.Buscar(Convert.ToInt32(ClienteSeleccionado));
 
         }
         catch (Exception)
@@ -256,7 +267,7 @@
         }
         else
         {
-             toastService.ShowWarning("Selecione un ID.", "Precaución");
+            toastService.ShowWarning("Selecione un ID.", "Precaución");
         }
 
     }
@@ -268,6 +279,9 @@
             {
 
                 pedidos = controllers.Buscar(pedidos.PedidosId);
+                pedidos.Cantidad = 0;
+                ClienteSeleccionado = Convert.ToString( pedidos.ClienteId);
+
 
                 toastService.ShowSuccess("Pedido encontrado.", "logrado con exito");
 
@@ -298,14 +312,14 @@
             if (disponible < pedidos.Cantidad)
             {
                 toastService.ShowWarning("Cantidad no puede pasar disponible.", "Precaución");
-                
+
             }
             else
             {
                 if (pedidos.Detalles.Any(i => i.ProductoId == productos.ProductoId))
                 {
                     toastService.ShowWarning("Este producto ya esta seleccionado", "Precaución");
-                    
+
                 }
                 else
                 {
