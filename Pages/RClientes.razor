@@ -96,6 +96,7 @@
             Buscar();
         }
     }
+    
     private void Guardar()
     {
         clientes.TipoCliente = Convert.ToInt32(TipoclienteSeleccionado);
@@ -110,6 +111,7 @@
         if (clientes.ClienteId == 0)
         {
             clientes.Quejas = "No";
+
             controllers.Guardar(clientes);
             toastService.ShowSuccess("Cliente guardado.", "logrado con exito");
             Limpiar();
@@ -125,6 +127,9 @@
 
         }
     }
+    
+
+
     private void Limpiar()
     {
         clientes = new Clientes();
