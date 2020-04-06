@@ -18,9 +18,9 @@
             <ValidationSummary />
 
             <label for="CategoriaId">Id</label>
-            <div class="form-inline">
-                <InputNumber @bind-Value="categoriaArticulos.CategoriaId" class="form-control " />
-                <button type="button" class="btn btn-success mx-sm-3" @onclick="Buscar">Buscar</button>
+            <div class="input-group">
+                <InputNumber @bind-Value="categoriaArticulos.CategoriaId" class="form-control col-md-2 " />
+                <button type="button" class="btn btn-outline-success" @onclick="Buscar">Buscar</button>
             </div>
             <br />
             <div class="form-group">

@@ -18,9 +18,9 @@
             <ValidationSummary />
 
             <label for="UsuarioId">Id</label>
-            <div class="form-inline">
-                <InputNumber @bind-Value="productos.ProductoId" class="form-control " />
-                <button type="button" class="btn btn-success mx-sm-3" @onclick="Buscar">Buscar</button>
+            <div class="input-group">
+                <InputNumber @bind-Value="productos.ProductoId" class="form-control col-md-2" />
+                <button type="button" class="btn btn-outline-success " @onclick="Buscar">Buscar</button>
             </div>
             <br />
             <div class="form-group">
@@ -37,7 +37,7 @@
             </div>
             <div class="form-group">
                 <label for="Descripcion">Descripcion</label>
-                <InputText @bind-Value="productos.Descripcion" class="form-control col-md-3 " />
+                <InputText @bind-Value="productos.Descripcion" class="form-control col-md-2 " />
 
             </div>
             <div class="form-group">
@@ -55,7 +55,7 @@
 
             <div class="form-group">
                 <label for="Cantidad">Cantidad</label>
-                <InputNumber @bind-Value="productos.Cantidad" class="form-control col-md-1" />
+                <InputNumber @bind-Value="productos.Cantidad" class="form-control col-md-2" />
             </div>
             <div class="form-group">
                 <label for="Precio">Precio</label>
